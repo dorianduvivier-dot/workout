@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Série">
+  <title>Série</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="date" id="today-label"></p>
+      <h1 id="headline">Aujourd'hui</h1>
+    </div>
+    <div class="streak" id="streak" title="Série en cours">
+      <span class="flame">🔥</span><span id="streak-count">0</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Vue : Aujourd'hui -->
+    <section id="view-today" class="view active">
+      <div class="ring-card">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="52" class="ring-bg"/>
+          <circle cx="60" cy="60" r="52" class="ring-fg" id="ring-fg"/>
+        </svg>
+        <div class="ring-text">
+          <strong id="pct">0%</strong>
+          <span id="ring-sub">de la journée</span>
+        </div>
+      </div>
+      <p class="streak-msg" id="streak-msg"></p>
+      <ul class="exercises" id="exercise-list"></ul>
+      <div class="week" id="week"></div>
+    </section>
+
+    <!-- Vue : Réglages -->
+    <section id="view-settings" class="view">
+      <h2>Objectifs du jour</h2>
+      <ul class="goal-list" id="goal-list"></ul>
+      <form class="add-row" id="add-form">
+        <input id="add-name" placeholder="Nouvel exercice" required maxlength="30">
+        <input id="add-goal" type="number" inputmode="numeric" min="1" placeholder="Obj." required>
+        <button class="btn" type="submit">Ajouter</button>
+      </form>
+
+      <h2>Rappels</h2>
+      <p class="hint">Heures auxquelles tu veux être relancé dans la journée.</p>
+      <ul class="time-list" id="time-list"></ul>
+      <form class="add-row" id="time-form">
+        <input id="time-input" type="time" required>
+        <button class="btn" type="submit">Ajouter</button>
+      </form>
+
+      <h2>Alerte de fin de journée</h2>
+      <p class="hint">Si tes objectifs ne sont pas terminés, dernier rappel pour ne pas casser la série.</p>
+      <div class="add-row">
+        <input id="eod-input" type="time">
+      </div>
+
+      <h2>Activer les notifications</h2>
+      <div class="card">
+        <p><strong>1. Notifications de l'appli</strong> — intelligentes (elles te disent combien il te reste), mais le téléphone peut les retarder quand l'appli est fermée longtemps.</p>
+        <button class="btn wide" id="notif-btn">Autoriser les notifications</button>
+        <p class="hint" id="notif-status"></p>
+      </div>
+      <div class="card">
+        <p><strong>2. Rappels dans ton calendrier</strong> — 100&nbsp;% fiables, même appli fermée. Importe le fichier, chaque rappel contient un lien qui ouvre l'appli.</p>
+        <button class="btn wide" id="ics-btn">Ajouter les rappels au calendrier</button>
+        <p class="hint">À refaire si tu changes les heures.</p>
+      </div>
+
+      <h2>Données</h2>
+      <div class="row-btns">
+        <button class="btn ghost" id="export-btn">Sauvegarder</button>
+        <label class="btn ghost">Restaurer<input type="file" id="import-input" accept="application/json" hidden></label>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="today">Aujourd'hui</button>
+    <button class="tab" data-view="settings">Réglages</button>
+  </nav>
+
+  <!-- Saisie d'une série -->
+  <dialog id="log-dialog">
+    <form method="dialog" id="log-form">
+      <h3 id="log-title"></h3>
+      <p class="hint" id="log-sub"></p>
+      <input id="log-input" type="number" inputmode="numeric" min="1" placeholder="Répétitions" required>
+      <div class="chips" id="log-chips"></div>
+      <div class="row-btns">
+        <button class="btn ghost" value="cancel" formnovalidate>Annuler</button>
+        <button class="btn" value="ok" id="log-ok">Valider</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
