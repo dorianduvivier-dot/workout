@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<title>Planning S1 LAS 2 STAPS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a coach's whiteboard week. Day columns on cool court paper, subjects worn as coloured jersey tags. */
+:root {
+  --bg: #f2f5f7; --surface: #ffffff; --ink: #14212b; --muted: #586874; --line: #d3dce3; --accent: #1f5bd6;
+  --sv: #c2384f; --adcp: #b86f0e; --psy: #6d4fc4; --soc: #11806f; --apsa: #4a8420; --rev: #46545f;
+  --good: #1d7a45; --warn: #b5520e;
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e161c; --surface: #16212a; --ink: #e6edf2; --muted: #95a6b3; --line: #2a3843; --accent: #7ba3ff;
+  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba;
+  --good: #5fd08e; --warn: #f39a5b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e161c; --surface: #16212a; --ink: #e6edf2; --muted: #95a6b3; --line: #2a3843; --accent: #7ba3ff;
+  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba;
+  --good: #5fd08e; --warn: #f39a5b; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.1; }
+button { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.s-sv { --c: var(--sv); } .s-adcp { --c: var(--adcp); } .s-psy { --c: var(--psy); } .s-soc { --c: var(--soc); } .s-apsa { --c: var(--apsa); } .s-rev { --c: var(--rev); }
+
+/* Header */
+header.top { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+@media (max-width: 820px) { header.top { position: static; } }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; padding-block: 12px; }
+.brand { display: flex; flex-direction: column; min-width: 0; }
+.brand h1 { font-size: 26px; text-transform: uppercase; }
+.brand span { color: var(--muted); font-size: 13px; }
+.meter { display: flex; align-items: center; gap: 10px; margin-left: auto; font-size: 13px; color: var(--muted); }
+.meter .bar { width: 140px; height: 8px; border-radius: 99px; background: color-mix(in srgb, var(--line) 70%, transparent); overflow: hidden; }
+.meter .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+.meter b { color: var(--ink); font-variant-numeric: tabular-nums; }
+nav.tabs { display: flex; gap: 4px; width: 100%; overflow-x: auto; }
+nav.tabs a { text-decoration: none; color: var(--muted); padding: 8px 12px; border-radius: 6px; font-weight: 600; white-space: nowrap; }
+nav.tabs a[aria-current="page"] { color: var(--ink); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
+
+main { padding-block: 20px 60px; }
+.view-head { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin-bottom: 16px; }
+.view-head h2 { font-size: 30px; }
+.view-head p { margin: 4px 0 0; color: var(--muted); max-width: 65ch; }
+.spacer { flex: 1; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 7px 12px; cursor: pointer; font-weight: 600; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--c); background: color-mix(in srgb, var(--c) 13%, var(--surface)); padding: 2px 7px; border-radius: 4px; }
+.time { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Week grid (desktop) */
+.week { display: grid; grid-template-columns: 72px repeat(5, minmax(0, 1fr)); gap: 6px; }
+.week .dh { font-family: var(--f-display); font-size: 19px; text-transform: uppercase; padding: 4px 2px; }
+.week .dh small { display: block; font-family: var(--f-body); font-size: 12px; color: var(--muted); text-transform: none; font-weight: 600; }
+.week .dh.today { color: var(--accent); }
+.week .rl { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding-top: 8px; }
+.slot { min-width: 0; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 9px 10px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; position: relative; }
+.slot:hover { border-color: var(--c, var(--accent)); }
+.slot.study { background: color-mix(in srgb, var(--c) 7%, var(--surface)); }
+.slot .ttl { font-weight: 600; font-size: 14px; line-height: 1.25; }
+.slot .meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.slot.done { opacity: .62; }
+.slot.done .ttl { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--ink) 40%, transparent); }
+.check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line); flex: none; display: grid; place-items: center; font-size: 11px; }
+.slot.done .check { background: var(--good); border-color: var(--good); color: var(--surface); }
+.slot.rappel { background: transparent; border-style: dashed; padding: 6px 10px; }
+.slot.rappel .ttl { font-size: 13px; }
+.slot.rappel .sub { font-size: 12px; color: var(--muted); }
+.slot.rappel.done { opacity: .55; }
+.off { border-radius: var(--r); background: repeating-linear-gradient(135deg, transparent 0 8px, color-mix(in srgb, var(--line) 45%, transparent) 8px 9px); display: grid; place-items: center; color: var(--muted); font-weight: 600; font-size: 13px; text-align: center; padding: 8px; }
+.lunch { border-radius: var(--r); color: var(--muted); font-size: 12px; text-align: center; padding: 4px; border: 1px solid transparent; font-family: var(--f-mono); }
+
+.mobile-week { display: none; }
+@media (max-width: 820px) {
+  .week { display: none; }
+  .mobile-week { display: flex; flex-direction: column; gap: 18px; }
+  .mday h3 { font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
+  .mday h3 small { font-family: var(--f-body); font-size: 13px; color: var(--muted); text-transform: none; margin-left: 6px; }
+  .mday .list { display: flex; flex-direction: column; gap: 6px; }
+}
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 18px; font-size: 13px; color: var(--muted); align-items: center; }
+.legend .tag { margin-right: 4px; }
+.setting { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.setting input { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+
+/* Today */
+.today-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 820px) { .today-grid { grid-template-columns: minmax(0, 1fr); } }
+.timeline { display: flex; flex-direction: column; gap: 6px; }
+.tl-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: stretch; }
+.tl-row .time { padding-top: 10px; }
+.tl-row.now .time { color: var(--accent); font-weight: 700; }
+.tl-row.now .slot { box-shadow: 0 0 0 2px var(--accent); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.panel h3 { font-size: 21px; }
+.panel p { margin: 0; color: var(--muted); }
+.daynav { display: flex; gap: 6px; align-items: center; }
+
+/* Chapters */
+.ue { margin-bottom: 26px; }
+.ue > h3 { font-size: 22px; text-transform: uppercase; margin-bottom: 10px; display: flex; gap: 10px; align-items: baseline; }
+.ue > h3 small { font-family: var(--f-body); font-size: 13px; color: var(--muted); text-transform: none; font-weight: 600; }
+.chgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.ch { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ch h4 { margin: 0; font-size: 15.5px; line-height: 1.25; }
+.ch .when { font-size: 12.5px; color: var(--muted); }
+.ch .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pips { display: flex; gap: 3px; }
+.pips i { width: 14px; height: 6px; border-radius: 3px; background: var(--line); }
+.pips i.on { background: var(--good); }
+.mini { font-size: 12.5px; color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; }
+
+/* Rappels */
+.deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.deck { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 10px 12px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.deck:hover { border-color: var(--c); }
+.deck b { font-size: 14px; line-height: 1.25; }
+.boxes { display: flex; gap: 2px; height: 6px; border-radius: 3px; overflow: hidden; background: var(--line); }
+.boxes i { display: block; height: 100%; }
+.smart { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; margin-bottom: 18px; }
+@media (max-width: 600px) { .smart { grid-template-columns: minmax(0, 1fr); } }
+.stat-row { display: flex; gap: 22px; flex-wrap: wrap; }
+.stat-row div { display: flex; flex-direction: column; }
+.stat-row b { font-family: var(--f-display); font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-row span { font-size: 12.5px; color: var(--muted); }
+
+/* Dialog */
+dialog { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 12px; padding: 0; width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+dialog::backdrop { background: rgba(10, 18, 24, .45); }
+.dlg { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.dlg-head { display: flex; gap: 12px; align-items: start; }
+.dlg-head h3 { font-size: 26px; flex: 1; }
+.x { border: none; background: none; font-size: 24px; line-height: 1; cursor: pointer; color: var(--muted); padding: 2px 6px; }
+.dlg ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.dlg .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.sect-lbl { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--muted); }
+
+/* Flashcard */
+.card { border: 1px solid var(--line); border-radius: 10px; padding: 22px 20px; min-height: 180px; display: flex; flex-direction: column; gap: 14px; justify-content: center; background: color-mix(in srgb, var(--c) 6%, var(--surface)); }
+.card .q { font-size: 19px; font-weight: 600; line-height: 1.35; }
+.card .a { font-size: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+.qprog { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); }
+.btn.good { border-color: var(--good); color: var(--good); }
+.btn.warn { border-color: var(--warn); color: var(--warn); }
+.summary b { font-family: var(--f-display); font-size: 40px; }
+.empty { color: var(--muted); padding: 30px 0; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Planning S1 · LAS 2 STAPS</h1>
+      <span id="range"></span>
+    </div>
+    <div class="meter" title="Séances de cours, TD, annales et révisions cochées">
+      <span>Séances faites</span>
+      <span class="bar"><i id="barFill"></i></span>
+      <b id="doneCount">0/0</b>
+    </div>
+    <nav class="tabs" aria-label="Vues">
+      <a href="#aujourdhui" data-view="aujourdhui">Aujourd'hui</a>
+      <a href="#semaine" data-view="semaine">Semaine</a>
+      <a href="#chapitres" data-view="chapitres">Chapitres</a>
+      <a href="#rappels" data-view="rappels">Rappels</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="v-aujourdhui" hidden></section>
+  <section id="v-semaine" hidden></section>
+  <section id="v-chapitres" hidden></section>
+  <section id="v-rappels" hidden></section>
+</main>
+
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+
+<script>
+const SUBJECTS = {
+  anat:  { name: "Anatomie", ue: "Sciences de la vie", color: "sv" },
+  bio:   { name: "Biomécanique", ue: "Sciences de la vie", color: "sv" },
+  phys:  { name: "Physiologie", ue: "Sciences de la vie", color: "sv" },
+  adcp:  { name: "Condition physique", ue: "Analyse des déterminants de la condition physique", color: "adcp" },
+  psy:   { name: "Psychologie", ue: "Sciences humaines et sociales", color: "psy" },
+  soc:   { name: "Sociologie", ue: "Sciences humaines et sociales", color: "soc" },
+  apsa:  { name: "APSA", ue: "APSA", color: "apsa" },
+  rev:   { name: "Révision", ue: "Annales et bilans", color: "rev" }
+};
+
+const D = id => "https://drive.google.com/file/d/" + id + "/view";
+const F = id => "https://drive.google.com/drive/folders/" + id;
+
+const CHAPTERS = [
+  { id: "ost", subj: "anat", title: "Ostéologie du membre inférieur", parts: 2,
+    files: [["Cours", D("1_lo7t7JkFuCrjuSjOHIMOd3t4hvMgWNa")], ["Diaporama anatomie MI", D("1gL8d1EpUk_bP09Q-FJJvSiO6fmVQNHUm")]],
+    notions: ["Pelvis : 2 os coxaux + sacrum (5 vertèbres soudées)", "Os coxal : ilion, ischion, pubis ; aile iliaque, acétabulum, foramen obturé", "Insertions : EIAS, EIAI, crête iliaque, tubérosité ischiatique", "Fémur : col à ~130°, ligne âpre, grand et petit trochanters, condyles", "Patella : os sésamoïde, articulation fémoro-patellaire (ginglyme)"],
+    cards: [
+      ["Quelles sont les 3 parties de l'os coxal ?", "L'ilion (haut), l'ischion (postéro-inférieur) et le pubis (antéro-inférieur)."],
+      ["Quels éléments s'insèrent sur l'EIAS ?", "Le muscle tenseur du fascia lata, le muscle sartorius et le ligament inguinal."],
+      ["Qu'est-ce qui s'insère sur l'EIAI ?", "Le tendon direct du droit fémoral (et, en dessous, le ligament ilio-fémoral)."],
+      ["Quels muscles s'insèrent sur la tubérosité ischiatique ?", "Les ischio-jambiers (semi-tendineux, long biceps fémoral, semi-membraneux) et le carré fémoral."],
+      ["Quel est l'angle entre le col et la diaphyse du fémur ?", "Environ 130° (avec une antéversion d'environ 15°)."],
+      ["Quel muscle s'insère sur le petit trochanter ?", "Le muscle ilio-psoas."],
+      ["Où s'insèrent les ligaments croisés sur le fémur ?", "LCA : face médiale du condyle latéral. LCP : face latérale du condyle médial."],
+      ["Qu'est-ce que la patella ?", "Un os sésamoïde triangulaire ; ses 2/3 supérieurs postérieurs s'articulent avec la trochlée fémorale (ginglyme)."]
+    ] },
+  { id: "arth", subj: "anat", title: "Arthrologie du membre inférieur", parts: 2,
+    files: [["Cours", D("1x1F5pk0B6XrdZGA1i-stlNh_Y_60lS9S")]],
+    notions: ["Hanche : sphéroïde, 3 DDL, labrum, capsule, 3 ligaments", "Tibia, fibula et pince malléolaire", "Genou : fémoro-patellaire + fémoro-tibiale, ménisques C et O", "Ligaments collatéraux et croisés", "Tarse : 7 os (talus, calcanéus, naviculaire, 3 cunéiformes, cuboïde)"],
+    cards: [
+      ["De quel type est l'articulation de la hanche ?", "Sphéroïde, 3 degrés de liberté. C'est la plus grosse articulation du corps."],
+      ["Rôle du labrum ?", "Fibrocartilage en anneau sur le pourtour de l'acétabulum : améliore la congruence et évite la luxation."],
+      ["Quels ligaments forment le « Z » antérieur de la hanche ?", "Les ligaments ilio-fémoral et pubo-fémoral ; ils empêchent les luxations antérieures."],
+      ["Quelle forme ont les ménisques médial et latéral ?", "Médial en C (ouvert), latéral en O (fermé). Triangulaires à la coupe."],
+      ["Quels muscles forment la patte d'oie ?", "Sartorius, gracile et semi-tendineux (flexion et rotation médiale du genou)."],
+      ["Trajet du LCA ?", "De la face médiale du condyle fémoral latéral vers l'aire intercondylaire antérieure du tibia (vers le bas, l'avant, le dedans)."],
+      ["Qu'est-ce qui s'insère sur le tubercule de Gerdy ?", "Le tractus ilio-tibial."],
+      ["Quels sont les 7 os du tarse ?", "Tarse postérieur : talus, calcanéus. Tarse antérieur : naviculaire, 3 cunéiformes, cuboïde."]
+    ] },
+  { id: "myo", subj: "anat", title: "Myologie du membre inférieur", parts: 2,
+    files: [["Cours", D("1aujMl9Jj6G3PROwv-OHz-dKQxF7_cz0K")], ["Vidéo myologie", D("1-_M4a1wXqoLkDCwZLTu7Cugz2PM9WLOC")]],
+    notions: ["Région glutéale : glutéaux + pelvitrochantériens", "Cuisse : quadriceps, sartorius, ischio-jambiers, adducteurs", "Jambe : loge antéro-latérale (n. fibulaire) et postérieure (n. tibial)", "Triceps sural et tendon calcanéen", "Innervations : n. glutéaux, fémoral, sciatique, fibulaire, tibial"],
+    cards: [
+      ["Quel est l'extenseur principal de la hanche ?", "Le grand glutéal (nerf glutéal inférieur)."],
+      ["Rôle principal du moyen glutéal ?", "Abduction de hanche et stabilisation du bassin en appui monopodal (nerf glutéal supérieur)."],
+      ["Qu'est-ce que le syndrome du piriforme ?", "Une compression du nerf sciatique, qui passe sous le piriforme, lors d'une forte contraction de ce muscle."],
+      ["Quels sont les 4 chefs du quadriceps et son nerf ?", "Vastes latéral, médial, intermédiaire et droit fémoral. Nerf fémoral. Fonction : extension du genou."],
+      ["Fonctions communes des ischio-jambiers ?", "Extension de hanche et flexion de genou (muscles bi-articulaires, nerf sciatique)."],
+      ["Quel nerf innerve le tibial antérieur ? Fonction ?", "Le nerf fibulaire profond. Dorsiflexion (flexion dorsale) du pied."],
+      ["Qu'est-ce que le triceps sural ?", "Soléaire + gastrocnémiens médial et latéral, réunis dans le tendon calcanéen (d'Achille) : flexion plantaire, propulsion."],
+      ["Fonction du tibial postérieur ?", "L'inversion du pied (flexion plantaire + adduction + supination)."]
+    ] },
+  { id: "cine", subj: "bio", title: "Analyse cinématique du geste sportif", parts: 2,
+    files: [["Cours", D("1K-bolSeTkOX6RkL80fIi-0PxpfWdZ5l1")], ["Diaporama", D("1UePXff0vMc7Th00fGMiBLdBk9VKPgIJu")]],
+    notions: ["Décrire le mouvement : trajectoire, vitesse, accélération", "Référentiel + repère orthonormé", "Vitesse moyenne (sécante) et instantanée (tangente)", "Mouvements linéaire, curvilinéaire, angulaire", "MRU, MRUV, équations horaires"],
+    cards: [
+      ["Que décrit l'analyse cinématique ?", "Le mouvement en termes de trajectoires, vitesses et accélérations, sans s'intéresser à ses causes."],
+      ["Quel référentiel est le plus utilisé en sport ?", "Le référentiel terrestre."],
+      ["Comment calcule-t-on la norme de OM ?", "||OM|| = √(x² + y² + z²)."],
+      ["Différence entre vitesse moyenne et instantanée sur un graphe ?", "Moyenne : pente de la sécante entre deux points (radar tronçon). Instantanée : pente de la tangente, dx/dt (radar classique)."],
+      ["Unités de la vitesse et de l'accélération angulaires ?", "ω en rad/s, α en rad·s⁻²."],
+      ["Combien de vitesses calcule-t-on dans un mouvement curvilinéaire plan ?", "Deux : vx et vy (et deux accélérations ax et ay)."],
+      ["Qu'est-ce qu'un MRUV ?", "Un mouvement rectiligne uniformément varié : accélération constante."]
+    ] },
+  { id: "dyn", subj: "bio", title: "Analyse dynamique du geste sportif", parts: 1,
+    files: [["Cours", D("1CH8LU_bZ8xjjKWMkkOfJQ5u8QLX2cw8f")], ["Diaporama", D("17IU-_F5vkxS1dFFwOY4xp4jLZoOd2BsK")]],
+    notions: ["Causes du mouvement : forces et moments", "Plateforme de force : Fx, Fy, Fz, centre de pression", "Quantité de mouvement p = m·v", "Impulsion = Δp = ∫ΣF dt", "Méthode des rectangles"],
+    cards: [
+      ["Que cherche l'analyse dynamique ?", "Les causes du mouvement : les forces et moments de force mis en jeu."],
+      ["Que mesure une plateforme de force ?", "Le centre de pression, les forces Fx, Fy, Fz et les moments Mx, My, Mz (capteurs à jauges ou piézoélectriques)."],
+      ["Formule et unité de la quantité de mouvement ?", "p = m × v, en kg·m·s⁻¹."],
+      ["Quand la quantité de mouvement se conserve-t-elle ?", "Quand la somme des forces extérieures est nulle."],
+      ["Deux façons de calculer l'impulsion ?", "J = m(vf − v0) si on a mesuré des vitesses ; J = ∫ΣFext dt (aire sous la courbe F(t)) si on a mesuré des forces."],
+      ["Comment estimer l'aire d'impulsion ?", "Par la méthode des rectangles : somme des F(t) × dt."]
+    ] },
+  { id: "stat", subj: "bio", title: "Statique, posture d'équilibre, forces et moments", parts: 2,
+    files: [["Cours", D("1nC2uj0n2jfU2aIz8BJhA1qifbw3677lb")], ["Diaporama", D("10DtCVmU7TPL8uQb-XHwCk75pcULbHM_0")]],
+    notions: ["Caractéristiques d'une force ; forces internes et externes", "Lois de Newton (2e et 3e)", "Moment de force M = F × d", "Conditions d'équilibre ΣF = 0 et ΣM = 0", "Les 3 types de leviers"],
+    cards: [
+      ["Quelles sont les 4 caractéristiques d'un vecteur force ?", "Point d'application, direction, sens, intensité (en N)."],
+      ["Énoncé de la 2e loi de Newton ?", "ΣF = m × a. À l'équilibre, ΣF = 0."],
+      ["Formule du moment de force ?", "M = F × d (bras de levier perpendiculaire) = OM × F × sin α, en N·m."],
+      ["Pour quel angle le moment est-il maximal ? nul ?", "Maximal à 90° (sin = 1), nul à 0° ou 180°."],
+      ["Différence entre moment de force et moment d'inertie ?", "Le moment de force crée la rotation ; le moment d'inertie est la résistance à la rotation."],
+      ["Conditions générales d'équilibre ?", "Non-translation : ΣF = 0. Non-rotation : ΣM = 0."],
+      ["Quel levier est le plus fréquent dans le corps et que favorise-t-il ?", "Le levier inter-moteur (force entre l'appui et la résistance, ex. biceps-coude) : il favorise la vitesse."],
+      ["Que favorisent les leviers inter-appui et inter-résistant ?", "Inter-appui : l'équilibre (ex. la tête). Inter-résistant : la puissance."]
+    ] },
+  { id: "trav", subj: "bio", title: "Travail, puissance et énergie mécanique", parts: 1,
+    files: [["Cours", D("1RoSPbkJliT_hETkFJ59l-zfwE-g-E3xY")], ["Diaporama", D("1fOYYil4-fl1lhmLdGVMKhey4E8wp3F5V")]],
+    notions: ["W = F × AB × cos α", "Travail moteur, résistant, nul", "P = F × v", "Ec, Epp, Epe", "Conservation de l'énergie mécanique"],
+    cards: [
+      ["Formule du travail d'une force ?", "W = F × AB × cos α, en joules."],
+      ["Travail d'une force perpendiculaire au déplacement ?", "Nul (cos 90° = 0)."],
+      ["Quand le travail est-il moteur ou résistant ?", "Moteur si α < 90° (cos > 0), résistant si α > 90° (cos < 0)."],
+      ["Formule de la puissance instantanée ?", "P = dW/dt = F × v, en watts."],
+      ["Formules des énergies cinétique et potentielles ?", "Ec = ½mv² (rotation : ½Iω²) ; Epp = mgh ; Epe = ½kΔl²."],
+      ["Que dit la conservation de l'énergie mécanique ?", "Dans un système isolé, Em = Ec + Epp + Epe reste constante : l'énergie se transforme (ex. saut à la perche : Ec → Epe → Epp)."]
+    ] },
+  { id: "tdbio", subj: "bio", title: "TD de biomécanique", parts: 1,
+    files: [["TD 1 sujet", D("1js6LgPCyNhQbCA0MeaqtrM79ZVmqqiI9")], ["TD 1 corrigé", D("1e5VzPGoy_VRifpfp_PPn5qrOCky3Ol1E")]],
+    notions: ["Faire le TD sans le corrigé, chronométré", "Comparer avec le corrigé", "Lister les formules utilisées", "Noter les erreurs dans une fiche"],
+    cards: [
+      ["Ordre de travail pour une analyse dynamique ?", "1. Définir le système. 2. Choisir le référentiel. 3. Faire le bilan des forces."],
+      ["Comment projeter un vecteur de longueur l faisant un angle θ avec l'horizontale ?", "x = l × cos θ ; y = l × sin θ."],
+      ["Comment passer de km/h à m/s ?", "Diviser par 3,6."],
+      ["Que vaut g dans les calculs de poids ?", "Environ 9,81 m·s⁻² (P = m × g)."]
+    ] },
+  { id: "nbase", subj: "phys", title: "Neurophysiologie : bases fondamentales", parts: 1,
+    files: [["Cours", D("1xrrW0lx3h5Xc0AZ-f1zzxP4PIOSqZ0my")], ["Diaporama introduction", D("1aOsBPhNdUB9f_s3tn-1W-vhRyrAMKqzM")], ["Diaporama bases", D("1QL2i9pjXPfCpnaZS59K30WfeF2EMZYWd")]],
+    notions: ["3 fonctions du système nerveux", "SNC / SNP ; somatique / autonome", "Cellules gliales du SNC et du SNP", "Structure du neurone", "Substance blanche et substance grise"],
+    cards: [
+      ["Quelles sont les 3 fonctions du système nerveux ?", "Sensorielle, intégration de l'information, réponse motrice."],
+      ["Message afférent ou efférent : lequel est moteur ?", "Efférent = moteur = descendant. Afférent = sensitif = ascendant."],
+      ["Effet du sympathique et du parasympathique sur la FC ?", "Sympathique : l'augmente (exercice, danger). Parasympathique : la diminue (repos)."],
+      ["Rôle des astrocytes ?", "Nutrition des neurones, constituant de la barrière hémato-encéphalique, support et protection."],
+      ["Qui fabrique la myéline dans le SNC et dans le SNP ?", "SNC : oligodendrocytes. SNP : cellules de Schwann (neurolemmocytes)."],
+      ["Rôle des microglies et des épendymocytes ?", "Microglies : défense immunitaire (macrophages). Épendymocytes : produisent et font circuler le LCR."],
+      ["Où se trouve la substance grise dans le cerveau et dans la moelle ?", "Cerveau : en périphérie. Moelle épinière : au centre."],
+      ["Quelles enveloppes protègent un nerf ?", "Endonèvre (axone), périnèvre (fascicule), épinèvre (nerf entier)."]
+    ] },
+  { id: "nmsg", subj: "phys", title: "Neurophysiologie : les messages nerveux", parts: 2,
+    files: [["Cours", D("1WLLVgy-DigA-j_dSiTEL7WiQj654LTW9")], ["Diaporama", D("1Jn4-UYxXKf47zjdTuzeKGcnHuR6wO8IW")]],
+    notions: ["Canaux passifs et actifs", "Potentiel de repos −70 mV et pompe Na+/K+", "Potentiel gradué", "Potentiel d'action : 7 étapes", "Périodes réfractaires et vitesse de conduction"],
+    cards: [
+      ["Valeur du potentiel de repos d'un neurone ?", "−70 mV (intérieur négatif)."],
+      ["Comment fonctionne la pompe Na+/K+ ATPase ?", "Elle fait sortir 3 Na+ et entrer 2 K+ en consommant de l'ATP."],
+      ["Pourquoi le repos est-il négatif ?", "Répartition inégale des ions, perméabilité au K+ supérieure à celle du Na+, et action des pompes Na+/K+."],
+      ["Seuil de déclenchement d'un PA ?", "−50 à −55 mV au niveau de la zone gâchette. Loi du tout ou rien."],
+      ["Différences entre potentiel gradué et PA ?", "Gradué : local, décrémentiel, bidirectionnel. PA : inversion jusqu'à +30 mV, non décrémentiel, unidirectionnel, sur l'axone."],
+      ["Quel ion entre lors de la dépolarisation ? Lequel sort à la repolarisation ?", "Le Na+ entre (dépolarisation), le K+ sort (repolarisation)."],
+      ["Comment est codée l'intensité d'un stimulus ?", "Par la fréquence des potentiels d'action (l'amplitude reste constante)."],
+      ["Qu'est-ce qui augmente la vitesse de conduction ?", "Un gros diamètre d'axone et la gaine de myéline (fibres A : 150 m/s ; fibres C amyéliniques : 1 m/s)."]
+    ] },
+  { id: "nsyn", subj: "phys", title: "Neurophysiologie : activité synaptique", parts: 1,
+    files: [["Cours", D("10PBfnBEIgTYE3vSjtgvtpRt_HlNTdf3z")], ["Diaporama", D("12hzItpAVP2oEyguGhm_AzuTLOAjsxee1")]],
+    notions: ["Réseaux de neurones", "Synapses électriques et chimiques", "PPSE, PPSI et sommations", "Neurotransmetteurs excitateurs et inhibiteurs", "Acétylcholine, agonistes, antagonistes"],
+    cards: [
+      ["Différence entre synapse électrique et chimique ?", "Électrique : fente de 3 nm, passage direct des ions, très rapide, rare. Chimique : fente de 30-50 nm, neurotransmetteurs, plus lente."],
+      ["Quel ion déclenche l'exocytose des vésicules ?", "Le Ca2+, qui entre par des canaux voltage-dépendants."],
+      ["Différence entre PPSE et PPSI ?", "PPSE : dépolarisant (entrée de Na+). PPSI : hyperpolarisant (sortie de K+ ou entrée de Cl−)."],
+      ["Sommation temporelle et sommation spatiale ?", "Temporelle : décharges rapprochées d'un même neurone. Spatiale : plusieurs neurones présynaptiques en même temps."],
+      ["Principal NT excitateur et principal inhibiteur ?", "Glutamate (excitateur) et GABA (inhibiteur)."],
+      ["Récepteurs nicotiniques et muscariniques de l'ACh ?", "Nicotiniques : canaux Na+, excitateurs (contraction musculaire). Muscariniques : canaux K+, inhibiteurs (cœur)."],
+      ["Exemple d'agoniste et d'antagoniste de l'ACh ?", "Agoniste : la nicotine. Antagoniste : le curare (paralysie)."],
+      ["Comment agit le Prozac ?", "Il inhibe la recapture de la sérotonine (antidépresseur)."]
+    ] },
+  { id: "snc", subj: "phys", title: "Neurophysiologie : système nerveux central", parts: 2,
+    files: [["Cours", D("1vbLKHsD-DLWgvdf2hngu_cWaNMtDm57a")], ["Diaporama", D("1xuLDJDGx8xjHneFvqf5R4bXpfqHrOlhS")]],
+    notions: ["Encéphale, moelle et méninges", "Voies ascendantes : spinocérébelleuse, cordon dorsal, spinothalamique", "Aires corticales sensitives et associatives", "Voie pyramidale et voies secondaires", "Hypothalamus et tronc cérébral"],
+    cards: [
+      ["Quelles sont les 3 méninges, de l'extérieur vers l'intérieur ?", "Dure-mère, arachnoïde (espace subarachnoïdien avec LCR), pie-mère."],
+      ["Quelle information transporte le tractus spinocérébelleux ?", "La proprioception (fuseaux neuromusculaires), vers le cervelet."],
+      ["Quelle voie transmet le toucher et combien de neurones ?", "La voie du cordon dorsal (lemnisque médial), 3 neurones. Décussation dans le bulbe."],
+      ["Faisceau gracile ou cunéiforme : lequel vient du membre inférieur ?", "Le faisceau gracile (le cunéiforme vient du membre supérieur)."],
+      ["Quelle voie transmet douleur et température ?", "La voie spinothalamique (nocicepteurs, thermorécepteurs)."],
+      ["Où se trouvent l'aire somesthésique primaire et l'aire motrice primaire ?", "Somesthésique : gyrus post-central (lobe pariétal). Motrice : gyrus précentral (lobe frontal)."],
+      ["Rôle des aires de Broca et de Wernicke ?", "Broca : production du langage (aphasie si lésion). Wernicke : compréhension du langage."],
+      ["Quelle voie commande les mouvements volontaires ?", "La voie pyramidale (cortico-spinale), avec décussation et synapse dans la corne ventrale."]
+    ] },
+  { id: "musc", subj: "phys", title: "Physiologie du muscle squelettique", parts: 3,
+    files: [["Cours", D("18CHvxGAFJK03kT-0qf96hgZWN99xHLpi")], ["Diaporama", D("16v-RDIrws_YICmku9_VIy9I9L3kRlPDg")]],
+    notions: ["Organisation : endomysium, périmysium, épimysium, sarcomère", "Jonction neuromusculaire et couplage excitation-contraction", "Rôle du calcium et de la troponine", "Relations force-longueur et force-vitesse", "Types de fibres, unités motrices, loi de Henneman", "Modèle de Hill, fatigue, crampes"],
+    cards: [
+      ["Comment s'appellent les enveloppes de la fibre, du faisceau et du muscle ?", "Endomysium (fibre), périmysium (faisceau), épimysium (muscle)."],
+      ["Quelle bande du sarcomère garde une longueur constante ?", "La bande A (sombre). La bande I et la zone H raccourcissent (théorie du glissement de Huxley)."],
+      ["Rôles des 3 troponines ?", "T : se fixe à la tropomyosine. C : fixe le calcium. I : inhibe l'accès aux sites de la myosine."],
+      ["Chaîne du couplage excitation-contraction ?", "PA → tubules T → récepteur DHP → récepteur à la ryanodine → libération de Ca2+ → troponine C → ponts actine-myosine."],
+      ["Comment le muscle se relâche-t-il ?", "Les Ca2+ ATPases repompent le calcium dans le réticulum sarcoplasmique (consomme de l'ATP)."],
+      ["Qu'est-ce qu'une unité motrice ?", "Un motoneurone et l'ensemble des fibres qu'il innerve (chaque fibre n'a qu'un motoneurone)."],
+      ["Que dit la loi de Henneman ?", "Les unités motrices sont recrutées de la plus petite à la plus grosse : I, puis IIa, puis IIx."],
+      ["Caractéristiques des fibres de type I ?", "Lentes, petites, oxydatives, très capillarisées, résistantes à la fatigue (fusion vers 50 Hz)."],
+      ["Que montre la relation force-vitesse ?", "Plus la vitesse de contraction est élevée, plus la force est faible. F0 à vitesse nulle, V0 à charge nulle ; P = F × v."],
+      ["Quelles sont les 3 composantes du modèle de Hill ?", "Composante contractile, élastique série (tendon, ponts) et élastique parallèle (enveloppes)."]
+    ] },
+  { id: "cardio", subj: "phys", title: "Physiologie de l'exercice : système cardio-respiratoire", parts: 3,
+    files: [["Cours", D("1Pe_babtOduOAxoKfmD0OmZ91BSJQmPmB")], ["Diaporama", D("15B2Gy32ZNvvoUygyV_WuH4xx6GRDAMPr")]],
+    notions: ["Filières énergétiques", "Cascade de l'O2 et équation de Fick", "FC, VES, débit cardiaque, pression artérielle", "Redistribution du débit sanguin", "Transport de l'O2 : Hb, hématocrite, EPO, effet Bohr", "Ventilation et seuil ventilatoire"],
+    cards: [
+      ["Quelles sont les 3 filières énergétiques ?", "Anaérobie alactique (ATP-PCr, < 15 s), anaérobie lactique (glycogène → lactate, limite = acidose), aérobie (36 ATP, mitochondrie)."],
+      ["Équation de Fick ?", "VO2 = Qc × (CaO2 − CvO2) = FC × VES × Da-v."],
+      ["Formule de la FC maximale théorique ?", "FCmax = 220 − âge (Astrand)."],
+      ["L'entraînement augmente-t-il la FC maximale ?", "Non. Il baisse la FC de repos, augmente la FC de réserve et le VES."],
+      ["Que dit la loi de Frank-Starling ?", "Plus le volume télédiastolique augmente (cœur plus rempli), plus la contraction cardiaque est forte."],
+      ["Formule de la pression artérielle moyenne ?", "PAM = (PAS + 2 × PAD) / 3 = Qc × résistances périphériques totales."],
+      ["Qu'est-ce que la dérive cardiaque ?", "Hausse de la FC après 10-15 min d'effort constant, due à la déshydratation et à l'hémoconcentration."],
+      ["Qu'est-ce que l'effet Bohr ?", "Décalage à droite de la courbe de dissociation de l'Hb (↑H+, ↑CO2, ↑T°) : l'Hb libère plus d'O2 au muscle."],
+      ["Quel taux d'hématocrite fait suspecter un dopage ?", "Plus de 50 % (moyenne homme ≈ 42 %). L'EPO augmente la VO2max d'environ 10 %."],
+      ["Formule de la ventilation ?", "VE = f × VT (6 à 10 L/min au repos, jusqu'à 130-200 L/min à l'effort)."]
+    ] },
+  { id: "nutri", subj: "adcp", title: "Nutrition et activité physique", parts: 2,
+    files: [["Cours", D("1vfBinDnDd0vgCxQnJBuIAiIfEmjmgHEw")], ["Diaporama", D("1DFkhdkVe35wAaxrOlL3Uu3iH0Sq3iwL_")]],
+    notions: ["Principes énergétiques et non énergétiques", "Dépense énergétique et MET", "Apports recommandés (quantité et qualité)", "PNNS, Nutri-Score, IMC", "Index glycémique, eau, ergogènes"],
+    cards: [
+      ["Combien de kcal apporte 1 g de glucides, protides, lipides, alcool ?", "Glucides 4, protides 4, lipides 9, alcool 7."],
+      ["Quelles vitamines sont liposolubles ?", "A, D, E, K (stockées : risque d'hypervitaminose). Les 9 autres (B et C) sont hydrosolubles."],
+      ["Que vaut 1 MET ?", "3,5 mL d'O2/min/kg, soit la consommation d'oxygène au repos. 1 L d'O2 ≈ 5 kcal."],
+      ["Répartition des apports recommandée chez le sportif ?", "Glucides 50-60 %, protides 10-20 %, lipides 30-35 %, alcool ≤ 5 %."],
+      ["Formule et zone normale de l'IMC ?", "IMC = poids / taille². Normal entre 18,5 et 24,9 ; obésité à partir de 30."],
+      ["Qu'est-ce que l'hypoglycémie réactionnelle ?", "Une chute brutale de la glycémie après une grosse prise de sucre rapide, due au pic d'insuline."],
+      ["Besoin en eau quotidien ?", "40 mL/kg/jour, dont la moitié couverte par l'alimentation. −1 % d'eau ≈ −10 % de performance."],
+      ["Quelle stratégie fait perdre le plus de masse grasse ?", "Régime + exercice combinés (−250 kcal d'apports et +250 kcal de dépense par jour)."]
+    ] },
+  { id: "depense", subj: "adcp", title: "Activité physique et dépense énergétique", parts: 2,
+    files: [["Cours", D("1KnOGU-aJcGsYdIQUNEJTERAJxoBJnoOM")], ["Diaporama 1", D("1qOMtJMOijWV15gDxgq39lfcZMrDeRA9Q")], ["Diaporama 2", D("13zS80evNx5HASZbS_zMrpguj9_HwcxiX")]],
+    notions: ["DEJ = NMR + TIA + DEAP", "NAP = DEJ / NMR", "Intensité absolue et relative, classification en MET", "Méthodes de mesure critériées, subjectives, objectives", "Quotient respiratoire et quotient alimentaire"],
+    cards: [
+      ["Composantes de la dépense énergétique journalière ?", "NMR (60-75 %), thermogenèse induite par l'alimentation (~10 %), DEAP (15-30 %, la plus variable)."],
+      ["Formule du NAP et valeur pour un sédentaire ?", "NAP = DEJ / NMR. Sédentaire ≈ 1,2 ; actif > 1,67."],
+      ["Seuils en MET des intensités ?", "< 1,5 sédentarité ; < 3 légère ; 3 à 6 modérée ; > 6 intense ; > 9 très intense."],
+      ["Différence entre intensité absolue et relative ?", "Absolue : L d'O2/min ou MET. Relative : % de VO2max ou de FCmax, tient compte des capacités de chacun."],
+      ["Valeurs du QR selon le substrat ?", "Glucides 1 ; lipides 0,7 ; protéines 0,82."],
+      ["Principe de l'eau doublement marquée ?", "On boit de l'eau marquée au ²H et à l'¹⁸O ; la différence de vitesse d'élimination donne la production de CO2, donc la dépense sur 1 à 3 semaines."],
+      ["Limite du podomètre ?", "Il perd sa validité en course (la longueur de pas augmente avec la vitesse)."],
+      ["Coût de la thermogenèse selon le nutriment ?", "Glucides 5-10 %, protéines 20-30 %, lipides < 5 % de l'énergie ingérée."]
+    ] },
+  { id: "dqp", subj: "adcp", title: "Développement des qualités physiques", parts: 2,
+    files: [["Cours", D("1yNS1V-H1yOyavTJrpsuDFWYPQMVRVirj")], ["Diaporama", D("1CqR2Tt71PfzL-9mnkucmZ6nbqhh00uKg")]],
+    notions: ["Les 6 principes de l'entraînement", "Les formes de force et leurs déterminants", "Méthodes : Zatsiorski, isométrie, excentrique, pliométrie", "Vitesse et agilité", "Endurance (signalée hors examen 2025-2026)"],
+    cards: [
+      ["Quels sont les 6 principes de l'entraînement ?", "Spécificité, transfert, surcharge, alternance, progression, surcompensation."],
+      ["Qu'est-ce que la surcompensation ?", "L'élévation de la capacité de performance après une charge de travail suivie d'une phase de récupération."],
+      ["Comment mesure-t-on la force maximale en pratique ?", "Avec la 1 RM : la charge mobilisable une seule fois."],
+      ["D'où viennent les premiers gains de force ?", "D'adaptations nerveuses (coordination inter- puis intramusculaire), avant l'hypertrophie."],
+      ["Qu'est-ce que la pliométrie ?", "Une contraction excentrique suivie d'une concentrique (cycle étirement-raccourcissement) : développe la puissance et l'explosivité."],
+      ["Avantage et limite du travail isométrique ?", "Tension supérieure d'environ 10 % au concentrique, mais gains surtout à l'angle travaillé."],
+      ["Définition de l'agilité (Sheppard et Young) ?", "Capacité à changer de vitesse ou de direction en réponse à un stimulus."],
+      ["Quelles sont les 3 méthodes de Zatsiorski ?", "Efforts maximaux, efforts répétés (jusqu'à la fatigue, hypertrophie), efforts dynamiques (vitesse maximale)."]
+    ] },
+  { id: "tdadcp", subj: "adcp", title: "TD de condition physique", parts: 1,
+    files: [["TD 1 sujet", D("1_kUSYW79AqCSXChwXQ_9-KDsQywH1soW")], ["TD 2 sujet", D("16SKo4dS5lRv46vILMoirlhNBC-hCU8__")], ["TD 1 et 2 corrigé", D("1v7IKV6fRPpHFqp6LgSUdbuMmFrD1slfW")]],
+    notions: ["Refaire TD 1 et TD 2 sans le corrigé", "Calculs : MET, NAP, DEJ, IMC, QA", "Comparer avec le corrigé", "Ficher les erreurs"],
+    cards: [
+      ["Dépense de repos d'un adulte de 60 kg avec la méthode MET ?", "3,5 × 60 = 210 mL/min = 0,21 L/min × 5 kcal = 1,05 kcal/min, soit ≈ 1512 kcal/jour."],
+      ["Calculer le QA d'une ration 55 % glucides, 35 % lipides, 10 % protides.", "0,55 × 1 + 0,35 × 0,7 + 0,10 × 0,82 ≈ 0,877."],
+      ["Si QA < QR, quel risque ?", "La part de lipides dépasse les capacités d'oxydation : risque de prise de poids."],
+      ["Formule de la DEAP en tenant compte de la thermogenèse ?", "DEAP = (DEJ × 0,9) − NMR."]
+    ] },
+  { id: "attach", subj: "psy", title: "L'attachement (et fiche définitions)", parts: 2,
+    files: [["Cours", D("17wodxohCX2o6XmweFUtsakgHdtqmttip")], ["Fiche définitions", D("1I5Q38jAx8jaW1d_i_oeNQRVs-595hOqV")], ["Diaporama", D("1r5b9SfhzMDQX9ClkKtY7lSSxmmKvtlqj")]],
+    notions: ["Définitions : Guedeney, Bowlby", "Précurseurs : Lorenz, Spitz, Harlow", "Bowlby : étapes, phases de séparation, caregiving", "Ainsworth : situation étrange et 4 profils", "Régulation émotionnelle (Gross et Thompson)", "Parentalité, maltraitance, borderline"],
+    cards: [
+      ["Définition de l'attachement selon Guedeney ?", "Un ensemble de liens interpersonnels, affectifs, durables et importants entre 2 personnes."],
+      ["Qu'a montré Spitz ?", "L'hospitalisme : des nourrissons séparés durablement développent un état dépressif."],
+      ["Qu'a montré Harlow ?", "Avec des macaques privés de mère : comportements perturbés jusqu'à l'âge adulte ; un leurre (doudou) réduit l'agressivité."],
+      ["Les 3 phases de réaction à la séparation selon Bowlby ?", "Protestation, désespoir, détachement."],
+      ["À partir de quel âge l'attachement est-il franc selon Bowlby ?", "Vers 7 mois (substitution plus possible). Partenariat ajusté vers 3-4 ans."],
+      ["Les 4 profils de la situation étrange d'Ainsworth ?", "Sécure (60-65 %), anxieux-évitant (~20 %), anxieux-ambivalent (~15 %), désorganisé (~5 %, Main et Solomon)."],
+      ["Les 2 stratégies de régulation émotionnelle de Gross et Thompson ?", "La réévaluation cognitive et la suppression expressive."],
+      ["Qu'est-ce que le caregiving ?", "Le « donneur de soin » : toute personne capable de déceler la détresse et de réconforter l'enfant."]
+    ] },
+  { id: "ado", subj: "psy", title: "L'adolescence", parts: 2,
+    files: [["Cours", D("1nqiALjeLLy5YphZZ6ZFte-5NUml5c8vh")], ["Diaporama", D("1k0xMJVejqQ3taD2-7agBWPka1h-RUpj6")]],
+    notions: ["Définitions : Ariès, Mead, Jeammet, Marty", "3 phases du comportement social", "Puberté, addictions, autonomie, sommeil", "Violences sexuelles et loi de 2024 dans le sport", "Anxiété, suicide, cerveau adolescent", "Pratiques culturelles, ennui, sexualisation"],
+    cards: [
+      ["Définition de l'adolescence selon Jeammet ?", "Une étape sensible du développement de la personnalité, marquée par une vulnérabilité liée aux effets psychiques et physiques de la puberté."],
+      ["Les 3 phases du comportement social de l'adolescent ?", "Opposition, affirmation de soi, indépendance."],
+      ["Les 3 autonomies à acquérir pour devenir adulte ?", "Physique, psychique et financière (plus l'acceptation de l'autorité)."],
+      ["Que montre Carskadon sur le sommeil ?", "Le besoin passe d'environ 10 h au début de l'adolescence à 8 h à la fin."],
+      ["Pourquoi l'anxiété augmente-t-elle à l'adolescence selon Hercberg ?", "La THP (alloprégnanolone) inhibe le GABA, l'anxiolytique naturel du cerveau."],
+      ["Que dit Le Breton sur l'auto-initiation ?", "La disparition des rites de passage pousse l'adolescent à créer ses propres rites, parfois dangereux."],
+      ["Selon Jeammet (2016), que peut signifier le suicide chez certains jeunes ?", "Un appel à exister, une façon désespérée d'être entendu, pas toujours un désir de mort."],
+      ["À quel âge le cerveau atteint-il sa maturité ?", "Entre 21 et 25 ans (remodelage dès 10-12 ans)."]
+    ] },
+  { id: "socdel", subj: "psy", title: "Socialisation et délinquance", parts: 1,
+    files: [["Cours", D("1msAVSkNwTG7D-zHDf2gxnMsxo7I82J3P")], ["Diaporama", D("1W8tm7q1t3DfokHKPUGBk11hbjO4mAPtd")]],
+    notions: ["Socialisation primaire et secondaire, normes, valeurs, rôle, statut", "Malrieu et Tap", "Montagner, Gesell, Piaget, Luquet", "Chombart de Lauwe, Moreno, phobie scolaire", "Sanctions : Kant, Tocqueville, Durkheim", "Délinquance sexuelle : Becker, Vizard"],
+    cards: [
+      ["Définition de la socialisation ?", "L'ensemble des processus par lesquels les individus intériorisent les valeurs et les normes de leur société."],
+      ["Délinquance et déviance : quelle différence ?", "Délinquance : s'écarter des normes juridiques. Déviance : s'éloigner volontairement des normes sociales."],
+      ["Les 2 processus de socialisation selon Malrieu ?", "L'acculturation et la subjectivation."],
+      ["Les 6 profils de Montagner chez le jeune enfant ?", "Leaders, dominants-agressifs, dominés-craintifs, dominés-agressifs, dominés, isolés."],
+      ["Les 3 types de jeux selon Piaget ?", "Jeux d'exercice, jeux symboliques, jeux de règles."],
+      ["Les stades du dessin selon Luquet ?", "Gribouillage, réalisme fortuit, réalisme manqué, réalisme intellectuel."],
+      ["Les 3 orientations de la sanction ?", "Kant : punition rétributive. Tocqueville : resocialisation. Durkheim : peine exemplaire."],
+      ["Classification de Moreno en classe ?", "Préférés, rejetés, isolés, controversés."]
+    ] },
+  { id: "sdef", subj: "soc", title: "Définition de la sociologie et définitions du sport", parts: 1,
+    files: [["Cours", D("1VWELOG9dBUxiXBNph94E6H8c38pjkkYc")], ["Diaporama", D("1EXB38Urq4-0g6eRPqLs69egSBVipVRZg")]],
+    notions: ["Sociologie : science de la logique des rapports sociaux", "Bourdieu : à quoi sert la sociologie", "Prénotions (Durkheim) et préjugés", "Définitions du sport : Bromberger, Bouet, Defrance", "Fonctionnalismes positif et négatif"],
+    cards: [
+      ["Définition de la sociologie (Moreau de Bellaing et Poussin) ?", "La science de la logique des rapports sociaux."],
+      ["Les 4 ruptures que vise la sociologie ?", "Contre les représentations collectives, l'illusion du savoir immédiat, la sociologie spontanée et les jugements de valeur."],
+      ["Qu'est-ce qu'une prénotion selon Durkheim ?", "Une représentation schématique et sommaire formée par la pratique, qui tire son autorité des fonctions sociales qu'elle remplit."],
+      ["Qui a dit que définir le sport est « un pari intenable » ?", "Bromberger (1995)."],
+      ["Fonctions positives du sport ?", "Sanitaire, bien-être social, euphémisation de la violence, éducative, symbolique."],
+      ["Critique du fonctionnalisme négatif ?", "Le sport détourne la conscience politique et exprime le capitalisme (consommation, dopage, corruption)."]
+    ] },
+  { id: "smeth", subj: "soc", title: "Démarches et méthodes de la sociologie", parts: 1,
+    files: [["Cours", D("1ZvnsXHMUJs2ramDxbw_4ssJ-iY4srdx9")], ["Diaporama", D("1Vxq-GlsxrFgfhZq-IcjXPivnoE_NHXsO")]],
+    notions: ["Démarche scientifique et 7 étapes en sciences sociales", "Modèle de Weber", "Démarche inductive et déductive", "Questionnaire, échantillon, variables", "Entretien, reformulation, observation"],
+    cards: [
+      ["Démarche inductive ou déductive : laquelle part du terrain ?", "L'inductive (du spécifique au général). La déductive part de la théorie."],
+      ["Qu'est-ce qu'un échantillon par quotas ?", "Un échantillon représentatif construit selon des caractéristiques de la population (âge, sexe, PCS, lieu)."],
+      ["Variable dépendante ou indépendante : laquelle explique ?", "L'indépendante explique (âge, sexe, PCS). La dépendante est celle qu'on cherche à expliquer."],
+      ["Une corrélation prouve-t-elle une causalité ?", "Non, elle peut seulement la suggérer."],
+      ["Quel entretien est le plus utilisé en sociologie ?", "L'entretien semi-directif (grille de 3 à 5 thèmes, ordre libre)."],
+      ["Citez 3 modes de reformulation.", "Le reflet, l'écho, la clarification (aussi : inversée, déductive/inductive, appui)."],
+      ["Les 2 critères du statut d'observateur ?", "À découvert ou incognito ; participante ou en retrait."]
+    ] },
+  { id: "secole", subj: "soc", title: "École et inégalités scolaires", parts: 1,
+    files: [["Cours", D("1LU2SJ18PPSDZTDah5V7URPKf8mc6YCkn")], ["Diaporama", D("1V3JGz9hfSt3CCHXx0W5zFl_iBvynXqNh")]],
+    notions: ["Massification et démocratisation ségrégative", "Bourdieu et Passeron : reproduction, violence symbolique", "Capitaux, habitus, champ", "Boudon : effet de ciseaux", "Effet établissement, composition des classes, pédagogies"],
+    cards: [
+      ["Que dit la théorie de la reproduction (Bourdieu et Passeron) ?", "L'école reproduit et légitime les inégalités : elle valorise la culture dominante dont héritent les enfants favorisés."],
+      ["Quels sont les 4 capitaux de Bourdieu ?", "Économique, culturel, social, symbolique."],
+      ["Définition de l'habitus ?", "Un système de dispositions durables et transposables, structuré et structurant, qui oriente nos façons de percevoir, penser et agir."],
+      ["Qu'est-ce que l'effet de ciseaux de Boudon ?", "Les bacheliers augmentent plus vite (10 → 63 %) que les postes de cadres (5 → 15 %) : les diplômes se dévaluent."],
+      ["Taux de bac selon l'origine sociale ?", "Environ 75 % pour les enfants d'enseignants contre 34 % pour les enfants d'ouvriers."],
+      ["Que montre l'effet de la composition des classes ?", "La mixité de niveau profite à tous ; regrouper les faibles fait baisser leur niveau."]
+    ] },
+  { id: "strib", subj: "soc", title: "Monde des tribunes sportives", parts: 1,
+    files: [["Cours", D("1Y2lOpaJSmtHesLVzHz5Z1TMowzFgLLc1")]],
+    notions: ["Profil des spectateurs", "Supportérisme officiel et autonome", "Ultras et hools", "Violences et relations intergroupes", "Lois : Alliot-Marie 1993, 2006, Larrivé 2016 ; IJS et IAS"],
+    cards: [
+      ["Différence entre ultras et hools ?", "Ultras : associations structurées qui animent les tribunes (Europe du Sud). Hools : bandes éphémères à visée violente (Europe du Nord)."],
+      ["Part des femmes et des moins de 35 ans dans les tribunes ?", "Femmes ≤ 15 % ; 70 % des spectateurs ont moins de 35 ans."],
+      ["Citez 3 formes d'expression des ultras.", "La bâche, le tifo, le capo, l'écharpe."],
+      ["Qu'a créé la loi Alliot-Marie de 1993 ?", "Des délits spécifiques aux manifestations sportives et l'interdiction judiciaire de stade (IJS, max 5 ans)."],
+      ["Différence entre IJS et IAS ?", "IJS : sanction pénale prononcée par un juge. IAS (2006) : mesure de police administrative du préfet, max 2 ans (3 si récidive)."],
+      ["Apport de la loi Larrivé (2016) ?", "Un référent supporters dans chaque club pro et une instance nationale du supportérisme."]
+    ] },
+  { id: "sprat", subj: "soc", title: "Pratiques physiques et sportives en 2025", parts: 1,
+    files: [["Cours", D("1mWroVTjBWlpyDbcTJkO7VWLhNgvg2oL1")], ["Diaporama", D("1fMDDXTfZGFIsSopXwVgKLU5NGTS7HQj6")]],
+    notions: ["Massification, individualisation, démocratisation relative, féminisation", "8 facteurs du développement des APS", "Stagnation du sport fédéral", "Raisons de l'abandon des clubs", "Âge, diplôme et niveau de vie"],
+    cards: [
+      ["Part de la population ayant pratiqué au moins une fois dans l'année ?", "89 % (65 % au moins une fois par semaine)."],
+      ["Activité la plus pratiquée ?", "La marche (35,6 millions), devant la natation et le vélo."],
+      ["Les 4 pôles de motivation ?", "Santé et bien-être, convivialité, nature, motivations physiques. La compétition ne motive que 21 % des pratiquants."],
+      ["Citez 4 facteurs du développement des APS.", "Baisse du temps de travail, hausse du pouvoir d'achat, allongement de la scolarité, politiques publiques (aussi : technologie, industrie du loisir, féminisation, icônes)."],
+      ["Freins à la pratique en club ?", "Coût de la licence, cadre rigide, logique compétitive, ambiance, manque d'encadrement."],
+      ["Effet du diplôme sur la pratique ?", "88 % des diplômés du supérieur pratiquent contre 45 % des peu ou pas diplômés."]
+    ] },
+  { id: "sdop", subj: "soc", title: "Sociologie d'une infraction sportive : le dopage", parts: 1,
+    files: [["Cours", D("1NZpOS01wRfDuCZzGjSWj9bojBvqnLJtB")]],
+    notions: ["Problème de définition et loi de 1965", "Facteurs contextuels : représentativité nationale, professionnalisation, commercialisation", "Système de valeurs du haut niveau", "Médicalisation et environnement propice", "Enjeux du spectacle sportif"],
+    cards: [
+      ["Date de la première loi anti-dopage ?", "1965."],
+      ["Quel exemple de dopage d'État cite le cours ?", "L'ex-RDA : dopage institutionnalisé d'environ 10 000 athlètes, de 25 médailles (1968) à 101 (1988)."],
+      ["Mesures de Samaranch ?", "1981 : JO ouverts aux professionnels. 1986 : commercialisation des emblèmes olympiques."],
+      ["Les 4 critères du système de valeurs du sport de haut niveau ?", "Performance à tout prix, repousser ses limites, jouer avec la souffrance, sens du sacrifice."],
+      ["Pourquoi le dopage est-il dit « hyper-conforme » ?", "Parce qu'il pousse à l'extrême les normes du sport de haut niveau au lieu de s'en écarter."]
+    ] },
+  { id: "ssante", subj: "soc", title: "Sport et santé : regards sociologiques", parts: 1,
+    files: [["Cours", D("1Mi2gIA_plzkPUvN3siZHwTZZSvNw5LHQ")], ["Diaporama", D("1MeN6jIHjueB3255k8RrvLv08zrn6sFhj")]],
+    notions: ["Santé, prévention primaire, secondaire, tertiaire", "Recommandations OMS", "Effets de l'AP sur la santé", "Inégalités sociales de santé", "PNNS, Stratégie nationale sport santé, sport sur ordonnance"],
+    cards: [
+      ["Les 3 types de prévention selon l'OMS ?", "Primaire (avant la maladie, ↓ incidence), secondaire (au début, dépistage), tertiaire (maladie installée, ↓ incapacités et récidives)."],
+      ["Recommandation OMS pour les 18-64 ans ?", "Au moins 150 min d'endurance modérée ou 75 min soutenue par semaine."],
+      ["Recommandation OMS pour les 5-17 ans ?", "Au moins 1 h par jour d'activité modérée à soutenue."],
+      ["Quelle est la 1re cause de mortalité évitable dans les pays développés ?", "L'inactivité physique (devant le tabac)."],
+      ["Qu'est-ce que le gradient social de santé ?", "Chaque catégorie sociale a une mortalité et une morbidité plus élevées que la catégorie juste au-dessus."],
+      ["Quelle loi permet le « sport sur ordonnance » ?", "La loi de modernisation du système de santé du 26 janvier 2016 (APA pour les patients en ALD)."],
+      ["Date du 1er PNNS ?", "2001."]
+    ] },
+  { id: "sinteg", subj: "soc", title: "Sport, socialisation et intégration sociale", parts: 1,
+    files: [["Cours", D("1s4Mxk1L0C1YLKmL84MiPyrGJGyF2B-TU")], ["Diaporama", D("1qkydq6xQ7hrDvi7qqax_fMssDmg7qUsH")]],
+    notions: ["Socialisation, intégration, insertion, citoyenneté", "Vertus attribuées au sport", "Conditionnalité des effets", "Limites des politiques d'intégration par le sport", "Pratiques sportives de rue"],
+    cards: [
+      ["Le sport est-il intégrateur par nature ?", "Non : il ne l'est que s'il est encadré et utilisé comme un outil."],
+      ["Les 2 conditions de l'intégration ?", "L'intégrabilité de la personne et la capacité intégratrice de la société."],
+      ["Différence entre intégration et insertion ?", "Intégration : l'individu adopte les normes du groupe. Insertion : inclusion mécanique, réversible, sans modification de ce qui est inséré."],
+      ["Les 4 dimensions de la citoyenneté ?", "Nationalité, droits, devoirs, participation à la vie de la cité."],
+      ["À quelle condition un transfert de compétences fonctionne-t-il ?", "Si les situations sont comparables et accompagnées de réflexivité."],
+      ["Logiques du sport de rue ?", "Règles négociées, nombre de joueurs fluctuant, équipes recomposées, pas d'entraînement, beau geste privilégié."]
+    ] },
+  { id: "gr", subj: "apsa", title: "Gymnastique rythmique", parts: 1,
+    files: [["Théorie GR", D("1sVUvhnnuYaijC0MVT8K8WyfO5K_gJhTH")]],
+    notions: ["Histoire : de la gymnastique naturelle à la GR (1998)", "Formes de pratique : individuel et ensemble", "Les 5 engins (déformables et rigides)", "Les 4 règles d'or", "Enchaînements d'ensemble : formations, relations, échanges, évolutions"],
+    cards: [
+      ["Dimensions du praticable de GR ?", "13 m × 13 m (contre 12 × 12 en gymnastique artistique)."],
+      ["Quels sont les 5 engins et lesquels sont déformables ?", "Corde, cerceau, ballon, massues, ruban. Déformables : corde et ruban."],
+      ["Les 4 règles fondamentales de l'habileté en GR ?", "Mise à distance, prise, continuité, concordance."],
+      ["Dates d'entrée de la GR aux JO ?", "1984 en individuel, 1996 en ensemble."],
+      ["Combien de gymnastes dans un ensemble ?", "5 gymnastes, 2 enchaînements de 2'15 à 2'30."],
+      ["Définition de la GR (Delattre et Pechillon) ?", "Un dialogue codifié entre le sujet, des objets manipulés et le milieu physique et humain, dans un espace géométrique, graphique et vécu, en relation avec la musique."],
+      ["Qu'est-ce qu'une évolution ?", "Le passage d'une formation à une autre (forme du déplacement, direction, trajets)."]
+    ] },
+  { id: "muscu", subj: "apsa", title: "Musculation (dossier APA prothèse de hanche)", parts: 1,
+    files: [["Dossier musculation", D("17Woc4T3nKNnIWzFti1etYFBGasSFJ6pj")], ["Planification musculation", D("1gk4mpsb0jGpD46SBInApyLk-2VZXETr0")], ["SOS APA", D("1TnPddrbzYKvX85leIi46OrJyqLbdkxzh")], ["Haut du corps", D("1CkWZk2oXZaRj-zcE0A3N_xYJHlcSLuKu")], ["TD théorique 2", D("1jfMjo7r_HCilyOgg_65ttXBADHv5oqb5")]],
+    notions: ["Analyse du profil (Patrick, 62 ans, PTH)", "Tests : lever de chaise, unipodal, TUG", "Précautions après prothèse de hanche", "Principes FITTVP", "Séance type de 60 min et suivi"],
+    cards: [
+      ["Que signifie FITTVP ?", "Fréquence, Intensité, Temps, Type, Volume, Progression."],
+      ["Comment se déroule le Timed Up and Go ?", "Se lever d'une chaise, marcher 3 m, faire demi-tour, revenir et se rasseoir, chronométré."],
+      ["Précautions après une prothèse totale de hanche ?", "Pas de flexion de hanche > 90°, pas de rotations extrêmes (croiser les jambes), pas d'impacts, mouvements lents et contrôlés."],
+      ["Quel muscle cible l'abduction de hanche à l'élastique ?", "Le moyen fessier (stabilité du bassin à la marche)."],
+      ["Structure de la séance type ?", "Accueil 5', échauffement 10', renforcement 25-30', équilibre 10-15', retour au calme 5-10'."],
+      ["Seuil de douleur à respecter ?", "Une douleur inférieure à 3/10."]
+    ] },
+  { id: "tennis", subj: "apsa", title: "Tennis : séance d'entraînement au service", parts: 1,
+    files: [["Séance service", D("1NSef0cv8-8i1Bf8Urvynwdx1PoofsNh5")]],
+    notions: ["Rubriques d'une fiche de séance", "4 temps : observation, situation-problème, renforcement, bilan", "Critères de réussite et variables didactiques", "Repères techniques du service"],
+    cards: [
+      ["Les 4 temps de la séance de tennis ?", "Observation (jeu à règles), situation-problème, renforcement (consignes repères), bilan (jeu à thème)."],
+      ["Qu'est-ce qu'une variable didactique ?", "Un aménagement pour augmenter ou diminuer la difficulté (taille des zones, 2e balle autorisée, côté travaillé)."],
+      ["Critère de réussite utilisé ?", "60 % de services réussis dans la zone annoncée."],
+      ["Repères techniques pour sécuriser le service ?", "Lancer haut et devant soi, effet lifté, impulsion des jambes, routine avant chaque service."]
+    ] },
+  { id: "sa", subj: "apsa", title: "Sports adaptés (cours 1 à 3)", parts: 1,
+    files: [["Cours 1", D("1xG8BWJN-duAJewMkSVpiOqIRtzL0_lPx")], ["Cours 2 partie 1", D("1H9x41Thk3otsE4aSXm4QOjyzbTKHhMPC")], ["Cours 2 partie 2", D("1wq7YokVdfoKR7sfC1-QY7AMqemDH8u8z")], ["Cours 3", D("13Vvk7pAsPF5LenrJcNBWmCrULSEHfeoR")]],
+    notions: ["Pathologies visuelles : glaucome, cataracte, albinisme", "Goalball et boccia", "Handicap : déficience, incapacité, désavantage", "FFH, FFSA, CPSF", "Bigorexie, anorexie et prise en charge"],
+    cards: [
+      ["Qu'est-ce que le glaucome ?", "Une atteinte du nerf optique (pression) qui réduit le champ visuel de façon irréversible : vision en tunnel."],
+      ["Qu'est-ce que la cataracte ?", "Une opacification du cristallin, fréquente après 60 ans : vision floue, éblouissements."],
+      ["Règles principales du goalball ?", "3 contre 3, terrain de volley, buts de 9 m × 1,30 m, joueurs masqués, balle sonore roulée au sol."],
+      ["Quelle fédération pour quel handicap ?", "FFH : handicaps moteurs et sensoriels. FFSA : handicaps mental, psychique et neurodéveloppemental."],
+      ["Chaîne du handicap ?", "Déficience → incapacité → désavantage."],
+      ["Qu'est-ce que la bigorexie ?", "L'addiction au sport : besoin compulsif de pratiquer, tolérance, manque à l'arrêt, poursuite malgré les blessures."],
+      ["Signes à repérer chez un sportif en dérive ?", "Perte de poids rapide, hyperentraînement, irritabilité, isolement, troubles du sommeil, blessures récurrentes."],
+      ["Qu'est-ce que la boccia ?", "Un jeu de boules (rouges et bleues, jack blanc) pour des handicaps lourds comme la paralysie cérébrale, jouable avec une rampe."]
+    ] },
+  { id: "co", subj: "apsa", title: "Course d'orientation (cours 1, 2 et évaluation)", parts: 1,
+    files: [["Cours 1 généralités", D("1PKCFGbsxFn2RdULVMV9JQR3jvz9by2bB")], ["Cours 2 CO et APAS", D("11w3ae7EjtkrTZI9cicRKfLr_owUaJ0av")], ["Évaluation théorique, idées", D("1Q1OOCo-615qD7qzcxKNa1-DdAf5Nxq4u")], ["Diaporama cours 1", D("1V9sov2U_tPInZGPDlsmxE5JHUDoxFdiJ")]],
+    notions: ["Définition (Giroux) et origines", "Poste, code, numéro d'ordre, PM", "Carte, légende, points de décision", "Technique POP et sécurité", "Allures en feux tricolores et CO en APAS"],
+    cards: [
+      ["Que signifie la technique POP ?", "Plier la carte, l'Orienter par rapport au terrain, placer le Pouce sur le prochain point de décision."],
+      ["Différence entre code et numéro d'ordre d'une balise ?", "Le code identifie la balise sur le terrain ; le numéro d'ordre indique dans quel ordre la trouver."],
+      ["Niveaux de difficulté selon les points de décision par partiel ?", "0-1 facile, 2-3 moyen, plus de 3 complexe (à éviter en APAS)."],
+      ["Allures des feux tricolores ?", "Vert : 80-85 % VMA (lecture facile). Orange : 65-70 % VMA. Rouge : marche ou footing lent (concentration élevée)."],
+      ["Qu'est-ce qu'une ligne d'arrêt ?", "Un élément très visible et continu qui bloque la progression (lac, mur, route) et évite de se perdre."],
+      ["Pourquoi limiter l'intensité en APAS ?", "Baisser l'intensité permet d'augmenter la charge mentale tout en gardant la logique de l'activité."],
+      ["Orienteur le plus titré ?", "Le Français Thierry Gueorgiou (14 titres de champion du monde)."]
+    ] }
+];
+
+const REVIEWS = {
+  bilan1: { title: "Bilan de la semaine 1", type: "bilan", chapters: ["ost", "arth", "cine", "dyn", "nbase", "nmsg", "nutri", "attach", "sdef"],
+    notions: ["Quiz sur toute la semaine (onglet Rappels)", "Relire les fiches des chapitres marqués « à revoir »", "Refaire de mémoire les schémas d'anatomie", "Lister ce qui reste flou"] },
+  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["myo", "stat", "trav", "nsyn", "musc", "depense", "ado", "smeth", "secole"],
+    notions: ["Quiz sur toute la semaine", "Revoir les formules de biomécanique", "Schéma du couplage excitation-contraction de mémoire", "Lister ce qui reste flou"] },
+  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdbio", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "gr"],
+    notions: ["Quiz sur toute la semaine", "Redessiner les voies ascendantes et descendantes", "Refaire l'équation de Fick et ses ordres de grandeur", "Lister les auteurs de psycho et socio"] },
+  annSV1: { title: "Annale Sciences de la vie : session 1 2024-2025", type: "annale",
+    chapters: ["ost", "arth", "myo", "cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
+    files: [["Sujet", D("16EkrfESyJdNYInzmiGwylHApGMUTyK-n")], ["Corrigé", D("1abLsX7-SQ-RessHtdsnLwsyaozAochok")], ["Toutes les annales SV", F("1gzjwoaS2yymYLQvXi09T_oMagjIsqwh9")]],
+    notions: ["Faire le sujet en conditions d'examen, sans notes", "Garder le corrigé pour le bloc suivant"] },
+  corrSV1: { title: "Correction annale SV + révision anatomie", type: "revision",
+    chapters: ["ost", "arth", "myo"],
+    files: [["Corrigé session 1 2024-2025", D("1abLsX7-SQ-RessHtdsnLwsyaozAochok")]],
+    notions: ["Corriger avec le corrigé, noter les points perdus", "Revoir les chapitres où tu as perdu des points", "Insertions et innervations du membre inférieur"] },
+  annADCP: { title: "Annale Condition physique : session 1 2025-2026", type: "annale",
+    chapters: ["nutri", "depense", "dqp", "tdadcp"],
+    files: [["Sujet 2025-2026", D("1ykNdMmGS7ngloQZGc5F6lq_0aOfEoZ3p")], ["Sujet 2024-2025", D("1DCLwdBh9La5z8XOzYFPQXmAYzmNweDNs")], ["Corrigé 2024-2025", D("1A--V3n6RQM9FtwerBFOuH8-22tqbmSGI")], ["Toutes les annales ADCP", F("1dXzhaaV0n6XSeIzY1eaa_tTtJDTcf7_K")]],
+    notions: ["Faire le sujet 2025-2026 en conditions réelles", "S'il reste du temps : relire le corrigé 2024-2025", "Rappel : la partie endurance n'était pas à l'examen 2025-2026"] },
+  revPhys: { title: "Révision physiologie (neuro + muscle)", type: "revision",
+    chapters: ["nbase", "nmsg", "nsyn", "snc", "musc"],
+    notions: ["Refaire de mémoire le schéma du potentiel d'action", "Étapes de la synapse chimique", "Voies ascendantes et descendantes", "Types de fibres et loi de Henneman"] },
+  annSoc: { title: "Annale Sociologie : session 1 2024-2025", type: "annale",
+    chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
+    files: [["Sujet", D("10_4F3V8VJwMeJkaHh_78zf0CrCCZGeiy")], ["Corrigé", D("1wl1DSbSCDr4xhQJufHu0CmobDlcld2xn")], ["Toutes les annales socio", F("18mAeU25Apx947Ukt1I4SJBc4r2I3OJLo")]],
+    notions: ["Faire le sujet, puis corriger", "Repérer les auteurs et dates attendus"] },
+  annAPSA: { title: "Annale APSA et psychologie 2023-2024", type: "annale",
+    chapters: ["gr", "attach", "ado", "socdel"],
+    files: [["Session 1", D("1E8EYYDlUnocHDN0TIvPLipC2-caDqRDI")], ["Session 2", D("1mUAGKpAOCbIi03BxC1PWq2xyfKDbBDxi")]],
+    notions: ["Faire la session 1", "Vérifier tes réponses dans les cours de GR et de psycho"] },
+  annSV2: { title: "Annale Sciences de la vie : session 2 2024-2025", type: "annale",
+    chapters: ["ost", "arth", "myo", "cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
+    files: [["Sujet", D("1a0Be4bmnAF2G0XXvzOZOAKBzuy94011f")], ["Corrigé", D("10dxU9541YZEQc-5UqS-QnFjADK_oZZe-")]],
+    notions: ["Sujet en conditions réelles puis correction immédiate", "Comparer tes points avec l'annale de lundi"] },
+  revBio: { title: "Révision biomécanique (formules)", type: "revision",
+    chapters: ["cine", "dyn", "stat", "trav", "tdbio"],
+    notions: ["Fiche de toutes les formules et unités", "Refaire un exercice du TD 1 sans corrigé", "Leviers : savoir les reconnaître sur un schéma"] },
+  revPsy: { title: "Révision psychologie (auteurs et définitions)", type: "revision",
+    chapters: ["attach", "ado", "socdel"],
+    notions: ["Tableau auteur → idée clé", "Relire la fiche définitions", "Chiffres clés (Ainsworth, sommeil, violences)"] },
+  revSoc: { title: "Révision sociologie (lois, dates, auteurs)", type: "revision",
+    chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
+    notions: ["Frise des lois et dispositifs (1965, 1993, 2001, 2006, 2012, 2016)", "Bourdieu, Boudon, Durkheim, Weber : idée clé de chacun", "Chiffres clés des pratiques 2025"] },
+  revFin: { title: "Grande révision Condition physique + APSA", type: "revision",
+    chapters: ["nutri", "depense", "dqp", "cardio", "gr", "muscu", "tennis", "sa", "co"],
+    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, musculation"] },
+  bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
+    notions: ["Révision intelligente : toutes les cartes à revoir", "Puis quiz aléatoire sur tous les chapitres", "Repos ce week-end : tu as tout vu"] }
+};
+
+/* Block codes: "chapterId:part" for study, review id for reviews, "a+b" for two chapters in one block */
+const SCHEDULE = [
+  [ ["ost:1", "ost:2", "sdef:1", "nbase:1"], ["cine:1", "cine:2"], ["arth:1", "arth:2", "attach:1", "nmsg:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:1"], ["nutri:2", "bilan1"] ],
+  [ ["myo:1", "myo:2", "smeth:1", "nsyn:1"], ["stat:1", "stat:2"], ["musc:1", "musc:2", "ado:1", "depense:1"], ["musc:3", "trav:1", "ado:2", "depense:2"], ["secole:1", "bilan2"] ],
+  [ ["snc:1", "snc:2", "strib:1", "gr:1"], ["tdbio:1", "tdadcp:1"], ["cardio:1", "cardio:2", "socdel:1", "dqp:1"], ["cardio:3", "dqp:2", "sprat:1", "sdop:1"], ["ssante:1", "bilan3"] ],
+  [ ["annSV1", "corrSV1", "sinteg:1", "sa:1"], ["co:1", "muscu:1+tennis:1"], ["annADCP", "revPhys", "annSoc", "annAPSA"], ["annSV2", "revBio", "revPsy", "revSoc"], ["revFin", "bilanFin"] ]
+];
+
+</script>
+<script>
+(function () {
+  "use strict";
+  const STORE_KEY = "planning-s1-las2-v1";
+  const DEFAULT_START = "2026-11-02";
+  const DAY_NAMES = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+  const MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  const FULL = { R1: ["08:00", "08:15"], A: ["08:15", "10:00"], B: ["10:15", "12:00"], R2: ["14:00", "14:15"], C: ["14:15", "16:00"], D: ["16:15", "18:00"] };
+  const BOX_COLORS = ["var(--warn)", "color-mix(in srgb, var(--good) 35%, var(--line))", "color-mix(in srgb, var(--good) 65%, var(--line))", "var(--good)"];
+
+  /* ---------- state ---------- */
+  let state = { done: {}, boxes: {}, start: DEFAULT_START };
+  try { const raw = localStorage.getItem(STORE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
+  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+  const CH = {}; CHAPTERS.forEach(c => { CH[c.id] = c; });
+  const subjOf = c => SUBJECTS[c.subj];
+  const cardId = (ch, i) => ch + "." + i;
+
+  /* ---------- dates ---------- */
+  function parseDate(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function startDate() { return parseDate(state.start || DEFAULT_START); }
+  function dateOf(g) { const s = startDate(); const w = Math.floor(g / 5), d = g % 5; const r = new Date(s); r.setDate(s.getDate() + w * 7 + d); return r; }
+  function fmt(d) { return d.getDate() + " " + MONTHS[d.getMonth()]; }
+  function todayIndex() {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    for (let g = 0; g < 20; g++) { if (dateOf(g).getTime() === t.getTime()) return g; }
+    return -1;
+  }
+  function snapMonday(d) { const day = (d.getDay() + 6) % 7; const r = new Date(d); r.setDate(d.getDate() - day); return r; }
+
+  /* ---------- build the plan ---------- */
+  // Each day: list of slots {key, kind, time, ...}
+  const DAYS = [];
+  const completion = {}; // chapter id -> day index of its last part
+  const sessionsOf = {}; // chapter id -> [{g, part, key}]
+  const STUDY_KEYS = [];
+  for (let w = 0; w < 4; w++) {
+    for (let d = 0; d < 5; d++) {
+      const g = w * 5 + d;
+      const blocks = SCHEDULE[w][d];
+      const full = blocks.length === 4;
+      const labels = full ? ["A", "B", "C", "D"] : ["C", "D"];
+      const slots = [];
+      blocks.forEach((code, i) => {
+        const lbl = labels[i];
+        const key = "w" + w + "d" + d + lbl;
+        const items = code.split("+").map(part => {
+          if (REVIEWS[part]) return { review: part };
+          const [id, p] = part.split(":");
+          return { ch: id, part: Number(p) };
+        });
+        items.forEach(it => {
+          if (it.ch) {
+            (sessionsOf[it.ch] = sessionsOf[it.ch] || []).push({ g, part: it.part, key, lbl });
+            if (it.part === CH[it.ch].parts) completion[it.ch] = Math.max(completion[it.ch] ?? -1, g + (lbl === "A" || lbl === "B" ? 0 : 0.5));
+          }
+        });
+        slots.push({ key, kind: "study", lbl, time: FULL[lbl], items });
+        STUDY_KEYS.push(key);
+      });
+      DAYS.push({ g, w, d, full, slots });
+    }
+  }
+  // completion fraction .5 marks afternoon. Rappels:
+  function rappelChapters(g, which) {
+    // which: "R1" (morning) or "R2" (afternoon)
+    const out = [];
+    const full = DAYS[g].full;
+    const want = which === "R1" ? [[1, "Hier"], [3, "J-3"]] : (full ? [[0, "Ce matin"], [7, "J-7"], [14, "J-14"]] : [[1, "Hier"], [3, "J-3"], [7, "J-7"], [14, "J-14"]]);
+    Object.keys(completion).forEach(id => {
+      const c = completion[id]; const day = Math.floor(c); const afternoon = c % 1 !== 0;
+      want.forEach(([lag, label]) => {
+        if (lag === 0) { if (day === g && !afternoon) out.push({ id, label }); }
+        else if (g - day === lag) out.push({ id, label });
+      });
+    });
+    // order by schedule order
+    out.sort((a, b) => completion[a.id] - completion[b.id]);
+    return out;
+  }
+  DAYS.forEach(day => {
+    const g = day.g;
+    if (day.full) day.slots.unshift({ key: "w" + day.w + "d" + day.d + "R1", kind: "rappel", lbl: "R1", time: FULL.R1, list: rappelChapters(g, "R1") });
+    const r2 = { key: "w" + day.w + "d" + day.d + "R2", kind: "rappel", lbl: "R2", time: FULL.R2, list: rappelChapters(g, "R2") };
+    const idx = day.slots.findIndex(s => s.lbl === "C");
+    day.slots.splice(idx, 0, r2);
+  });
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]); }
+  function slotInfo(slot) {
+    // returns {title, subj, color, partLabel}
+    if (slot.items.length === 1 && slot.items[0].review) {
+      const r = REVIEWS[slot.items[0].review];
+      return { title: r.title, color: "rev", tag: r.type === "annale" ? "Annale" : (r.type === "bilan" ? "Bilan" : "Révision") };
+    }
+    const parts = slot.items.map(it => CH[it.ch]);
+    const c0 = parts[0];
+    const title = slot.items.map(it => { const c = CH[it.ch]; return c.title + (c.parts > 1 ? " (" + it.part + "/" + c.parts + ")" : ""); }).join(" + ");
+    return { title, color: SUBJECTS[c0.subj].color, tag: SUBJECTS[c0.subj].name };
+  }
+  function findSlot(key) { for (const d of DAYS) for (const s of d.slots) if (s.key === key) return { day: d, slot: s }; return null; }
+  function updateMeter() {
+    const total = STUDY_KEYS.length; const n = STUDY_KEYS.filter(k => state.done[k]).length;
+    document.getElementById("doneCount").textContent = n + "/" + total;
+    document.getElementById("barFill").style.width = (100 * n / total) + "%";
+  }
+  function rangeText() {
+    const a = dateOf(0), b = dateOf(19);
+    document.getElementById("range").textContent = "4 semaines · lun. " + fmt(a) + " → ven. " + fmt(b) + " " + b.getFullYear() + " · lun., mer., jeu. 8h-18h · mar., ven. 14h-18h";
+  }
+
+  function slotButton(slot, opts) {
+    opts = opts || {};
+    const done = !!state.done[slot.key];
+    if (slot.kind === "rappel") {
+      const names = slot.list.map(x => CH[x.id].title);
+      const sub = names.length ? slot.list.map(x => esc(x.label) + " : " + esc(CH[x.id].title)).slice(0, 3).join("<br>") + (names.length > 3 ? "<br>+ " + (names.length - 3) + " autre(s)" : "") : "Pas encore de chapitre vu : lance-toi !";
+      return '<button class="slot rappel' + (done ? " done" : "") + '" data-key="' + slot.key + '">' +
+        '<div class="meta"><span class="time">' + slot.time[0] + "-" + slot.time[1] + '</span><span class="check">' + (done ? "✓" : "") + "</span></div>" +
+        '<div class="ttl">Piqûre de rappel · 15 min</div><div class="sub">' + sub + "</div></button>";
+    }
+    const info = slotInfo(slot);
+    return '<button class="slot study s-' + info.color + (done ? " done" : "") + '" data-key="' + slot.key + '">' +
+      '<div class="meta"><span class="tag">' + esc(info.tag) + '</span><span class="check">' + (done ? "✓" : "") + "</span></div>" +
+      '<div class="ttl">' + esc(info.title) + "</div>" +
+      '<span class="time">' + slot.time[0] + "-" + slot.time[1] + "</span></button>";
+  }
+
+  /* ---------- views ---------- */
+  let curWeek = 0; let curDay = 0; let ti = -1;
+  function locateToday() {
+    ti = todayIndex();
+    if (ti >= 0) { curDay = ti; }
+    else {
+      const t = new Date(); t.setHours(0, 0, 0, 0);
+      curDay = 19;
+      for (let g = 0; g < 20; g++) { if (dateOf(g) > t) { curDay = g; break; } }
+    }
+    curWeek = Math.floor(curDay / 5);
+  }
+  locateToday();
+
+  function renderWeek() {
+    const el = document.getElementById("v-semaine");
+    const w = curWeek;
+    let chips = '<div class="chips" role="group" aria-label="Choisir la semaine">';
+    for (let i = 0; i < 4; i++) chips += '<button class="chip" data-week="' + i + '" aria-pressed="' + (i === w) + '">Semaine ' + (i + 1) + "</button>";
+    chips += "</div>";
+    const days = DAYS.slice(w * 5, w * 5 + 5);
+    // desktop grid
+    let grid = '<div class="week"><div></div>';
+    days.forEach(d => { grid += '<div class="dh' + (d.g === ti ? " today" : "") + '">' + DAY_NAMES[d.d] + "<small>" + fmt(dateOf(d.g)) + "</small></div>"; });
+    const rows = [["R1", "08:00"], ["A", "08:15"], ["B", "10:15"], ["L", "12:00"], ["R2", "14:00"], ["C", "14:15"], ["D", "16:15"]];
+    rows.forEach(([lbl, t], ri) => {
+      grid += '<div class="rl" style="grid-column:1;grid-row:' + (ri + 2) + '">' + t + "</div>";
+      days.forEach((d, di) => {
+        const col = di + 2, row = ri + 2;
+        if (lbl === "L") { grid += '<div class="lunch" style="grid-column:' + col + ";grid-row:" + row + '">Pause 12h-14h</div>'; return; }
+        if (!d.full && lbl === "R1") { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + ' / span 3">Matin libre<br>(pas de travail)</div>'; return; }
+        if (!d.full && (lbl === "A" || lbl === "B")) return;
+        const s = d.slots.find(x => x.lbl === lbl);
+        grid += '<div style="grid-column:' + col + ";grid-row:" + row + ';display:grid">' + slotButton(s) + "</div>";
+      });
+    });
+    grid += "</div>";
+    // mobile list
+    let mob = '<div class="mobile-week">';
+    days.forEach(d => {
+      mob += '<div class="mday"><h3>' + DAY_NAMES[d.d] + "<small>" + fmt(dateOf(d.g)) + (d.full ? "" : " · matin libre") + '</small></h3><div class="list">';
+      d.slots.forEach(s => { mob += slotButton(s); if (s.lbl === "B") mob += '<div class="lunch">Pause 12h-14h</div>'; });
+      mob += "</div></div>";
+    });
+    mob += "</div>";
+    el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une piqûre de rappel de 15 min sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive.</p></div><div class="spacer"></div>' + chips + "</div>" + grid + mob +
+      '<div class="legend">' + ["sv:Sciences de la vie", "adcp:Condition physique", "psy:Psychologie", "soc:Sociologie", "apsa:APSA", "rev:Annales et révisions"].map(x => { const [c, n] = x.split(":"); return '<span class="s-' + c + '"><span class="tag">' + n + "</span></span>"; }).join("") +
+      '<span class="spacer"></span><label class="setting" for="startInput">Début du planning <input type="date" id="startInput" value="' + iso(startDate()) + '"></label></div>';
+  }
+
+  function renderToday() {
+    const el = document.getElementById("v-aujourdhui");
+    const g = curDay; const day = DAYS[g]; const date = dateOf(g);
+    const now = new Date(); const isToday = g === ti;
+    const hm = now.getHours() * 60 + now.getMinutes();
+    const toMin = t => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+    let intro = "";
+    if (ti < 0 && now < dateOf(0)) intro = "Le planning commence le lundi " + fmt(dateOf(0)) + " Voici ta première journée.";
+    else if (ti < 0 && now > dateOf(19)) intro = "Le planning est terminé. Voici la dernière journée.";
+    else if (ti < 0) intro = "Aujourd'hui est un jour de week-end : repos. Voici la prochaine journée de travail.";
+    let tl = '<div class="timeline">';
+    if (!day.full) tl += '<div class="tl-row"><span class="time">08:00-12:00</span><div class="off" style="min-height:60px">Matin libre</div></div>';
+    day.slots.forEach(s => {
+      const live = isToday && hm >= toMin(s.time[0]) && hm < toMin(s.time[1]);
+      tl += '<div class="tl-row' + (live ? " now" : "") + '"><span class="time">' + s.time[0] + "-" + s.time[1] + '</span><div style="display:grid">' + slotButton(s) + "</div></div>";
+      if (s.lbl === "B") tl += '<div class="tl-row"><span class="time">12:00-14:00</span><div class="lunch" style="text-align:left">Pause déjeuner</div></div>';
+    });
+    tl += "</div>";
+    const rappels = day.slots.filter(s => s.kind === "rappel");
+    const allIds = [...new Set(rappels.flatMap(r => r.list.map(x => x.id)))];
+    let side = '<div class="panel"><span class="sect-lbl">Piqûres de rappel du jour</span>';
+    if (allIds.length) {
+      side += "<h3>" + allIds.length + " chapitre" + (allIds.length > 1 ? "s" : "") + " à réactiver</h3><ul style=\"margin:0;padding-left:18px\">" + rappels.flatMap(r => r.list.map(x => "<li>" + esc(CH[x.id].title) + ' <span class="mini">(' + esc(x.label) + ")</span></li>")).join("") + "</ul>";
+      side += '<div class="acts" style="display:flex;gap:8px;flex-wrap:wrap">' + rappels.filter(r => r.list.length).map(r => '<button class="btn primary" data-quiz-slot="' + r.key + '">Rappel ' + (r.lbl === "R1" ? "du matin" : "de l'après-midi") + "</button>").join("") + "</div>";
+    } else side += "<h3>Premier jour</h3><p>Pas encore de chapitre à revoir. Les rappels démarrent dès demain matin.</p>";
+    side += "</div>";
+    const doneToday = day.slots.filter(s => s.kind === "study" && state.done[s.key]).length;
+    const totToday = day.slots.filter(s => s.kind === "study").length;
+    side += '<div class="panel"><span class="sect-lbl">Progression du jour</span><div class="stat-row"><div><b>' + doneToday + "/" + totToday + "</b><span>blocs faits</span></div><div><b>" + (day.full ? "8 h" : "4 h") + "</b><span>de travail prévues</span></div></div><p>Coche un bloc en l'ouvrant, une fois le chapitre travaillé.</p></div>";
+    el.innerHTML = '<div class="view-head"><div><h2>' + DAY_NAMES[day.d] + " " + fmt(date) + '</h2><p>' + (intro || "Semaine " + (day.w + 1) + ", jour " + (day.d + 1) + ".") + '</p></div><div class="spacer"></div><div class="daynav"><button class="btn" data-day="' + (g - 1) + '"' + (g === 0 ? " disabled" : "") + '>← Jour précédent</button><button class="btn" data-day="' + (g + 1) + '"' + (g === 19 ? " disabled" : "") + ">Jour suivant →</button></div></div>" +
+      '<div class="today-grid"><div>' + tl + "</div><div style=\"display:flex;flex-direction:column;gap:14px\">" + side + "</div></div>";
+  }
+
+  function cardStats(ids) {
+    const counts = [0, 0, 0, 0]; let total = 0;
+    ids.forEach(id => CH[id].cards.forEach((_, i) => { total++; const b = state.boxes[cardId(id, i)]; counts[b === undefined ? 0 : Math.min(3, b + (b >= 0 ? 0 : 0))]++; }));
+    return { counts, total };
+  }
+  function boxBar(ids) {
+    const { counts, total } = cardStats(ids);
+    // counts[0] = jamais vue/à revoir, 1..3 = niveaux
+    const seenBad = ids.reduce((n, id) => n + CH[id].cards.filter((_, i) => state.boxes[cardId(id, i)] === 0).length, 0);
+    const unseen = counts[0] - seenBad;
+    const segs = [[seenBad, BOX_COLORS[0]], [counts[1], BOX_COLORS[1]], [counts[2], BOX_COLORS[2]], [counts[3], BOX_COLORS[3]]];
+    return '<div class="boxes" title="' + unseen + ' jamais vue(s)">' + segs.map(([n, c]) => n ? '<i style="width:' + (100 * n / total) + "%;background:" + c + '"></i>' : "").join("") + "</div>";
+  }
+
+  function renderChapters() {
+    const el = document.getElementById("v-chapitres");
+    const groups = {};
+    CHAPTERS.forEach(c => { const ue = SUBJECTS[c.subj].ue; (groups[ue] = groups[ue] || []).push(c); });
+    let html = '<div class="view-head"><div><h2>Tout le contenu du dossier Drive 2025-2026</h2><p>' + CHAPTERS.length + " chapitres répartis sur 4 semaines (l'anglais est exclu). Chaque carte indique quand le chapitre est prévu, les fichiers à ouvrir et ton niveau sur les cartes de rappel.</p></div></div>";
+    Object.keys(groups).forEach(ue => {
+      const list = groups[ue];
+      const parts = list.reduce((n, c) => n + c.parts, 0);
+      const done = list.reduce((n, c) => n + (sessionsOf[c.id] || []).filter(s => state.done[s.key]).length, 0);
+      html += '<div class="ue"><h3>' + esc(ue) + "<small>" + done + "/" + parts + ' séances faites</small></h3><div class="chgrid">';
+      list.forEach(c => {
+        const ses = sessionsOf[c.id] || [];
+        const when = ses.map(s => DAY_NAMES[DAYS[s.g].d].slice(0, 3) + ". " + fmt(dateOf(s.g))).join(", ");
+        html += '<div class="ch s-' + SUBJECTS[c.subj].color + '"><div class="row"><span class="tag">' + esc(SUBJECTS[c.subj].name) + '</span><span class="pips">' + ses.map(s => '<i class="' + (state.done[s.key] ? "on" : "") + '"></i>').join("") + "</span></div>" +
+          "<h4>" + esc(c.title) + '</h4><div class="when">Prévu : ' + esc(when) + "</div>" + boxBar([c.id]) +
+          '<div class="mini">' + c.cards.length + ' cartes de rappel</div><div class="links">' + c.files.map(f => '<a href="' + f[1] + '" target="_blank" rel="noopener">' + esc(f[0]) + "</a>").join("") + "</div>" +
+          '<div class="row"><button class="btn" data-open-ch="' + c.id + '">Notions clés</button><button class="btn" data-quiz-ch="' + c.id + '">S\'entraîner</button></div></div>';
+      });
+      html += "</div></div>";
+    });
+    el.innerHTML = html;
+  }
+
+  let rappelFilter = "all";
+  function renderRappels() {
+    const el = document.getElementById("v-rappels");
+    const all = CHAPTERS.map(c => c.id);
+    const totalCards = CHAPTERS.reduce((n, c) => n + c.cards.length, 0);
+    const mastered = Object.values(state.boxes).filter(b => b >= 3).length;
+    const toReview = Object.values(state.boxes).filter(b => b === 0).length;
+    const seen = Object.keys(state.boxes).length;
+    const dueIds = dueCards().length;
+    let html = '<div class="view-head"><div><h2>Piqûres de rappel</h2><p>Chaque carte vient d\'un de tes cours. « Je savais » fait monter la carte d\'un niveau, « À revoir » la renvoie au début. La révision intelligente te sert d\'abord les cartes à revoir, puis celles des chapitres déjà étudiés.</p></div></div>';
+    html += '<div class="panel smart"><div class="stat-row"><div><b>' + totalCards + "</b><span>cartes au total</span></div><div><b>" + seen + "</b><span>déjà vues</span></div><div><b>" + toReview + "</b><span>à revoir</span></div><div><b>" + mastered + '</b><span>maîtrisées (niveau 3)</span></div></div><button class="btn primary" data-quiz-smart="1"' + (dueIds ? "" : " disabled") + ">Révision intelligente (" + Math.min(12, dueIds) + " cartes)</button></div>";
+    const subs = [["all", "Tout"], ["sv", "Sciences de la vie"], ["adcp", "Condition physique"], ["psy", "Psychologie"], ["soc", "Sociologie"], ["apsa", "APSA"]];
+    html += '<div class="chips" style="margin-bottom:12px" role="group" aria-label="Filtrer par matière">' + subs.map(([k, n]) => '<button class="chip" data-rfilter="' + k + '" aria-pressed="' + (rappelFilter === k) + '">' + n + "</button>").join("") + "</div>";
+    html += '<div class="deck-grid">';
+    CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).forEach(c => {
+      const st = c.cards.filter((_, i) => (state.boxes[cardId(c.id, i)] ?? -1) >= 3).length;
+      html += '<button class="deck s-' + SUBJECTS[c.subj].color + '" data-quiz-ch="' + c.id + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span><b>" + esc(c.title) + "</b>" + boxBar([c.id]) + '<span class="mini">' + st + "/" + c.cards.length + " maîtrisées</span></button>";
+    });
+    html += "</div>";
+    el.innerHTML = html;
+  }
+
+  /* ---------- quiz ---------- */
+  function seeded(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function shuffle(arr, rnd) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function pickCards(ids, max, seed) {
+    const rnd = seeded(seed || Date.now());
+    const pool = []; ids.forEach(id => CH[id].cards.forEach((_, i) => pool.push([id, i])));
+    const score = ([id, i]) => { const b = state.boxes[cardId(id, i)]; return b === 0 ? 0 : (b === undefined ? 1 : 2 + b); };
+    const sh = shuffle(pool, rnd).sort((a, b) => score(a) - score(b));
+    // spread across chapters: at most ceil(max/ids.length)+1 per chapter
+    const per = Math.max(2, Math.ceil(max / ids.length));
+    const count = {}; const out = [];
+    for (const c of sh) { if (out.length >= max) break; count[c[0]] = (count[c[0]] || 0) + 1; if (count[c[0]] <= per) out.push(c); }
+    for (const c of sh) { if (out.length >= max) break; if (!out.includes(c)) out.push(c); }
+    return out;
+  }
+  function studiedIds() {
+    const t = todayIndex(); const now = new Date();
+    const lim = t >= 0 ? t : (now > dateOf(19) ? 99 : -1);
+    const ids = Object.keys(completion).filter(id => Math.floor(completion[id]) <= lim || (sessionsOf[id] || []).some(s => state.done[s.key]));
+    return ids;
+  }
+  function dueCards() {
+    const ids = studiedIds();
+    const out = [];
+    CHAPTERS.forEach(c => c.cards.forEach((_, i) => { const b = state.boxes[cardId(c.id, i)]; if (b === 0 || (b === undefined && ids.includes(c.id)) || (b !== undefined && b < 3 && ids.includes(c.id))) out.push([c.id, i]); }));
+    return out;
+  }
+
+  let quiz = null;
+  const dlg = document.getElementById("dlg"); const body = document.getElementById("dlgBody");
+  function openDlg(html) { body.innerHTML = html; if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); } } }
+  function closeDlg() { quiz = null; try { dlg.close(); } catch (e) { dlg.removeAttribute("open"); } }
+  dlg.addEventListener("close", () => { quiz = null; renderAll(); });
+  dlg.addEventListener("click", e => { if (e.target === dlg) closeDlg(); });
+
+  function startQuiz(cards, title, slotKey) {
+    if (!cards.length) return;
+    quiz = { cards, i: 0, shown: false, good: 0, title, slotKey };
+    drawQuiz();
+  }
+  function drawQuiz() {
+    const q = quiz; const [id, i] = q.cards[q.i] || [];
+    if (q.i >= q.cards.length) {
+      if (q.slotKey) { state.done[q.slotKey] = true; save(); }
+      openDlg('<div class="dlg-head"><h3>' + esc(q.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><div class="summary"><b>' + q.good + "/" + q.cards.length + "</b> cartes sues.</div><p>" + (q.good === q.cards.length ? "Parfait. Ces notions sont bien ancrées." : "Les cartes « à revoir » reviendront en priorité au prochain rappel.") + '</p><div class="acts"><button class="btn primary" data-close>Terminer</button></div>');
+      return;
+    }
+    const c = CH[id]; const card = c.cards[i];
+    openDlg('<div class="dlg-head"><h3>' + esc(q.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div>' +
+      '<div class="qprog"><span class="s-' + SUBJECTS[c.subj].color + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span> " + esc(c.title) + "</span><span>" + (q.i + 1) + "/" + q.cards.length + "</span></div>" +
+      '<div class="card s-' + SUBJECTS[c.subj].color + '"><div class="q">' + esc(card[0]) + "</div>" + (q.shown ? '<div class="a">' + esc(card[1]) + "</div>" : "") + "</div>" +
+      '<div class="acts">' + (q.shown ? '<button class="btn good" data-ans="1">Je savais (1)</button><button class="btn warn" data-ans="0">À revoir (2)</button>' : '<button class="btn primary" data-flip>Voir la réponse (espace)</button>') + "</div>");
+  }
+  function answer(ok) {
+    const [id, i] = quiz.cards[quiz.i]; const k = cardId(id, i);
+    const b = state.boxes[k];
+    state.boxes[k] = ok ? Math.min(3, (b === undefined || b < 0 ? 0 : b) + 1) : 0;
+    if (ok) quiz.good++;
+    save(); quiz.i++; quiz.shown = false; drawQuiz();
+  }
+  document.addEventListener("keydown", e => {
+    if (!quiz || !dlg.open) return;
+    if (e.key === " " && !quiz.shown && quiz.i < quiz.cards.length) { e.preventDefault(); quiz.shown = true; drawQuiz(); }
+    else if (quiz.shown && (e.key === "1" || e.key === "2")) { e.preventDefault(); answer(e.key === "1"); }
+  });
+
+  function rappelQuiz(slotKey) {
+    const f = findSlot(slotKey); if (!f) return;
+    const ids = f.slot.list.map(x => x.id);
+    if (!ids.length) { openDlg('<div class="dlg-head"><h3>Piqûre de rappel</h3><button class="x" data-close aria-label="Fermer">×</button></div><p>Rien à revoir pour l\'instant : c\'est le tout début. Profite de ces 15 minutes pour ouvrir le dossier Drive et préparer tes fiches.</p><div class="acts"><button class="btn" data-mark="' + slotKey + '">Marquer comme fait</button></div>'); return; }
+    const n = Math.min(8, Math.max(4, ids.length * 2));
+    startQuiz(pickCards(ids, n, f.day.g * 10 + (f.slot.lbl === "R1" ? 1 : 2)), "Piqûre de rappel · " + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)), slotKey);
+  }
+
+  function openSlot(key) {
+    const f = findSlot(key); if (!f) return;
+    const s = f.slot;
+    if (s.kind === "rappel") {
+      const lst = s.list.length ? "<ul>" + s.list.map(x => "<li>" + esc(CH[x.id].title) + ' <span class="mini">(' + esc(x.label) + ")</span></li>").join("") + "</ul>" : "<p>Pas encore de chapitre à revoir.</p>";
+      openDlg('<div class="dlg-head"><h3>Piqûre de rappel · ' + s.time[0] + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><p class="mini">' + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + ' · 15 minutes</p><div><div class="sect-lbl">Chapitres réactivés</div>' + lst + '</div><div class="acts">' + (s.list.length ? '<button class="btn primary" data-quiz-slot="' + key + '">Lancer le rappel</button>' : "") + '<button class="btn" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + "</button></div>");
+      return;
+    }
+    const info = slotInfo(s);
+    let html = '<div class="dlg-head"><h3>' + esc(info.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><p class="mini">' + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + " · " + s.time[0] + "-" + s.time[1] + "</p>";
+    const quizIds = [];
+    s.items.forEach(it => {
+      if (it.review) {
+        const r = REVIEWS[it.review];
+        html += '<div class="s-rev"><span class="tag">' + (r.type === "annale" ? "Annale" : r.type === "bilan" ? "Bilan" : "Révision") + '</span></div><div><div class="sect-lbl">Au programme</div><ul>' + r.notions.map(n => "<li>" + esc(n) + "</li>").join("") + "</ul></div>";
+        if (r.files) html += '<div><div class="sect-lbl">Fichiers</div><div class="links">' + r.files.map(x => '<a href="' + x[1] + '" target="_blank" rel="noopener">' + esc(x[0]) + "</a>").join("") + "</div></div>";
+        const ids = r.chapters === "all" ? CHAPTERS.map(c => c.id) : r.chapters;
+        quizIds.push(...ids);
+        html += '<p class="mini">Chapitres couverts : ' + ids.map(id => esc(CH[id].title)).join(", ") + ".</p>";
+      } else {
+        const c = CH[it.ch];
+        const partNote = c.parts > 1 ? (it.part === 1 ? "Partie " + it.part + "/" + c.parts + " : commence le cours et fais la fiche du début." : (it.part === c.parts ? "Partie " + it.part + "/" + c.parts + " : termine le cours, complète la fiche et fais les cartes de rappel." : "Partie " + it.part + "/" + c.parts + " : continue le cours.")) : "Lis le cours, fais ta fiche, puis teste-toi avec les cartes.";
+        html += '<div class="s-' + SUBJECTS[c.subj].color + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span> <b>" + esc(c.title) + '</b></div><p class="mini">' + partNote + '</p><div><div class="sect-lbl">Notions clés</div><ul>' + c.notions.map(n => "<li>" + esc(n) + "</li>").join("") + '</ul></div><div><div class="sect-lbl">Fichiers du Drive</div><div class="links">' + c.files.map(x => '<a href="' + x[1] + '" target="_blank" rel="noopener">' + esc(x[0]) + "</a>").join("") + "</div></div>";
+        quizIds.push(c.id);
+      }
+    });
+    html += '<div class="acts"><button class="btn primary" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + '</button><button class="btn" data-quiz-ids="' + quizIds.join(",") + '">Tester mes connaissances</button></div>';
+    openDlg(html);
+  }
+
+  function openChapter(id) {
+    const c = CH[id];
+    openDlg('<div class="dlg-head"><h3>' + esc(c.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><div class="s-' + SUBJECTS[c.subj].color + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + '</span></div><div><div class="sect-lbl">Notions clés</div><ul>' + c.notions.map(n => "<li>" + esc(n) + "</li>").join("") + '</ul></div><div><div class="sect-lbl">Fichiers du Drive</div><div class="links">' + c.files.map(x => '<a href="' + x[1] + '" target="_blank" rel="noopener">' + esc(x[0]) + "</a>").join("") + '</div></div><div class="acts"><button class="btn primary" data-quiz-ch="' + id + '">S\'entraîner (' + c.cards.length + " cartes)</button></div>");
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("click", e => {
+    const t = e.target.closest("button, [data-close]"); if (!t) return;
+    if (t.hasAttribute("data-close")) { closeDlg(); return; }
+    if (t.dataset.flip !== undefined) { quiz.shown = true; drawQuiz(); return; }
+    if (t.dataset.ans !== undefined) { answer(t.dataset.ans === "1"); return; }
+    if (t.dataset.mark) { state.done[t.dataset.mark] = !state.done[t.dataset.mark]; save(); closeDlg(); return; }
+    if (t.dataset.quizSlot) { rappelQuiz(t.dataset.quizSlot); return; }
+    if (t.dataset.quizCh) { const c = CH[t.dataset.quizCh]; startQuiz(pickCards([c.id], c.cards.length), c.title); return; }
+    if (t.dataset.quizIds) { const ids = [...new Set(t.dataset.quizIds.split(","))]; startQuiz(pickCards(ids, Math.min(10, ids.length * 3)), "Test de connaissances"); return; }
+    if (t.dataset.quizSmart) { const d = dueCards(); const rnd = seeded(Date.now()); const sorted = shuffle(d, rnd).sort((a, b) => (state.boxes[cardId(a[0], a[1])] === 0 ? 0 : 1) - (state.boxes[cardId(b[0], b[1])] === 0 ? 0 : 1)); startQuiz(sorted.slice(0, 12), "Révision intelligente"); return; }
+    if (t.dataset.openCh) { openChapter(t.dataset.openCh); return; }
+    if (t.dataset.week !== undefined) { curWeek = Number(t.dataset.week); renderWeek(); return; }
+    if (t.dataset.day !== undefined) { curDay = Math.max(0, Math.min(19, Number(t.dataset.day))); renderToday(); return; }
+    if (t.dataset.rfilter) { rappelFilter = t.dataset.rfilter; renderRappels(); return; }
+    if (t.dataset.key) { openSlot(t.dataset.key); return; }
+  });
+  document.addEventListener("change", e => {
+    if (e.target.id === "startInput" && e.target.value) { state.start = iso(snapMonday(parseDate(e.target.value))); save(); locateToday(); renderAll(); }
+  });
+
+  /* ---------- routing ---------- */
+  const VIEWS = ["aujourdhui", "semaine", "chapitres", "rappels"];
+  function currentView() { const h = location.hash.replace("#", ""); return VIEWS.includes(h) ? h : "aujourdhui"; }
+  function renderAll() {
+    ti = todayIndex(); rangeText(); updateMeter();
+    const v = currentView();
+    VIEWS.forEach(x => { document.getElementById("v-" + x).hidden = x !== v; });
+    document.querySelectorAll("nav.tabs a").forEach(a => { if (a.dataset.view === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    if (v === "semaine") renderWeek(); else if (v === "aujourdhui") renderToday(); else if (v === "chapitres") renderChapters(); else renderRappels();
+  }
+  window.addEventListener("hashchange", renderAll);
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
