@@ -218,45 +218,6 @@ const D = id => "https://drive.google.com/file/d/" + id + "/view";
 const F = id => "https://drive.google.com/drive/folders/" + id;
 
 const CHAPTERS = [
-  { id: "ost", subj: "anat", title: "Ostéologie du membre inférieur", parts: 2,
-    files: [["Cours", D("1_lo7t7JkFuCrjuSjOHIMOd3t4hvMgWNa")], ["Diaporama anatomie MI", D("1gL8d1EpUk_bP09Q-FJJvSiO6fmVQNHUm")]],
-    notions: ["Pelvis : 2 os coxaux + sacrum (5 vertèbres soudées)", "Os coxal : ilion, ischion, pubis ; aile iliaque, acétabulum, foramen obturé", "Insertions : EIAS, EIAI, crête iliaque, tubérosité ischiatique", "Fémur : col à ~130°, ligne âpre, grand et petit trochanters, condyles", "Patella : os sésamoïde, articulation fémoro-patellaire (ginglyme)"],
-    cards: [
-      ["Quelles sont les 3 parties de l'os coxal ?", "L'ilion (haut), l'ischion (postéro-inférieur) et le pubis (antéro-inférieur)."],
-      ["Quels éléments s'insèrent sur l'EIAS ?", "Le muscle tenseur du fascia lata, le muscle sartorius et le ligament inguinal."],
-      ["Qu'est-ce qui s'insère sur l'EIAI ?", "Le tendon direct du droit fémoral (et, en dessous, le ligament ilio-fémoral)."],
-      ["Quels muscles s'insèrent sur la tubérosité ischiatique ?", "Les ischio-jambiers (semi-tendineux, long biceps fémoral, semi-membraneux) et le carré fémoral."],
-      ["Quel est l'angle entre le col et la diaphyse du fémur ?", "Environ 130° (avec une antéversion d'environ 15°)."],
-      ["Quel muscle s'insère sur le petit trochanter ?", "Le muscle ilio-psoas."],
-      ["Où s'insèrent les ligaments croisés sur le fémur ?", "LCA : face médiale du condyle latéral. LCP : face latérale du condyle médial."],
-      ["Qu'est-ce que la patella ?", "Un os sésamoïde triangulaire ; ses 2/3 supérieurs postérieurs s'articulent avec la trochlée fémorale (ginglyme)."]
-    ] },
-  { id: "arth", subj: "anat", title: "Arthrologie du membre inférieur", parts: 2,
-    files: [["Cours", D("1x1F5pk0B6XrdZGA1i-stlNh_Y_60lS9S")]],
-    notions: ["Hanche : sphéroïde, 3 DDL, labrum, capsule, 3 ligaments", "Tibia, fibula et pince malléolaire", "Genou : fémoro-patellaire + fémoro-tibiale, ménisques C et O", "Ligaments collatéraux et croisés", "Tarse : 7 os (talus, calcanéus, naviculaire, 3 cunéiformes, cuboïde)"],
-    cards: [
-      ["De quel type est l'articulation de la hanche ?", "Sphéroïde, 3 degrés de liberté. C'est la plus grosse articulation du corps."],
-      ["Rôle du labrum ?", "Fibrocartilage en anneau sur le pourtour de l'acétabulum : améliore la congruence et évite la luxation."],
-      ["Quels ligaments forment le « Z » antérieur de la hanche ?", "Les ligaments ilio-fémoral et pubo-fémoral ; ils empêchent les luxations antérieures."],
-      ["Quelle forme ont les ménisques médial et latéral ?", "Médial en C (ouvert), latéral en O (fermé). Triangulaires à la coupe."],
-      ["Quels muscles forment la patte d'oie ?", "Sartorius, gracile et semi-tendineux (flexion et rotation médiale du genou)."],
-      ["Trajet du LCA ?", "De la face médiale du condyle fémoral latéral vers l'aire intercondylaire antérieure du tibia (vers le bas, l'avant, le dedans)."],
-      ["Qu'est-ce qui s'insère sur le tubercule de Gerdy ?", "Le tractus ilio-tibial."],
-      ["Quels sont les 7 os du tarse ?", "Tarse postérieur : talus, calcanéus. Tarse antérieur : naviculaire, 3 cunéiformes, cuboïde."]
-    ] },
-  { id: "myo", subj: "anat", title: "Myologie du membre inférieur", parts: 2,
-    files: [["Cours", D("1aujMl9Jj6G3PROwv-OHz-dKQxF7_cz0K")], ["Vidéo myologie", D("1-_M4a1wXqoLkDCwZLTu7Cugz2PM9WLOC")]],
-    notions: ["Région glutéale : glutéaux + pelvitrochantériens", "Cuisse : quadriceps, sartorius, ischio-jambiers, adducteurs", "Jambe : loge antéro-latérale (n. fibulaire) et postérieure (n. tibial)", "Triceps sural et tendon calcanéen", "Innervations : n. glutéaux, fémoral, sciatique, fibulaire, tibial"],
-    cards: [
-      ["Quel est l'extenseur principal de la hanche ?", "Le grand glutéal (nerf glutéal inférieur)."],
-      ["Rôle principal du moyen glutéal ?", "Abduction de hanche et stabilisation du bassin en appui monopodal (nerf glutéal supérieur)."],
-      ["Qu'est-ce que le syndrome du piriforme ?", "Une compression du nerf sciatique, qui passe sous le piriforme, lors d'une forte contraction de ce muscle."],
-      ["Quels sont les 4 chefs du quadriceps et son nerf ?", "Vastes latéral, médial, intermédiaire et droit fémoral. Nerf fémoral. Fonction : extension du genou."],
-      ["Fonctions communes des ischio-jambiers ?", "Extension de hanche et flexion de genou (muscles bi-articulaires, nerf sciatique)."],
-      ["Quel nerf innerve le tibial antérieur ? Fonction ?", "Le nerf fibulaire profond. Dorsiflexion (flexion dorsale) du pied."],
-      ["Qu'est-ce que le triceps sural ?", "Soléaire + gastrocnémiens médial et latéral, réunis dans le tendon calcanéen (d'Achille) : flexion plantaire, propulsion."],
-      ["Fonction du tibial postérieur ?", "L'inversion du pied (flexion plantaire + adduction + supination)."]
-    ] },
   { id: "cine", subj: "bio", title: "Analyse cinématique du geste sportif", parts: 2,
     files: [["Cours", D("1K-bolSeTkOX6RkL80fIi-0PxpfWdZ5l1")], ["Diaporama", D("1UePXff0vMc7Th00fGMiBLdBk9VKPgIJu")]],
     notions: ["Décrire le mouvement : trajectoire, vitesse, accélération", "Référentiel + repère orthonormé", "Vitesse moyenne (sécante) et instantanée (tangente)", "Mouvements linéaire, curvilinéaire, angulaire", "MRU, MRUV, équations horaires"],
@@ -631,27 +592,30 @@ const CHAPTERS = [
 ];
 
 const REVIEWS = {
-  bilan1: { title: "Bilan de la semaine 1", type: "bilan", chapters: ["ost", "arth", "cine", "dyn", "nbase", "nmsg", "nutri", "attach", "sdef"],
-    notions: ["Quiz sur toute la semaine (onglet Rappels)", "Relire les fiches des chapitres marqués « à revoir »", "Refaire de mémoire les schémas d'anatomie", "Lister ce qui reste flou"] },
-  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["myo", "stat", "trav", "nsyn", "musc", "depense", "ado", "smeth", "secole"],
+  bilan1: { title: "Bilan de la semaine 1", type: "bilan", chapters: ["sdef", "cine", "nbase", "nmsg", "dyn", "attach", "nutri", "smeth"],
+    notions: ["Quiz sur toute la semaine (onglet Rappels)", "Relire les fiches des chapitres marqués « à revoir »", "Refaire de mémoire le schéma du potentiel d'action", "Lister ce qui reste flou"] },
+  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["nsyn", "stat", "trav", "musc", "depense", "ado", "secole", "tdbio"],
     notions: ["Quiz sur toute la semaine", "Revoir les formules de biomécanique", "Schéma du couplage excitation-contraction de mémoire", "Lister ce qui reste flou"] },
-  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdbio", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "gr"],
+  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "sinteg", "gr", "sa", "co"],
     notions: ["Quiz sur toute la semaine", "Redessiner les voies ascendantes et descendantes", "Refaire l'équation de Fick et ses ordres de grandeur", "Lister les auteurs de psycho et socio"] },
   annSV1: { title: "Annale Sciences de la vie : session 1 2024-2025", type: "annale",
-    chapters: ["ost", "arth", "myo", "cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
+    chapters: ["cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
     files: [["Sujet", D("16EkrfESyJdNYInzmiGwylHApGMUTyK-n")], ["Corrigé", D("1abLsX7-SQ-RessHtdsnLwsyaozAochok")], ["Toutes les annales SV", F("1gzjwoaS2yymYLQvXi09T_oMagjIsqwh9")]],
-    notions: ["Faire le sujet en conditions d'examen, sans notes", "Garder le corrigé pour le bloc suivant"] },
-  corrSV1: { title: "Correction annale SV + révision anatomie", type: "revision",
-    chapters: ["ost", "arth", "myo"],
+    notions: ["Faire le sujet en conditions d'examen, sans notes", "Sauter les questions d'anatomie (retirée du planning)", "Garder le corrigé pour le bloc suivant"] },
+  corrSV1: { title: "Correction annale SV + révision biomécanique", type: "revision",
+    chapters: ["cine", "dyn", "stat", "trav"],
     files: [["Corrigé session 1 2024-2025", D("1abLsX7-SQ-RessHtdsnLwsyaozAochok")]],
-    notions: ["Corriger avec le corrigé, noter les points perdus", "Revoir les chapitres où tu as perdu des points", "Insertions et innervations du membre inférieur"] },
+    notions: ["Corriger avec le corrigé, noter les points perdus", "Revoir les chapitres où tu as perdu des points", "Refaire les calculs ratés"] },
   annADCP: { title: "Annale Condition physique : session 1 2025-2026", type: "annale",
     chapters: ["nutri", "depense", "dqp", "tdadcp"],
     files: [["Sujet 2025-2026", D("1ykNdMmGS7ngloQZGc5F6lq_0aOfEoZ3p")], ["Sujet 2024-2025", D("1DCLwdBh9La5z8XOzYFPQXmAYzmNweDNs")], ["Corrigé 2024-2025", D("1A--V3n6RQM9FtwerBFOuH8-22tqbmSGI")], ["Toutes les annales ADCP", F("1dXzhaaV0n6XSeIzY1eaa_tTtJDTcf7_K")]],
     notions: ["Faire le sujet 2025-2026 en conditions réelles", "S'il reste du temps : relire le corrigé 2024-2025", "Rappel : la partie endurance n'était pas à l'examen 2025-2026"] },
-  revPhys: { title: "Révision physiologie (neuro + muscle)", type: "revision",
-    chapters: ["nbase", "nmsg", "nsyn", "snc", "musc"],
-    notions: ["Refaire de mémoire le schéma du potentiel d'action", "Étapes de la synapse chimique", "Voies ascendantes et descendantes", "Types de fibres et loi de Henneman"] },
+  revPhys: { title: "Révision neurophysiologie", type: "revision",
+    chapters: ["nbase", "nmsg", "nsyn", "snc"],
+    notions: ["Refaire de mémoire le schéma du potentiel d'action", "Étapes de la synapse chimique", "Voies ascendantes et descendantes"] },
+  revCardio: { title: "Révision muscle et physiologie de l'exercice", type: "revision",
+    chapters: ["musc", "cardio", "depense"],
+    notions: ["Types de fibres et loi de Henneman", "Équation de Fick, FC, VES, PAM", "Filières énergétiques"] },
   annSoc: { title: "Annale Sociologie : session 1 2024-2025", type: "annale",
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     files: [["Sujet", D("10_4F3V8VJwMeJkaHh_78zf0CrCCZGeiy")], ["Corrigé", D("1wl1DSbSCDr4xhQJufHu0CmobDlcld2xn")], ["Toutes les annales socio", F("18mAeU25Apx947Ukt1I4SJBc4r2I3OJLo")]],
@@ -661,9 +625,13 @@ const REVIEWS = {
     files: [["Session 1", D("1E8EYYDlUnocHDN0TIvPLipC2-caDqRDI")], ["Session 2", D("1mUAGKpAOCbIi03BxC1PWq2xyfKDbBDxi")]],
     notions: ["Faire la session 1", "Vérifier tes réponses dans les cours de GR et de psycho"] },
   annSV2: { title: "Annale Sciences de la vie : session 2 2024-2025", type: "annale",
-    chapters: ["ost", "arth", "myo", "cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
+    chapters: ["cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
     files: [["Sujet", D("1a0Be4bmnAF2G0XXvzOZOAKBzuy94011f")], ["Corrigé", D("10dxU9541YZEQc-5UqS-QnFjADK_oZZe-")]],
-    notions: ["Sujet en conditions réelles puis correction immédiate", "Comparer tes points avec l'annale de lundi"] },
+    notions: ["Sujet en conditions réelles", "Sauter les questions d'anatomie", "Garder le corrigé pour le bloc suivant"] },
+  corrSV2: { title: "Correction annale SV session 2 + révision physiologie", type: "revision",
+    chapters: ["nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
+    files: [["Corrigé session 2 2024-2025", D("10dxU9541YZEQc-5UqS-QnFjADK_oZZe-")]],
+    notions: ["Corriger, comparer avec l'annale de lundi", "Revoir les points perdus dans les cours"] },
   revBio: { title: "Révision biomécanique (formules)", type: "revision",
     chapters: ["cine", "dyn", "stat", "trav", "tdbio"],
     notions: ["Fiche de toutes les formules et unités", "Refaire un exercice du TD 1 sans corrigé", "Leviers : savoir les reconnaître sur un schéma"] },
@@ -674,25 +642,28 @@ const REVIEWS = {
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     notions: ["Frise des lois et dispositifs (1965, 1993, 2001, 2006, 2012, 2016)", "Bourdieu, Boudon, Durkheim, Weber : idée clé de chacun", "Chiffres clés des pratiques 2025"] },
   revFin: { title: "Grande révision Condition physique + APSA", type: "revision",
-    chapters: ["nutri", "depense", "dqp", "cardio", "gr", "muscu", "tennis", "sa", "co"],
+    chapters: ["nutri", "depense", "dqp", "gr", "muscu", "tennis", "sa", "co"],
     notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, musculation"] },
+  revFlash: { title: "Dernier passage sur les cartes à revoir", type: "revision", chapters: "all",
+    notions: ["Révision intelligente jusqu'à épuisement des cartes à revoir", "Relire les fiches des chapitres les plus faibles"] },
   bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
-    notions: ["Révision intelligente : toutes les cartes à revoir", "Puis quiz aléatoire sur tous les chapitres", "Repos ce week-end : tu as tout vu"] }
+    notions: ["Quiz aléatoire sur tous les chapitres", "Repos ce week-end : tu as tout vu"] }
 };
 
-/* Block codes: "chapterId:part" for study, review id for reviews, "a+b" for two chapters in one block */
+/* Block codes: "chapterId:part" for study, review id for reviews, "a+b" for two chapters in one block, null = libre.
+   Lundi 2 nov. : seulement un cours ce soir (16h15-18h). */
 const SCHEDULE = [
-  [ ["ost:1", "ost:2", "sdef:1", "nbase:1"], ["cine:1", "cine:2"], ["arth:1", "arth:2", "attach:1", "nmsg:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:1"], ["nutri:2", "bilan1"] ],
-  [ ["myo:1", "myo:2", "smeth:1", "nsyn:1"], ["stat:1", "stat:2"], ["musc:1", "musc:2", "ado:1", "depense:1"], ["musc:3", "trav:1", "ado:2", "depense:2"], ["secole:1", "bilan2"] ],
-  [ ["snc:1", "snc:2", "strib:1", "gr:1"], ["tdbio:1", "tdadcp:1"], ["cardio:1", "cardio:2", "socdel:1", "dqp:1"], ["cardio:3", "dqp:2", "sprat:1", "sdop:1"], ["ssante:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", "sinteg:1", "sa:1"], ["co:1", "muscu:1+tennis:1"], ["annADCP", "revPhys", "annSoc", "annAPSA"], ["annSV2", "revBio", "revPsy", "revSoc"], ["revFin", "bilanFin"] ]
+  [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
+  [ ["nsyn:1", "stat:1", "ado:1", "depense:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:2"], ["musc:3", "snc:1", "secole:1", "dqp:1"], ["tdbio:1", "bilan2"] ],
+  [ ["snc:2", "cardio:1", "strib:1", "gr:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "cardio:3", "sprat:1", "dqp:2"], ["sdop:1", "ssante:1", "sa:1", "co:1"], ["sinteg:1", "bilan3"] ],
+  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "annAPSA"], ["annSoc", "revSoc"], ["annADCP", "revPhys", "revPsy", "revCardio"], ["annSV2", "corrSV2", "revBio", "revFin"], ["revFlash", "bilanFin"] ]
 ];
 
 </script>
 <script>
 (function () {
   "use strict";
-  const STORE_KEY = "planning-s1-las2-v1";
+  const STORE_KEY = "planning-s1-las2-v2";
   const DEFAULT_START = "2026-11-02";
   const DAY_NAMES = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
   const MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
@@ -731,10 +702,11 @@ const SCHEDULE = [
     for (let d = 0; d < 5; d++) {
       const g = w * 5 + d;
       const blocks = SCHEDULE[w][d];
-      const full = blocks.length === 4;
-      const labels = full ? ["A", "B", "C", "D"] : ["C", "D"];
+      const full = blocks.length === 4 && blocks[0] !== null;
+      const labels = blocks.length === 4 ? ["A", "B", "C", "D"] : ["C", "D"];
       const slots = [];
       blocks.forEach((code, i) => {
+        if (code === null) return;
         const lbl = labels[i];
         const key = "w" + w + "d" + d + lbl;
         const items = code.split("+").map(part => {
@@ -776,7 +748,7 @@ const SCHEDULE = [
     if (day.full) day.slots.unshift({ key: "w" + day.w + "d" + day.d + "R1", kind: "rappel", lbl: "R1", time: FULL.R1, list: rappelChapters(g, "R1") });
     const r2 = { key: "w" + day.w + "d" + day.d + "R2", kind: "rappel", lbl: "R2", time: FULL.R2, list: rappelChapters(g, "R2") };
     const idx = day.slots.findIndex(s => s.lbl === "C");
-    day.slots.splice(idx, 0, r2);
+    if (idx >= 0) day.slots.splice(idx, 0, r2);
   });
 
   /* ---------- helpers ---------- */
@@ -853,6 +825,7 @@ const SCHEDULE = [
         if (!d.full && lbl === "R1") { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + ' / span 3">Matin libre<br>(pas de travail)</div>'; return; }
         if (!d.full && (lbl === "A" || lbl === "B")) return;
         const s = d.slots.find(x => x.lbl === lbl);
+        if (!s) { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + '">Libre</div>'; return; }
         grid += '<div style="grid-column:' + col + ";grid-row:" + row + ';display:grid">' + slotButton(s) + "</div>";
       });
     });
@@ -898,7 +871,7 @@ const SCHEDULE = [
     side += "</div>";
     const doneToday = day.slots.filter(s => s.kind === "study" && state.done[s.key]).length;
     const totToday = day.slots.filter(s => s.kind === "study").length;
-    side += '<div class="panel"><span class="sect-lbl">Progression du jour</span><div class="stat-row"><div><b>' + doneToday + "/" + totToday + "</b><span>blocs faits</span></div><div><b>" + (day.full ? "8 h" : "4 h") + "</b><span>de travail prévues</span></div></div><p>Coche un bloc en l'ouvrant, une fois le chapitre travaillé.</p></div>";
+    side += '<div class="panel"><span class="sect-lbl">Progression du jour</span><div class="stat-row"><div><b>' + doneToday + "/" + totToday + "</b><span>blocs faits</span></div><div><b>" + (function () { const m = totToday * 105 + day.slots.filter(x => x.kind === "rappel").length * 15; return Math.floor(m / 60) + " h" + (m % 60 ? String(m % 60).padStart(2, "0") : ""); })() + "</b><span>de travail prévues</span></div></div><p>Coche un bloc en l'ouvrant, une fois le chapitre travaillé.</p></div>";
     el.innerHTML = '<div class="view-head"><div><h2>' + DAY_NAMES[day.d] + " " + fmt(date) + '</h2><p>' + (intro || "Semaine " + (day.w + 1) + ", jour " + (day.d + 1) + ".") + '</p></div><div class="spacer"></div><div class="daynav"><button class="btn" data-day="' + (g - 1) + '"' + (g === 0 ? " disabled" : "") + '>← Jour précédent</button><button class="btn" data-day="' + (g + 1) + '"' + (g === 19 ? " disabled" : "") + ">Jour suivant →</button></div></div>" +
       '<div class="today-grid"><div>' + tl + "</div><div style=\"display:flex;flex-direction:column;gap:14px\">" + side + "</div></div>";
   }
@@ -921,7 +894,7 @@ const SCHEDULE = [
     const el = document.getElementById("v-chapitres");
     const groups = {};
     CHAPTERS.forEach(c => { const ue = SUBJECTS[c.subj].ue; (groups[ue] = groups[ue] || []).push(c); });
-    let html = '<div class="view-head"><div><h2>Tout le contenu du dossier Drive 2025-2026</h2><p>' + CHAPTERS.length + " chapitres répartis sur 4 semaines (l'anglais est exclu). Chaque carte indique quand le chapitre est prévu, les fichiers à ouvrir et ton niveau sur les cartes de rappel.</p></div></div>";
+    let html = '<div class="view-head"><div><h2>Tout le contenu du dossier Drive 2025-2026</h2><p>' + CHAPTERS.length + " chapitres répartis sur 4 semaines (l'anglais et l'anatomie sont exclus). Chaque carte indique quand le chapitre est prévu, les fichiers à ouvrir et ton niveau sur les cartes de rappel.</p></div></div>";
     Object.keys(groups).forEach(ue => {
       const list = groups[ue];
       const parts = list.reduce((n, c) => n + c.parts, 0);
