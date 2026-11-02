@@ -165,7 +165,31 @@ dialog::backdrop { background: rgba(10, 18, 24, .45); }
 .qprog { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); }
 .btn.good { border-color: var(--good); color: var(--good); }
 .btn.warn { border-color: var(--warn); color: var(--warn); }
-.summary b { font-family: var(--f-display); font-size: 40px; }
+.summary { display: flex; align-items: baseline; gap: 4px; }
+.summary b { font-family: var(--f-display); font-size: 56px; line-height: 1; }
+.summary .over { font-family: var(--f-display); font-size: 26px; color: var(--muted); }
+.qchap { font-size: 13px; color: var(--muted); }
+.qchap .kind { margin-left: 6px; font-weight: 700; color: var(--ink); }
+.timer { font-family: var(--f-mono); color: var(--ink); }
+.timer.late { color: var(--warn); }
+.opts { display: grid; gap: 8px; }
+.opts.two { grid-template-columns: 1fr 1fr; }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 10px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; font-size: 15px; }
+.opt span { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt.ok { border-color: var(--good); background: color-mix(in srgb, var(--good) 14%, var(--surface)); }
+.opt.ko { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, var(--surface)); }
+.fb { font-size: 14.5px; border-top: 1px solid var(--line); padding-top: 10px; }
+.fb.good b { color: var(--good); } .fb.bad b { color: var(--warn); }
+.recap { max-height: 40vh; overflow-y: auto; }
+.recap li { font-size: 14px; }
+.grades { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.grade { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; min-width: 0; }
+.grade b { font-family: var(--f-display); font-size: 26px; line-height: 1; }
+.grade.ok b { color: var(--good); } .grade.ko b { color: var(--warn); }
+.grade span { font-size: 12px; color: var(--muted); }
+.grade small { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .empty { color: var(--muted); padding: 30px 0; text-align: center; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -659,6 +683,375 @@ const SCHEDULE = [
   [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "annAPSA"], ["annSoc", "revSoc"], ["annADCP", "revPhys", "revPsy", "revCardio"], ["annSV2", "corrSV2", "revBio", "revFin"], ["revFlash", "bilanFin"] ]
 ];
 
+/* Questions supplémentaires : Q = QCM (la bonne réponse est l'index a), V = vrai/faux. */
+const Q = (q, o, a, e) => ({ t: "qcm", q, o, a, e });
+const V = (q, v, e) => ({ t: "vf", q, v, e });
+
+const EXTRA = {
+  cine: [
+    Q("Un radar tronçon mesure :", ["La vitesse instantanée", "La vitesse moyenne", "L'accélération", "La vitesse angulaire"], 1, "Il divise une distance par un temps de parcours : c'est une vitesse moyenne."),
+    Q("Combien de caméras faut-il au minimum pour reconstruire un mouvement en 3D ?", ["1", "2", "3", "4"], 1, "Avec au moins 2 caméras, le mouvement peut être reconstruit en 3 dimensions."),
+    Q("Sur un graphe vitesse-temps, l'accélération instantanée correspond à :", ["L'aire sous la courbe", "La pente de la sécante", "La pente de la tangente", "L'ordonnée à l'origine"], 2, "Accélération instantanée = dv/dt = pente de la tangente."),
+    Q("Unité de l'accélération linéaire :", ["m/s", "m·s⁻²", "rad/s", "N"], 1, "a = Δv/Δt en m·s⁻²."),
+    V("Dans une analyse globale, l'individu est représenté par son centre de gravité.", true, "L'analyse spécifique, elle, étudie chaque segment corporel."),
+    V("Dans un mouvement rectiligne uniforme, l'accélération est constante et non nulle.", false, "Dans un MRU la vitesse est constante, donc a = 0. C'est le MRUV qui a une accélération constante."),
+    V("La cinématique s'intéresse aux causes du mouvement.", false, "C'est la dynamique qui étudie les causes (forces, moments). La cinématique décrit."),
+    Q("Un point se trouve en x = 3 m, y = 4 m. Que vaut ||OM|| ?", ["5 m", "7 m", "12 m", "25 m"], 0, "√(3² + 4²) = √25 = 5 m."),
+    Q("La vitesse angulaire se note et s'exprime en :", ["v, en m/s", "ω, en rad/s", "α, en rad·s⁻²", "θ, en degrés"], 1, "ω = Δθ/Δt en rad/s."),
+    Q("Un mouvement curvilinéaire plan est décrit dans un repère à :", ["1 axe", "2 axes", "3 axes", "4 axes"], 1, "Au moins deux sens de déplacement : repère (O, i, j).")
+  ],
+  dyn: [
+    Q("L'impulsion s'exprime en :", ["N", "N·s", "J", "W"], 1, "J = ∫F dt, donc des N·s (équivalent kg·m·s⁻¹)."),
+    Q("Sur une courbe force-temps, l'impulsion correspond à :", ["La pente", "Le pic de force", "L'aire sous la courbe", "La durée du contact"], 2, "L'impulsion est l'intégrale de la force dans le temps."),
+    V("Avant d'être frappé, un ballon immobile a une quantité de mouvement nulle.", true, "p = m × v et v = 0."),
+    V("La plateforme de force mesure directement la vitesse du sportif.", false, "Elle mesure des forces, des moments et le centre de pression."),
+    Q("Les capteurs d'une plateforme de force sont :", ["Des accéléromètres", "Des jauges de déformation ou des capteurs piézoélectriques", "Des caméras infrarouges", "Des cardiofréquencemètres"], 1, "La force est proportionnelle à la déformation des capteurs."),
+    Q("Un sprinter de 70 kg passe de 0 à 10 m/s. Son impulsion vaut :", ["70 N·s", "700 N·s", "7 000 N·s", "0,7 N·s"], 1, "J = m(vf − v0) = 70 × 10 = 700 N·s."),
+    V("La méthode des rectangles donne la valeur exacte de l'impulsion.", false, "C'est une approximation de l'aire sous la courbe."),
+    Q("Le centre de pression correspond à :", ["Le centre de gravité", "Le point d'application de la force sur la plateforme", "Le point le plus haut du saut", "L'articulation du genou"], 1, "C'est l'endroit où la force résultante s'applique sur la plateforme.")
+  ],
+  stat: [
+    Q("Le poids d'un individu s'applique au niveau :", ["Du nombril", "De la vertèbre S2 (centre de gravité)", "Des pieds", "De la tête"], 1, "Le point d'application de la pesanteur est le centre de gravité, situé vers S2."),
+    Q("Une force de 100 N appliquée à 0,3 m perpendiculairement à l'axe crée un moment de :", ["30 N·m", "333 N·m", "3 N·m", "100 N·m"], 0, "M = F × d = 100 × 0,3 = 30 N·m."),
+    Q("Le levier du biceps lors d'une flexion du coude est :", ["Inter-appui", "Inter-résistant", "Inter-moteur", "Ce n'est pas un levier"], 2, "La force musculaire s'applique entre l'appui (coude) et la résistance (main)."),
+    Q("Le maintien de la tête est un exemple de levier :", ["Inter-appui", "Inter-moteur", "Inter-résistant", "Mixte"], 0, "L'appui (articulation atlanto-occipitale) est entre la force des muscles cervicaux et le poids de la tête."),
+    V("Un moment dans le sens horaire est compté positivement.", false, "Sens horaire : négatif. Sens anti-horaire : positif."),
+    V("La poussée d'Archimède est égale au poids du volume d'eau déplacé.", true, "Plus on est immergé, plus elle est importante."),
+    Q("Énoncé de la 3e loi de Newton :", ["ΣF = m × a", "Action-réaction : force égale et opposée", "Un corps garde son mouvement sans force", "ΣM = I × α"], 1, "Ex. : la nageuse pousse le bassin, le bassin la pousse en retour."),
+    Q("Relation fondamentale de la dynamique en rotation :", ["ΣF = m × a", "ΣM = I × α", "P = F × v", "W = F × d"], 1, "I = moment d'inertie, α = accélération angulaire."),
+    V("La force musculaire est une force interne.", true, "Forces internes : muscles, ligaments, forces interarticulaires. Externes : poids, réaction du sol..."),
+    Q("Avec un angle d'application de 45°, le moment vaut environ :", ["L × F", "0,7 × L × F", "0,5 × L × F", "0"], 1, "sin 45° ≈ 0,7.")
+  ],
+  trav: [
+    Q("Un objet de 10 kg est soulevé de 2 m (g ≈ 10). Son Epp augmente de :", ["20 J", "200 J", "2 000 J", "50 J"], 1, "Epp = m × g × h = 10 × 10 × 2 = 200 J."),
+    Q("Un coureur de 60 kg court à 5 m/s. Son énergie cinétique vaut :", ["150 J", "300 J", "750 J", "1 500 J"], 2, "Ec = ½ × 60 × 5² = 750 J."),
+    Q("Un travail de 600 J effectué en 2 s correspond à une puissance moyenne de :", ["300 W", "1 200 W", "602 W", "0,003 W"], 0, "P = W / t = 600 / 2 = 300 W."),
+    V("Le poids d'un cycliste sur le plat ne travaille pas.", true, "Le poids est perpendiculaire au déplacement horizontal : travail nul."),
+    V("Le travail réalisé par les muscles pour déplacer les segments est un travail externe.", false, "C'est le travail interne. Le travail externe concerne la pesanteur, les frottements, les réactions du support."),
+    Q("Au saut à la perche, la flexion de la perche transforme :", ["Epp en Ec", "Ec en énergie potentielle élastique", "Epe en chaleur", "Ec en Epp directement"], 1, "Phase 2 : l'énergie cinétique de la course est stockée dans la perche."),
+    Q("Le théorème de l'énergie cinétique dit que :", ["Ec est toujours constante", "ΔEc = somme des travaux des forces extérieures", "Ec = mgh", "Ec = F × v"], 1, "La variation d'énergie cinétique égale le travail des forces extérieures."),
+    Q("Pour α = 180° entre la force et le déplacement, le travail vaut :", ["F × AB", "0", "−F × AB", "F × AB / 2"], 2, "cos 180° = −1 : travail résistant maximal."),
+    V("L'énergie mécanique se définit comme la capacité à effectuer un travail.", true, "Elle s'exprime en joules.")
+  ],
+  tdbio: [
+    Q("72 km/h en m/s :", ["7,2 m/s", "20 m/s", "26 m/s", "259 m/s"], 1, "72 / 3,6 = 20 m/s."),
+    Q("Pour un vecteur de 10 N à 30° de l'horizontale, la composante horizontale vaut :", ["5 N", "8,7 N", "10 N", "3 N"], 1, "10 × cos 30° ≈ 8,7 N."),
+    Q("Poids d'un athlète de 80 kg (g = 9,81) :", ["80 N", "785 N", "8 N", "981 N"], 1, "P = 80 × 9,81 ≈ 785 N."),
+    V("Une accélération négative signifie forcément que le sportif recule.", false, "Elle signifie que la vitesse diminue dans le sens de l'axe (décélération)."),
+    Q("Un sprinter passe de 0 à 8 m/s en 2 s. Son accélération moyenne :", ["2 m·s⁻²", "4 m·s⁻²", "8 m·s⁻²", "16 m·s⁻²"], 1, "a = Δv/Δt = 8/2 = 4 m·s⁻²."),
+    V("Pour une force perpendiculaire au segment, le bras de levier est la distance entre l'axe et le point d'application.", true, "Sinon il faut prendre la distance orthogonale à la ligne d'action.")
+  ],
+  nbase: [
+    Q("Quelle cellule gliale forme la myéline du SNC ?", ["Astrocyte", "Oligodendrocyte", "Microglie", "Cellule de Schwann"], 1, "Les cellules de Schwann jouent ce rôle dans le SNP."),
+    Q("La dégénérescence de la gaine de myéline est associée à :", ["La maladie d'Alzheimer", "La sclérose en plaques", "Le diabète", "L'épilepsie"], 1, "Cité dans le cours à propos des cellules de Schwann."),
+    Q("Les corps de Nissl correspondent :", ["Au réticulum endoplasmique rugueux du neurone", "Aux mitochondries", "À l'axone", "Aux boutons terminaux"], 0, "On les trouve dans le corps cellulaire."),
+    Q("Un neurone moteur est :", ["Unipolaire", "Bipolaire", "Multipolaire", "Apolaire"], 2, "Les neurones sensitifs sont uni- ou bipolaires."),
+    V("Les neurones se divisent tout au long de la vie.", false, "Ils sont amitotiques (sauf les premiers mois de la vie)."),
+    V("Un neurone possède un seul axone.", true, "Mais il peut avoir de nombreuses dendrites."),
+    Q("Les ganglions du SNP contiennent :", ["Des axones uniquement", "Des corps cellulaires de neurones", "Du liquide céphalo-rachidien", "Des muscles"], 1, "Ganglions = regroupements de corps cellulaires dans le SNP (substance grise)."),
+    Q("La vitesse de conduction des neurones varie environ entre :", ["1 et 150 m/s", "1 et 5 km/s", "0,01 et 0,1 m/s", "300 000 km/s"], 0, "Sans myéline ~1 m/s, avec myéline jusqu'à ~150 m/s."),
+    V("Le système nerveux autonome commande les mouvements volontaires.", false, "C'est le système nerveux somatique. L'autonome gère l'involontaire (organes internes)."),
+    Q("Quelle cellule est la principale défense immunitaire du SNC ?", ["Épendymocyte", "Microglie", "Astrocyte", "Oligodendrocyte"], 1, "Les microglies agissent comme des macrophages.")
+  ],
+  nmsg: [
+    Q("Pendant la repolarisation, ce sont surtout :", ["Les ions Na+ qui entrent", "Les ions K+ qui sortent", "Les ions Ca2+ qui entrent", "Les ions Cl− qui sortent"], 1, "Ouverture des canaux K+ voltage-dépendants."),
+    Q("Pendant la période réfractaire absolue :", ["Un stimulus fort déclenche un PA", "Aucun PA n'est possible", "Le neurone est au repos", "Le potentiel vaut +30 mV en permanence"], 1, "Pendant la relative, il faut un stimulus très intense."),
+    Q("Pic du potentiel d'action :", ["−70 mV", "−55 mV", "0 mV", "+30 mV"], 3, "La membrane s'inverse jusqu'à environ +30 mV."),
+    V("Un potentiel gradué perd de l'intensité en s'éloignant du point de stimulation.", true, "Il est décrémentiel, contrairement au PA."),
+    V("Plus un stimulus est intense, plus l'amplitude du PA est grande.", false, "L'amplitude est constante (tout ou rien) ; c'est la fréquence qui augmente."),
+    Q("En cas d'hyperkaliémie :", ["La membrane s'hyperpolarise", "Le potentiel de repos se rapproche du seuil", "Le neurone ne peut plus émettre de PA", "Rien ne change"], 1, "Un stimulus normalement subliminaire peut alors déclencher un PA."),
+    Q("Les canaux Na+ voltage-dépendants possèdent :", ["1 vanne", "2 vannes (activation et inactivation)", "3 vannes", "Aucune vanne"], 1, "Activation fermée au repos, inactivation ouverte au repos."),
+    Q("Les fibres de type C sont :", ["Grosses et myélinisées", "Petites et amyéliniques", "Les plus rapides", "Uniquement motrices"], 1, "Environ 1 m/s."),
+    V("Un canal ligand-dépendant s'ouvre quand une molécule (ex. acétylcholine) s'y fixe.", true, "Le voltage-dépendant s'ouvre selon le potentiel de membrane."),
+    Q("Où naît le potentiel d'action ?", ["Dans les dendrites", "À la zone gâchette (cône d'implantation)", "Dans le bouton terminal", "Dans la gaine de myéline"], 1, "Le potentiel gradué doit atteindre la zone gâchette au-dessus du seuil.")
+  ],
+  nsyn: [
+    Q("Le réseau qui sert à la mémoire à court terme est :", ["Divergent", "Convergent", "Réverbérant", "Parallèle"], 2, "La boucle permet de maintenir l'information."),
+    Q("Le réseau convergent permet surtout :", ["L'amplification du signal", "L'addition des signaux (mouvements fins)", "La mémoire", "La douleur"], 1, "Plusieurs entrées pour une sortie."),
+    Q("La fente d'une synapse chimique mesure environ :", ["3 nm", "30-50 nm", "1 µm", "1 mm"], 1, "Contre 3 nm pour une synapse électrique."),
+    V("La synapse électrique est le type le plus fréquent.", false, "Elle est très efficace mais minoritaire ; la synapse chimique domine."),
+    V("Le GABA est le principal neurotransmetteur inhibiteur.", true, "Le glutamate est le principal excitateur."),
+    Q("L'acétylcholine non fixée est dégradée par :", ["La MAO", "L'acétylcholinestérase", "La calmoduline", "L'ATPase"], 1, "Elle libère choline et acétate ; la choline est recyclée."),
+    Q("La toxine botulique agit en :", ["Mimant l'ACh", "Bloquant la libération du neurotransmetteur", "Inhibant la recapture de la sérotonine", "Ouvrant les canaux Na+"], 1, "Elle empêche la contraction (rides, spasmes)."),
+    Q("Les récepteurs muscariniques du cœur produisent un effet :", ["Chronotrope positif", "Chronotrope négatif", "Paralysant", "Excitateur"], 1, "Ouverture de canaux K+, hyperpolarisation, la FC baisse."),
+    V("Les jonctions axo-dendritiques sont les plus nombreuses.", true, "On trouve aussi des jonctions axo-somatiques."),
+    Q("Un neurone excité par 3 neurones en même temps fait une sommation :", ["Temporelle", "Spatiale", "Rétrograde", "Inhibitrice"], 1, "Plusieurs neurones présynaptiques simultanés = sommation spatiale.")
+  ],
+  snc: [
+    Q("Le télencéphale représente environ quelle part de l'encéphale ?", ["25 %", "50 %", "83 %", "99 %"], 2, "C'est le cerveau proprement dit."),
+    Q("Le sillon central sépare les lobes :", ["Frontal et pariétal", "Frontal et temporal", "Pariétal et occipital", "Les deux hémisphères"], 0, "Le sillon latéral sépare frontal et temporal."),
+    Q("Quel pédoncule cérébelleux transmet la proprioception venant du bulbe ?", ["Supérieur", "Moyen", "Inférieur", "Aucun"], 2, "Le moyen reçoit la copie motrice du cortex, le supérieur renvoie la correction."),
+    Q("Le thalamus est :", ["Le centre de la faim et de la soif", "La porte d'entrée du cortex, relais des afférences", "L'aire du langage", "Une méninge"], 1, "L'hypothalamus gère faim, soif, température."),
+    Q("La voie rubrospinale part :", ["Du colliculus supérieur", "Du noyau rouge du mésencéphale", "Des noyaux vestibulaires", "Du cortex moteur"], 1, "Elle sert à la coordination des mouvements."),
+    Q("Le tractus vestibulospinal gère :", ["Le tonus et l'équilibre", "La douleur", "Le langage", "La vision"], 0, "Il part des noyaux vestibulaires du bulbe."),
+    V("Dans la voie spinothalamique, la décussation a lieu dans la moelle épinière.", true, "Dans la voie du cordon dorsal, elle a lieu dans le bulbe."),
+    V("L'homoncule sensitif est proportionnel à la taille réelle des segments.", false, "Les mains occupent par exemple une surface bien plus grande que les bras."),
+    Q("L'hippocampe est surtout impliqué dans :", ["Les émotions (peur)", "La formation et la consolidation des souvenirs", "La motricité fine", "La vision"], 1, "L'amygdale gère l'expression des émotions."),
+    Q("Le cortex préfrontal (aire associative antérieure) sert à :", ["La reconnaissance des visages", "La planification, la décision, le jugement", "Le toucher", "L'audition"], 1, "C'est aussi le siège de la personnalité."),
+    Q("L'aire prémotrice :", ["Exécute directement le mouvement", "Planifie et coordonne les messages moteurs (habiletés apprises)", "Reçoit la douleur", "Produit le LCR"], 1, "Elle envoie ensuite le programme à l'aire motrice primaire.")
+  ],
+  musc: [
+    Q("La myofibrille représente environ quelle part du volume de la fibre ?", ["20 %", "50 %", "80 %", "100 %"], 2, "Diamètre d'environ 1 µm."),
+    Q("Le potentiel de repos d'une fibre musculaire est d'environ :", ["−70 mV", "−90 mV", "0 mV", "+30 mV"], 1, "Celui du neurone est de −70 mV."),
+    Q("Quelle protéine relie les deux disques Z et donne de l'élasticité ?", ["Nébuline", "Titine", "Dystrophine", "Troponine"], 1, "La dystrophine ancre le sarcomère au sarcolemme."),
+    Q("Une absence de dystrophine provoque :", ["La myopathie de Duchenne", "La sclérose en plaques", "Le syndrome des loges", "Des crampes"], 0, "Espérance de vie de 20 à 30 ans."),
+    Q("Fréquence de fusion (tétanos) d'une fibre rapide :", ["10 Hz", "50 Hz", "100 Hz", "500 Hz"], 2, "Environ 50 Hz pour une fibre lente."),
+    V("Les fibres IIx sont les plus résistantes à la fatigue.", false, "Ce sont les fibres de type I. Les IIx sont puissantes mais très fatigables."),
+    V("Un échauffement fait gagner 3 à 5 °C au muscle.", true, "Le froid ralentit la vitesse de contraction."),
+    Q("La contraction excentrique correspond à :", ["Un raccourcissement du muscle", "Un allongement du muscle sous tension", "Aucun changement de longueur", "Un relâchement total"], 1, "Concentrique = raccourcissement, isométrique = longueur constante."),
+    Q("Un muscle distal (mouvements fins) augmente sa force surtout par :", ["Le recrutement progressif", "Le codage de la fréquence", "L'hypertrophie", "La fatigue"], 1, "Il recrute d'abord toutes ses fibres puis joue sur la fréquence."),
+    Q("Les crampes sont soulagées par l'étirement car il stimule :", ["Les fuseaux neuromusculaires", "Les organes tendineux de Golgi", "Les nocicepteurs", "Le cervelet"], 1, "Les organes de Golgi inhibent les motoneurones."),
+    Q("La caféine aide contre la fatigue en :", ["Stimulant la libération de calcium", "Bloquant l'ACh", "Augmentant le glycogène", "Diminuant la FC"], 0, "Elle facilite la libération de Ca2+."),
+    V("Le curare se fixe sur les récepteurs nicotiniques sans les activer.", true, "C'est un antagoniste : il empêche la contraction (utilisé en chirurgie)."),
+    Q("Force du muscle penné :", ["F fibres × sin α", "F fibres × cos α", "F fibres / α", "F fibres + α"], 1, "α = angle d'obliquité (pennation).")
+  ],
+  cardio: [
+    Q("Le rendement de l'hydrolyse de l'ATP pour la contraction est d'environ :", ["10 %", "25 %", "75 %", "100 %"], 1, "75 % de l'énergie est perdue en chaleur."),
+    Q("La filière aérobie produit par molécule de glucose environ :", ["2 ATP", "3 ATP", "36 ATP", "100 ATP"], 2, "La filière lactique en produit 3 (à partir du glycogène)."),
+    Q("Chez un sédentaire, le débit cardiaque passe à l'effort max d'environ :", ["5 à 20 L/min", "5 à 40 L/min", "1 à 5 L/min", "20 à 60 L/min"], 0, "Un athlète d'endurance peut approcher 40 L/min."),
+    Q("Jusqu'à environ quel % de VO2max l'ajustement de la FC se fait par levée du frein vagal ?", ["10 %", "25 %", "50 %", "90 %"], 1, "Au-delà, le sympathique prend le relais."),
+    Q("La fraction d'éjection au repos d'un cœur sain est d'environ :", ["40 %", "55 %", "70 %", "95 %"], 2, "Environ 90 % à l'effort ; 40 % en insuffisance cardiaque."),
+    V("À l'effort, la pression artérielle diastolique augmente fortement.", false, "Elle reste quasi stable ; c'est la systolique qui augmente linéairement."),
+    V("Le débit sanguin cérébral reste constant à l'effort.", true, "Environ 0,72 L/min quelles que soient les intensités."),
+    Q("Chez le sujet sain, le facteur pulmonaire est :", ["Le principal facteur limitant de la VO2max", "Non limitant de la VO2max", "Seul responsable de la dérive cardiaque", "Inutile"], 1, "La SaO2 reste entre 97 et 100 %."),
+    Q("L'effet Bohr est favorisé par :", ["Une baisse de température", "Une hausse du CO2 et de l'acidité", "Une alcalose", "Une hypocapnie"], 1, "Il décale la courbe vers la droite : l'O2 est mieux libéré."),
+    Q("Les 3 mécanismes du retour veineux :", ["Pompe musculaire, respiration, aspiration cardiaque", "Gravité, sueur, ventilation", "Reins, foie, rate", "Vasoconstriction, FC, VES"], 0, "Les valvules veineuses imposent un sens unique."),
+    Q("Le volume d'air restant dans les poumons après une expiration forcée :", ["Volume courant", "Capacité vitale", "Volume résiduel", "VRE"], 2, "La capacité vitale est le volume maximal mobilisable."),
+    V("Une ventilation alvéolaire trop importante entraîne une hypocapnie et une alcalose.", true, "On rejette trop de CO2, le pH sanguin augmente."),
+    Q("Où se situent les barorécepteurs ?", ["Dans les muscles", "Carotides et arc aortique", "Dans le bulbe", "Dans les alvéoles"], 1, "Ils renseignent sur la pression artérielle.")
+  ],
+  nutri: [
+    Q("1 kcal équivaut à :", ["1 kJ", "4,18 kJ", "10 kJ", "0,24 kJ"], 1, "Conversion à connaître."),
+    Q("Lequel est un oligo-élément ?", ["Calcium", "Zinc", "Sodium", "Magnésium"], 1, "Ca, Na, Mg, K, P, Fe sont des macro-éléments dans le cours."),
+    Q("Apport recommandé pour un homme adulte sédentaire :", ["1 800 kcal/j", "2 000 kcal/j", "2 500 kcal/j", "3 500 kcal/j"], 2, "Sportif : au minimum 2 800 kcal/j."),
+    Q("Le petit-déjeuner devrait représenter :", ["5-10 %", "20-25 %", "35-40 %", "50 %"], 1, "Déjeuner 35-40 %, goûter 15-20 %, dîner 25-35 %."),
+    Q("Un IMC de 27 correspond à :", ["Corpulence normale", "Surpoids", "Obésité modérée", "Maigreur"], 1, "Surpoids entre 25 et 29,9."),
+    V("Les épinards contiennent plus de fer que la viande rouge.", false, "Leur teneur a longtemps été surestimée ; la viande en apporte bien plus."),
+    V("Pendant l'exercice, le mécanisme de la soif se déclenche normalement.", false, "Il ne se déclenche pas : il faut boire avant, pendant et après."),
+    Q("Un index glycémique supérieur à 70 est :", ["Bas", "Moyen", "Élevé", "Nul"], 2, "Le glucose sert de référence avec un IG de 100."),
+    Q("Combien de temps avant l'effort prendre son repas ?", ["30 min", "1 h", "Au moins 3 h", "Juste avant"], 2, "Avec des glucides complexes."),
+    Q("Pourcentage de masse grasse d'un homme sportif au poids de forme :", ["1-3 %", "5-12 %", "15-25 %", "30 %"], 1, "Chez la femme sportive : 12-18 %."),
+    V("L'alcool est une substance ergolytique.", true, "Il détériore la performance (diurétique, antalgique, hypothermie)."),
+    Q("Une charge glycémique se calcule par :", ["IG + glucides", "IG × quantité de glucides", "IG / poids", "Glucides × 4"], 1, "L'IG d'un repas n'est pas la somme des IG des aliments.")
+  ],
+  depense: [
+    Q("Le NMR représente environ quelle part de la DEJ ?", ["10 %", "15-30 %", "60-75 %", "95 %"], 2, "Environ 50 % chez un sportif de haut niveau."),
+    Q("La composante la plus variable de la DEJ est :", ["Le NMR", "La thermogenèse alimentaire", "La DEAP", "La thermorégulation"], 2, "Elle dépend des pratiques de chacun."),
+    Q("Une activité à 7 MET est :", ["Sédentaire", "Légère", "Modérée", "Intense"], 3, "> 6 MET = intense ; > 9 MET = très intense."),
+    Q("La méthode de référence pour mesurer la dépense en vie réelle sur plusieurs jours :", ["Le questionnaire IPAQ", "L'eau doublement marquée", "Le podomètre", "La calorimétrie directe"], 1, "Elle dure 1 à 3 semaines, précision de 3 à 10 %."),
+    Q("Un QR de 0,7 indique l'oxydation de :", ["Glucides", "Lipides", "Protéines", "Alcool"], 1, "QR glucides = 1 ; protéines = 0,82."),
+    V("Le métabolisme de base est mesuré à l'état d'éveil.", false, "Le métabolisme de base correspond au sommeil (≈ −5 % par rapport au repos)."),
+    V("La DEJ diminue avec l'âge chez l'adulte.", true, "Le métabolisme de base baisse d'environ 2 % tous les 10 ans."),
+    Q("Une femme enceinte a besoin en plus d'environ :", ["50 kcal/j", "260 kcal/j", "800 kcal/j", "1 000 kcal/j"], 1, "Pour une prise de poids de 10 à 12 kg."),
+    Q("Recommandation de pas quotidiens chez l'homme :", ["5 000", "8 000", "13 000", "20 000"], 2, "12 000 chez la femme."),
+    Q("Deux personnes consomment 2 L d'O2/min. A a une VO2max de 5 L/min, B de 2,5 L/min. Pour B, l'effort est :", ["Modéré (40 %)", "Intense (80 %)", "Maximal", "Identique à A"], 1, "Même intensité absolue, intensité relative différente."),
+    V("En calorimétrie directe, on mesure la production de chaleur du sujet.", true, "En chambre calorimétrique, à l'hôpital.")
+  ],
+  dqp: [
+    Q("Le principe de surcharge dit que :", ["Il faut toujours s'entraîner au maximum", "La charge doit dépasser un seuil pour produire une amélioration", "Il faut alterner travail et repos", "L'entraînement doit être spécifique"], 1, "C'est l'alternance qui gère travail/repos."),
+    Q("Le déficit de force (réserve musculaire) est d'environ :", ["1-5 %", "10-30 %", "50 %", "80 %"], 1, "Il diminue avec l'entraînement."),
+    Q("La force explosive est :", ["La charge maximale soulevée une fois", "La plus grande force produite dans le temps le plus court", "La capacité à répéter longtemps", "La force sans mouvement"], 1, "La force maximale correspond à la 1 RM."),
+    Q("Quelle méthode de Zatsiorski favorise surtout l'hypertrophie ?", ["Efforts maximaux", "Efforts répétés (jusqu'à la fatigue)", "Efforts dynamiques", "Isométrie"], 1, "Le stress métabolique stimule la synthèse protéique."),
+    V("La pliométrie est recommandée en priorité aux très jeunes athlètes et aux athlètes lourds.", false, "Au contraire, on l'évite chez eux ; progressivité et technique sont essentielles."),
+    V("Le travail excentrique peut utiliser des charges supra-maximales.", true, "Mais il provoque de fortes courbatures."),
+    Q("Pour développer la vitesse, il faut privilégier :", ["Des séances en état de fatigue", "Des intensités maximales, de courte durée, avec récupération complète", "Des efforts longs à faible intensité", "Uniquement la musculation"], 1, "La vitesse élémentaire se travaille avant la vitesse complexe."),
+    Q("Les qualités physiques sont selon Manno :", ["Des capacités innées impossibles à améliorer", "Les prérequis moteurs de base sur lesquels se construisent les habiletés techniques", "Des techniques sportives", "Des facteurs psychologiques"], 1, "Fleishman parle de caractéristiques stables."),
+    Q("La coordination intramusculaire combine :", ["Sommation spatiale et temporelle", "Plusieurs muscles différents", "Hypertrophie et souplesse", "Vitesse et endurance"], 0, "La coordination entre muscles est l'intermusculaire."),
+    Q("Un footballeur et un basketteur font un test d'agilité avec un stimulus générique. Résultat ?", ["Le footballeur gagne", "Résultats similaires", "Le basketteur gagne", "Test impossible"], 1, "La différence n'apparaît qu'avec un stimulus spécifique à l'activité.")
+  ],
+  tdadcp: [
+    Q("NAP d'une personne avec DEJ 2 700 kcal et NMR 1 500 kcal :", ["1,2", "1,5", "1,8", "2,7"], 2, "NAP = 2700 / 1500 = 1,8 : activité modérée à intense."),
+    Q("IMC d'une personne de 81 kg pour 1,80 m :", ["20", "25", "27", "45"], 1, "81 / 1,8² = 81 / 3,24 = 25."),
+    Q("Une personne de 70 kg à 10 MET pendant 1 h dépense environ :", ["70 kcal", "350 kcal", "735 kcal", "2 000 kcal"], 2, "10 × 3,5 × 70 = 2450 mL/min ≈ 2,45 L × 5 kcal × 60 ≈ 735 kcal."),
+    Q("FCmax théorique d'une personne de 20 ans :", ["180 bpm", "200 bpm", "220 bpm", "240 bpm"], 1, "220 − 20 = 200 bpm."),
+    V("Un QA supérieur au QR place le sujet en situation favorable de perte de poids.", true, "À l'inverse, QA < QR = risque de prise de poids.")
+  ],
+  attach: [
+    Q("Qui a défini la notion d'imprinting ?", ["Spitz", "Lorenz", "Harlow", "Bowlby"], 1, "Avec les canetons : notion non transférable aux humains."),
+    Q("Quel auteur a conçu la « situation étrange » ?", ["Bowlby", "Ainsworth", "Main", "Guedeney"], 1, "En 1978, avec des bébés de 12 mois."),
+    Q("Le profil désorganisé a été décrit par :", ["Ainsworth", "Main et Solomon", "Lorenz", "Byng-Hall"], 1, "Environ 5 % des enfants."),
+    Q("Selon Goldberg, quelle part des troubles de l'attachement apparaît avant 1 an ?", ["10 %", "30 %", "70 %", "100 %"], 2, "Ils diminuent quand l'enfant est replacé dans un milieu sécure."),
+    Q("Le MOI, chez Bowlby, signifie :", ["Modèle opératoire interne", "Moteur d'organisation infantile", "Mère, oncle, institution", "Mode d'observation individuelle"], 0, "Il se construit si le triangle père-mère-enfant est harmonieux."),
+    V("Bowlby considère, comme Freud, que seuls les besoins alimentaires sont essentiels.", false, "Bowlby estime que les besoins affectifs et sociaux sont aussi importants que les besoins primaires."),
+    V("Pour Paquette, le père joue un rôle aussi fondamental que la mère.", true, "Notamment dans l'ouverture au monde."),
+    Q("Les deux formes du trouble de l'attachement :", ["TDAH et TOC", "TRA et TESD", "TPL et TCA", "TSA et TAG"], 1, "Trouble réactionnel de l'attachement et trouble de l'engagement social désinhibé."),
+    Q("La base de sécurité familiale est un concept de :", ["Byng-Hall", "Harlow", "Spitz", "Lebovici"], 0, "Cadre systémique qui donne à chacun un réseau d'attention fiable."),
+    Q("Selon John et Gross, avec l'âge on utilise davantage :", ["La suppression expressive", "La réévaluation cognitive", "Le déni", "L'agressivité"], 1, "La régulation émotionnelle s'améliore avec l'âge."),
+    Q("La parentalité comme « processus maturatif dans la tête des parents » est de :", ["Lebovici", "Sennelet", "Quinton", "Campion"], 0, "Sennelet parle de processus psychique et de codage social."),
+    V("Le trouble borderline (TPL) se diagnostique généralement à l'adolescence.", true, "Prévalence estimée entre 2,5 et 5 %.")
+  ],
+  ado: [
+    Q("Pour Philippe Ariès, l'adolescence est :", ["Un fait biologique universel", "Une invention de la société", "Une maladie", "Une période qui commence à 18 ans"], 1, "Créée pour protéger l'enfant et pour des raisons économiques."),
+    Q("Margaret Mead illustre l'adolescence comme fait de société avec :", ["Les îles Samoa", "La Grèce antique", "Le Japon", "L'Amérique latine"], 0, "Saut d'un arbre de 7 m pour devenir un homme."),
+    Q("La phase d'opposition commence chez les filles vers :", ["8-9 ans", "12-13 ans", "16-17 ans", "19 ans"], 1, "Chez les garçons entre 12 et 15 ans."),
+    Q("Selon Sussman, une puberté précoce est plutôt :", ["Positive pour les filles", "Négative pour les filles, positive pour les garçons", "Négative pour tous", "Sans effet"], 1, "Les filles précoces peuvent subir du harcèlement."),
+    Q("Quelle zone cérébrale liée à la dopamine explique l'attrait pour les addictions ?", ["Le cervelet", "L'aire tegmentale ventrale", "Le bulbe", "L'hippocampe"], 1, "Elle s'active à l'adolescence et libère de la dopamine."),
+    Q("La lumière bleue des écrans perturbe :", ["La sérotonine", "La mélatonine", "L'insuline", "L'adrénaline"], 1, "Hormone du sommeil, surtout entre 18 h et 20 h."),
+    V("La dette de sommeil d'un adolescent peut être compensée le week-end.", false, "Le cours précise qu'elle ne se compense pas pendant les vacances ou les week-ends."),
+    Q("La loi qui renforce la protection des mineurs et l'honorabilité dans le sport date du :", ["8 mars 2024", "1er janvier 2016", "24 décembre 2012", "1993"], 0, "Le président de club a une obligation de signalement."),
+    Q("Pour Ehrenberg, l'ennui à l'adolescence :", ["Mène toujours à la dépression", "N'est pas corrélé à la dépression et permet un travail psychique", "Est un trouble à soigner", "N'existe pas"], 1, "Le « je ne veux rien » n'est pas pathologique."),
+    V("Selon Martinot (2011), les voies courtes des émotions sont plus activées chez les garçons.", true, "Les filles activent davantage les voies longues."),
+    Q("Seule une petite part des victimes de violences sexuelles porte plainte :", ["4 %", "25 %", "50 %", "80 %"], 0, "Et 70 % des plaintes sont classées sans suite."),
+    Q("Quelle part des enfants de 11 à 17 ans est inactive ?", ["20 %", "37 %", "73 %", "95 %"], 2, "37 % chez les 6-10 ans.")
+  ],
+  socdel: [
+    Q("La socialisation primaire se fait principalement :", ["Au travail", "Dans la famille, jusqu'à environ 12 ans", "Au club de sport", "À l'université"], 1, "La secondaire se construit toute la vie dans de nouveaux milieux."),
+    Q("Les 2 mécanismes de Tap (1988) :", ["Acculturation et subjectivation", "Intégration personnelle du social et intégration sociale de la personne", "Assimilation et accommodation", "Primaire et secondaire"], 1, "Acculturation/subjectivation, c'est Malrieu."),
+    Q("Chez Gesell, la période délocutive va de :", ["0 à 2 ans", "2 à 6 ans", "6 à 10 ans", "10 à 14 ans"], 1, "La période locutoire va de 0 à 2 ans."),
+    Q("Le réalisme intellectuel dans le dessin (Luquet) concerne :", ["1-2 ans", "2-3 ans", "3-4 ans", "4-8 ans"], 3, "Souci du détail et des proportions."),
+    Q("Selon Mucchielli, un enfant sans espace vital (≈ 8 m²) devient :", ["Plus calme", "Plus agressif et tendu", "Plus créatif", "Plus autonome"], 1, "Hazeman ajoute des troubles psychologiques (énurésie, terreurs nocturnes)."),
+    V("Pour Chombart de Lauwe, la socialisation est réussie quand on sait passer d'un milieu à l'autre.", true, "Famille, classe, milieu extra-scolaire."),
+    V("Selon Roché, un enfant sait distinguer le bien du mal dès 8 ans.", true, "La délinquance résulte d'une mauvaise construction sociale."),
+    Q("Les 3 buts de Midgley et Kaplan :", ["Maîtrise, performance, évitement de la performance", "Plaisir, effort, réussite", "Famille, école, amis", "Social, affectif, cognitif"], 0, "L'évitement de la performance mène à l'autosabotage."),
+    Q("Les circonstances atténuantes apparaissent dans le jugement des enfants vers :", ["5 ans", "7 ans", "9-10 ans", "14 ans"], 2, "Stern et Peterson."),
+    Q("Selon Becker, l'initiation à la violence sexuelle démarre entre :", ["8 et 10 ans", "13 et 16 ans", "18 et 21 ans", "25 et 30 ans"], 1, "Elle est liée à la puberté."),
+    Q("Les « enfants rois » du 21e siècle sont décrits par :", ["Preux", "Moreno", "Bloch", "Michinov"], 0, "Pas de limites, privilèges, intolérance à la frustration."),
+    V("Selon Vizard, les abuseurs appartiennent à un groupe social précis.", false, "On les trouve dans tous les groupes socio-professionnels.")
+  ],
+  sdef: [
+    Q("Qui a écrit « Questions de sociologie » ?", ["Durkheim", "Bourdieu", "Weber", "Boudon"], 1, "Bourdieu : la sociologie doit comprendre le monde social, à commencer par les pouvoirs."),
+    Q("« Le sport intègre des comportements, des rites, des représentations, des normes, des valeurs » :", ["Bouet (1968)", "Defrance (1995)", "Bromberger (1995)", "Elias"], 0, "Il ajoute que le sport a une histoire et est dans l'histoire."),
+    Q("Le sport va du jeu au travail hautement spécialisé, selon :", ["Bouet", "Defrance", "Bromberger", "Durkheim"], 1, "Defrance, 1995."),
+    V("Le « french flair » au rugby est un exemple de préjugé national.", true, "Image idéalisée du rugbyman français."),
+    Q("L'euphémisation de la violence relève :", ["Du fonctionnalisme positif", "Du fonctionnalisme négatif", "De la critique marxiste", "Du dopage"], 0, "Catharsis et autocontrôle des pratiquants."),
+    V("Selon la critique marxiste, le sport renforce la conscience politique.", false, "Il réduirait au contraire le champ de la conscience politique."),
+    Q("Exemple de reflet des normes sociales cité dans le cours :", ["Golf élitiste, football populaire", "Natation pour tous", "Tennis réservé aux jeunes", "Rugby urbain"], 0, "Aussi : rugby du sud-ouest, foot et vélo du nord."),
+    Q("Une institution est :", ["Une entité composée de valeurs transmissibles", "Un individu", "Un sport", "Une loi"], 0, "Notion du préambule sur la société.")
+  ],
+  smeth: [
+    Q("Combien d'étapes compte la démarche en sciences sociales du cours ?", ["4", "5", "7", "10"], 2, "Question de départ, exploration, problématique, modèle, observation, analyse, conclusion."),
+    Q("Le questionnaire est une méthode :", ["Qualitative", "Quantitative", "Ethnographique", "Expérimentale"], 1, "Entretien et observation sont qualitatifs."),
+    Q("Une question qui propose une liste de réponses et guide l'interlocuteur :", ["Question ouverte", "Question cafétéria", "Question de relance", "Question miroir"], 1, "Variante de question fermée."),
+    Q("Le journal de terrain est lié à :", ["L'observation", "Le questionnaire", "Le test statistique", "L'échantillonnage"], 0, "Issu de la tradition anthropologique."),
+    V("Méthodes quantitatives et qualitatives sont incompatibles.", false, "Elles sont complémentaires et répondent à des questions différentes."),
+    V("Dans l'entretien non-directif, l'enquêteur intervient très peu.", true, "Il indique un thème général que la personne explore librement."),
+    Q("Reprendre un mot clé pour en connaître la signification :", ["Le reflet", "L'écho", "L'appui", "L'inversée"], 1, "Le reflet reprend en termes équivalents ce qui vient d'être dit."),
+    Q("Quel auteur propose une séquence en 6 phases (objet, description, hypothèses, concepts opératoires, indicateurs, communication) ?", ["Durkheim", "Weber", "Bourdieu", "Boudon"], 1, "Max Weber."),
+    Q("Une corrélation négative :", ["Les deux variables évoluent dans le même sens", "Les deux variables évoluent en sens opposés", "Il n'y a aucun lien", "Il y a forcément causalité"], 1, "Ex. : quand l'une augmente, l'autre diminue.")
+  ],
+  secole: [
+    Q("L'arbitraire culturel désigne :", ["Une culture scolaire neutre", "Une culture scolaire qui reprend les codes du groupe dominant", "Le hasard des notes", "Le choix d'option"], 1, "Il exerce une violence symbolique sur les moins favorisés."),
+    Q("« L'inégalité des chances » (1973) est l'œuvre de :", ["Bourdieu", "Passeron", "Boudon", "Durkheim"], 2, "Approche par les stratégies des acteurs."),
+    Q("Un réseau de relations entretenu par la sociabilité est un capital :", ["Économique", "Culturel", "Social", "Symbolique"], 2, "Le prestige relève du capital symbolique."),
+    Q("Un diplôme est une forme de capital :", ["Économique", "Culturel (institutionnalisé)", "Social", "Symbolique"], 1, "Avec l'aisance langagière et les biens culturels."),
+    V("Les filles ont de meilleurs résultats scolaires que les garçons.", true, "Mais leurs orientations sont moins favorables à leur réussite professionnelle."),
+    V("Regrouper les bons élèves entre eux produit un gain égal à la perte des plus faibles regroupés.", false, "La perte des faibles est plus forte que le gain des bons : la mixité profite à tous."),
+    Q("Écart de vocabulaire à l'entrée au CP selon l'origine sociale :", ["100 mots", "1 000 mots", "10 000 mots", "Aucun"], 1, "D'où l'intérêt d'agir dès 0-3 ans."),
+    Q("Pédagogie alternative pensée pour émanciper les classes populaires :", ["Montessori", "Steiner", "Freinet", "Frontale"], 2, "Présente dans des quartiers populaires."),
+    Q("Le « champ » chez Bourdieu est :", ["Un terrain de sport", "Une sphère sociale autonome avec ses propres règles", "Un capital", "Un diplôme"], 1, "La position dans le champ dépend de la position dans l'espace social.")
+  ],
+  strib: [
+    Q("Le supportérisme officiel apparaît dans les années :", ["1880", "1920-1930", "1980", "2000"], 1, "Dans le Nord et le Midi, sous l'autorité des clubs."),
+    Q("Les ultras sont plutôt originaires :", ["D'Europe du Nord", "D'Europe du Sud", "D'Amérique", "D'Asie"], 1, "Les hools viennent plutôt d'Europe du Nord."),
+    Q("Le capo est :", ["Le président du club", "Celui qui lance les chants et coordonne l'animation", "Un policier", "Un arbitre"], 1, "Responsable de l'animation de la tribune."),
+    Q("Part des supporters parmi les personnes présentes au stade :", ["5 %", "20 %", "50 %", "80 %"], 1, "80 % sont de simples spectateurs."),
+    V("Tous les supporters sont des hooligans, et inversement.", false, "Tous les hooligans sont des supporters, mais pas l'inverse."),
+    V("Une IAS est décidée par le préfet sans procès.", true, "C'est une mesure de police administrative (art. L332-16)."),
+    Q("Création du fichier des interdits de stade :", ["1993", "2003", "2006", "2016"], 1, "2006 : renforcement avec les IAS."),
+    Q("Durée maximale d'une interdiction judiciaire de stade :", ["6 mois", "2 ans", "5 ans", "10 ans"], 2, "Inchangée depuis 1993."),
+    Q("Pour les ultras, la violence est surtout :", ["Leur but principal", "Une ressource et une provocation plus qu'un passage à l'acte", "Inexistante", "Organisée par les clubs"], 1, "Leur enjeu principal reste l'animation.")
+  ],
+  sprat: [
+    Q("Quelle part des pratiquants est motivée par la compétition ?", ["21 %", "50 %", "75 %", "90 %"], 0, "90 % citent la santé et le plaisir."),
+    Q("Les 35 heures datent de :", ["1936", "1962", "1982", "1998"], 3, "1936 : 40 h + congés ; 1982 : 39 h et 5 semaines de congés."),
+    Q("Part des femmes parmi les sportifs aujourd'hui :", ["15 %", "36 %", "50 %", "64 %"], 1, "Hausse régulière depuis les années 1970."),
+    Q("La fédération à 93,8 % féminine :", ["FFF", "FEPGV (gymnastique volontaire)", "FFR", "FFCO"], 1, "La pratique féminine se concentre dans les fédérations multisports."),
+    V("La pratique libre est majoritaire par rapport à la pratique en club.", true, "Ex. : 5,4 M de footballeurs pour 2 M de licenciés."),
+    V("Le nombre de licenciés connaît une forte croissance depuis 1987.", false, "Stagnation relative : environ +1 %/an entre 1987 et 2002."),
+    Q("Les ATP sont :", ["Des molécules d'énergie", "Des autorisations temporaires de pratique", "Des associations de supporters", "Des aides publiques"], 1, "Environ 2 M, stratégie des fédérations pour une pratique flexible."),
+    Q("Parmi les ménages les plus aisés, quelle part pratique ?", ["45 %", "59 %", "82 %", "100 %"], 2, "59 % pour le quart le moins aisé."),
+    Q("Les lois programmes d'équipements sportifs datent de :", ["1936 et 1945", "1961 et 1965", "1998 et 2002", "2016 et 2019"], 1, "Elles ont permis des milliers d'équipements.")
+  ],
+  sdop: [
+    Q("Qui a gagné le marathon des JO de 1904 après une injection de produit ?", ["Thomas Hicks", "Lance Armstrong", "Ben Johnson", "Jesse Owens"], 0, "Le CIO jugeait alors les drogues « utiles »."),
+    Q("Le passage de 670 k$ (1960) à 1,5 Md$ (2018) illustre :", ["La professionnalisation", "La commercialisation du sport", "La médicalisation", "Le dopage d'État"], 1, "Internationalisation et médiatisation."),
+    V("Le dopage est un comportement déviant par rapport aux normes du sport de haut niveau.", false, "Le cours le présente comme hyper-conforme à ces normes."),
+    V("La médicalisation des athlètes peut brouiller la frontière entre dopage et préparation.", true, "Le danger augmente quand le dopage se fait sans assistance médicale."),
+    Q("Pourquoi le sport est-il un environnement propice au dopage ?", ["Contrôles très efficaces", "Contrôles inefficaces, solidarité et tolérance entre acteurs", "Absence d'argent", "Absence de médias"], 1, "Certains prônent de limiter les excès plutôt que de combattre."),
+    Q("Le dopage peut être vu comme une ressource pour :", ["La santé des athlètes", "Préserver la dimension spectaculaire du sport", "Le sport amateur", "L'arbitrage"], 1, "D'où une contradiction avec la crédibilité du spectacle.")
+  ],
+  ssante: [
+    Q("L'incidence d'une maladie est :", ["Le nombre total de malades", "Le nombre de nouveaux cas sur une période", "Le taux de décès", "La gravité"], 1, "La prévalence = nombre total de cas à un moment donné."),
+    Q("Le dépistage relève de la prévention :", ["Primaire", "Secondaire", "Tertiaire", "Quaternaire"], 1, "Agir dès le début de l'apparition du trouble."),
+    Q("Selon l'OMS, quelle part des infarctus et AVC serait évitable (AP, tabac, alimentation) ?", ["20 %", "50 %", "80 %", "100 %"], 2, "L'AP seule évite environ 30 % des maladies cardiovasculaires."),
+    Q("15 à 20 min de marche par jour font gagner environ :", ["3 mois de vie", "3 ans de vie", "10 ans de vie", "Rien"], 1, "Mode de vie sain complet : 11 à 14 ans de vie en bonne santé."),
+    Q("L'AP régulière chez la personne âgée retarde la dépendance de :", ["1 an", "3 ans", "7 à 10 ans", "20 ans"], 2, "Chez l'enfant : capital osseux +10 %."),
+    V("Les inégalités sociales de santé ne concernent que les plus pauvres.", false, "Elles suivent un gradient qui traverse toute la société."),
+    V("La sédentarité correspond au temps passé assis ou allongé en période d'éveil.", true, "Recommandation : moins de 8 h assis."),
+    Q("Le PNSSBE de 2013 est devenu en 2019 :", ["Le PNNS 4", "La Stratégie nationale sport santé", "Le plan Bien vieillir", "La loi Larrivé"], 1, "4 axes, 2019-2024."),
+    Q("L'instruction interministérielle « sport-santé » date du :", ["24 décembre 2012", "26 janvier 2016", "8 mars 2024", "1er janvier 2001"], 0, "Plans régionaux sport santé bien-être (ARS, DRJSCS)."),
+    Q("Définition de l'APA fixée par le décret du :", ["30 décembre 2016", "26 janvier 2016", "24 décembre 2012", "2001"], 0, "Pour des personnes aux besoins spécifiques.")
+  ],
+  sinteg: [
+    Q("« Double mouvement » de socialisation (acteurs intégrés et sujets autonomes), selon :", ["Bourdieu", "Dubet et Martuccelli", "Durkheim", "Elias"], 1, "Définition du cours sport et intégration."),
+    Q("Insérer un article dans un journal illustre :", ["L'intégration", "L'insertion", "La socialisation", "La citoyenneté"], 1, "Sens mécanique et réversible."),
+    Q("À partir de quelle décennie le sport est-il vu comme outil de pacification sociale ?", ["1950", "1980", "2000", "2020"], 1, "Crises et violences des années 1980."),
+    V("La pratique d'un sport entraîne mécaniquement le respect des règles sociales.", false, "Le transfert n'est pas automatique : il se construit, avec réflexivité."),
+    V("Dans le sport de rue, les filles ont souvent un rôle de faire-valoir.", true, "Parmi les limites des pratiques informelles."),
+    Q("Les sports de rue les plus développés :", ["Tennis et golf", "Foot et basket", "Natation et vélo", "Rugby et handball"], 1, "Pratiqués essentiellement par des garçons."),
+    Q("Réponse des politiques face au refus du sport associatif dans les cités :", ["Fermer les terrains", "Un sport de proximité en libre accès", "Imposer la licence", "Supprimer l'EPS"], 1, "Choisi par les jeunes, pour les responsabiliser."),
+    Q("Qui personnifie les règles dans le sport ?", ["L'entraîneur", "L'arbitre", "Le public", "Le président"], 1, "Il fait respecter la discipline.")
+  ],
+  gr: [
+    Q("Quel engin pèse 400 g pour un diamètre de 18 à 20 cm ?", ["Cerceau", "Ballon", "Massues", "Corde"], 1, "Cerceau : 300 g, 80-90 cm ; massues : 150 g."),
+    Q("Longueur réglementaire du ruban :", ["2 m", "4 m", "6 m", "10 m"], 2, "Ne pas descendre sous 4 m pour un élève."),
+    Q("Le premier code de pointage date de :", ["1948", "1963", "1975", "1984"], 2, "Le code évolue tous les 4 ans."),
+    Q("En individuel, combien d'engins sont présentés ?", ["1", "2", "4 sur 5", "5"], 2, "Enchaînements de 1'15 à 1'30."),
+    Q("La règle de la « prise » demande :", ["De serrer fort l'engin", "Une main libre qui épouse la forme de l'engin", "De ne jamais toucher l'engin", "De tenir à deux mains"], 1, "Ne pas se crisper."),
+    Q("La continuité signifie :", ["Pas de temps d'arrêt : la fin d'un élément est le début du suivant", "Rester au centre du praticable", "Utiliser un seul engin", "Garder le même rythme musical"], 0, "Elle repose sur l'anticipation."),
+    V("Les engins rigides imposent des contraintes de distribution des forces.", false, "Ce sont les engins déformables (corde, ruban). Les rigides imposent des contraintes spatiales."),
+    V("La GR est au carrefour des activités gymniques et artistiques.", true, "Performance codée + création et expression."),
+    Q("Un échange « par rebond » se fait avec :", ["La corde", "Le ruban", "Le ballon", "Les massues"], 2, "Les lancers sont possibles avec tous les engins."),
+    Q("Une formation en cercle est un dessin :", ["Fermé sans angle", "Ouvert", "En sous-groupes", "Fermé avec angles"], 0, "Carré ou triangle = fermés avec angles."),
+    Q("En 1998, la GRS devient la GR parce que :", ["Elle quitte les JO", "Le caractère sportif n'a plus besoin d'être précisé après son entrée aux JO", "Elle devient mixte", "Elle abandonne les engins"], 1, "Le terme « sportive » a été retiré.")
+  ],
+  muscu: [
+    Q("Délai minimum après une prothèse de hanche pour l'APA avec accord médical :", ["2 semaines", "1 mois", "3 mois", "1 an"], 2, "Avant 3 mois, les mouvements sont limités."),
+    Q("Le test du lever de chaise compte les levers en :", ["10 s", "30 s", "1 min", "5 min"], 1, "Avec l'équilibre unipodal (jusqu'à 30 s) et le TUG."),
+    Q("Intensité choisie pour la marche de Patrick :", ["Maximale", "Modérée (il doit pouvoir parler)", "Supra-maximale", "Très faible, sans effort"], 1, "Le test de la parole sert de repère."),
+    Q("Nombre de séances par semaine prévues :", ["1", "2 à 3", "5", "7"], 1, "En plus de la marche en autonomie."),
+    V("Croiser les jambes est déconseillé après une prothèse totale de hanche.", true, "On évite les rotations extrêmes."),
+    V("Dans la progression, on augmente d'abord les charges avant la durée.", false, "On augmente d'abord la durée et la fréquence, puis les charges."),
+    Q("Exercice d'équilibre avec double tâche :", ["Squat", "Surface instable + échanges de ballon", "Vélo", "Step"], 1, "Travail proprioceptif et de la ceinture abdominale."),
+    Q("Objectif à moyen terme (3-6 mois) :", ["Courir un marathon", "Marcher 45 à 60 min avec une douleur < 3/10", "Sauter à la corde", "Reprendre le foot"], 1, "Et atteindre 150 à 300 min d'activité par semaine."),
+    Q("Récupération entre les séries de renforcement :", ["30 s", "1 min", "2 min 30", "10 min"], 2, "2 à 3 séries de 10 à 15 répétitions.")
+  ],
+  tennis: [
+    Q("Le « but » dans une fiche de séance correspond à :", ["La transformation attendue chez le joueur", "La réalisation attendue (telle cible, tel point)", "L'organisation du terrain", "Le matériel"], 1, "L'objectif = « être capable de... »."),
+    Q("Situation qui ouvre la séance :", ["Bilan", "Observation (jeu à règles)", "Renforcement", "Étirements"], 1, "Puis situation-problème, renforcement, bilan."),
+    V("L'attente dynamique permet d'occuper les joueurs qui ne servent pas.", true, "Ils travaillent la gestuelle en attendant."),
+    Q("Effet privilégié pour sécuriser le service :", ["Coupé", "Lifté", "Slicé à plat", "Sans effet"], 1, "Le cours s'est concentré sur l'effet lifté."),
+    Q("Un « critère de réussite » doit être :", ["Seulement qualitatif", "Quantitatif et/ou qualitatif, pour savoir si le but est atteint", "Laissé au joueur", "Toujours de 100 %"], 1, "Ex. : 60 % de services dans la zone.")
+  ],
+  sa: [
+    Q("Nombre de déficients visuels dans le monde selon le cours :", ["32 millions", "155 millions", "1 milliard", "12 millions"], 1, "Dont 32 millions d'aveugles."),
+    Q("L'albinisme est dû à :", ["Une opacification du cristallin", "Un déficit de mélanine", "Une pression sur le nerf optique", "Un traumatisme"], 1, "Photophobie, nystagmus, strabisme."),
+    Q("Dépistage du glaucome recommandé à partir de :", ["10 ans", "25 ans", "40 ans", "70 ans"], 2, "Le champ visuel perdu ne se récupère pas."),
+    Q("Année de création de la FFH :", ["1901", "1960", "1977", "2001"], 2, "Association loi 1901, reconnue d'utilité publique."),
+    Q("Nombre de personnes en situation de handicap en France :", ["2 millions", "12 millions", "35 000", "30 millions"], 1, "Seulement 35 000 licenciés FFH."),
+    V("Au goalball, les valides peuvent jouer avec les déficients visuels jusqu'au championnat de France (2 voyants max).", true, "Tous les joueurs portent un masque."),
+    V("La FFSA s'occupe des handicaps moteurs.", false, "La FFSA gère les handicaps mental, psychique et neurodéveloppemental ; la FFH le moteur et le sensoriel."),
+    Q("Agénésie signifie :", ["Amputation", "Malformation (absence de développement d'un membre)", "Paralysie", "Cécité"], 1, "Cité dans le cours 2."),
+    Q("Prévalence de l'addiction au sport selon les sports :", ["0,1 %", "3 à 30 %", "50 %", "90 %"], 1, "Plutôt des femmes mais aussi des hommes."),
+    Q("Moment clé où surveiller un jeune sportif :", ["Les vacances d'été uniquement", "Le passage au haut niveau, un changement de club, la période scolaire", "Le jour de la compétition seulement", "Jamais"], 1, "Avec une prise en charge pluridisciplinaire."),
+    Q("Hormones perturbées par le cercle anorexie + sport intensif :", ["Insuline et glucagon", "Cortisol et leptine", "Mélatonine et sérotonine", "Testostérone et EPO"], 1, "Cité dans le cours 3."),
+    V("Le sport peut servir d'automédication psychique.", true, "Les endorphines agissent comme des opiacés naturels.")
+  ],
+  co: [
+    Q("Où est née la course d'orientation ?", ["En France", "En Scandinavie, fin du XIXe siècle", "Aux États-Unis", "En Suisse en 1970"], 1, "Utilisée d'abord par les militaires."),
+    Q("Création de la FFCO :", ["1900", "1945", "1970", "2021"], 2, "Environ 10 000 licenciés."),
+    Q("Sur la carte, le blanc indique une végétation :", ["Impénétrable", "Pénétrable à 100 %", "Marécageuse", "Interdite"], 1, "Le vert foncé = 0 % de pénétrabilité."),
+    Q("PM signifie :", ["Point de manœuvre", "Poste manquant", "Parcours mixte", "Point majeur"], 1, "Synonyme d'élimination en compétition."),
+    Q("Le point d'attaque correspond :", ["Au départ", "Au dernier point d'appui avant la balise", "À l'arrivée", "À une zone dangereuse"], 1, "Il a peu de sens en terrain urbain."),
+    Q("Allure « orange » des feux tricolores :", ["80-85 % VMA", "65-70 % VMA", "Marche", "100 % VMA"], 1, "Intéressante pour la condition physique et la plasticité cérébrale."),
+    V("La course d'orientation est une activité de pleine nature.", false, "Le cours précise qu'elle n'en est pas une (activités inventées pour le milieu naturel)."),
+    V("La boussole n'est pas utilisée en début d'apprentissage ni en APAS.", true, "Elle sert à suivre une direction sans ligne."),
+    Q("Mode de confrontation conseillé pour les débutants :", ["Contre-la-montre uniquement", "Mass start, relais, chasse ou défi", "Course de nuit", "Course en solitaire sans carte"], 1, "Le contre-la-montre ne met pas en confrontation directe."),
+    Q("La CO de précision s'adresse surtout :", ["Aux élites", "Aux personnes à mobilité réduite", "Aux enfants de 6 ans", "Aux militaires"], 1, "Faible taux de pratique (accès et terrain technique)."),
+    Q("Les 4 attitudes spécifiques en CO :", ["Vitesse, force, endurance, souplesse", "Accepter la pression temporelle, concentration, sécurité, respect de l'environnement", "Lire, courir, sauter, nager", "Écoute, partage, autonomie, plaisir"], 1, "La pression temporelle n'est pas adaptée à l'APAS.")
+  ]
+};
+
 </script>
 <script>
 (function () {
@@ -675,7 +1068,7 @@ const SCHEDULE = [
   try { const raw = localStorage.getItem(STORE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
 
-  const CH = {}; CHAPTERS.forEach(c => { CH[c.id] = c; });
+  const CH = {}; CHAPTERS.forEach(c => { CH[c.id] = c; if (typeof EXTRA !== "undefined" && EXTRA[c.id]) c.cards = c.cards.concat(EXTRA[c.id]); });
   const subjOf = c => SUBJECTS[c.subj];
   const cardId = (ch, i) => ch + "." + i;
 
@@ -838,7 +1231,7 @@ const SCHEDULE = [
       mob += "</div></div>";
     });
     mob += "</div>";
-    el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une piqûre de rappel de 15 min sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive.</p></div><div class="spacer"></div>' + chips + "</div>" + grid + mob +
+    el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une interro de rappel de 15 min (10 questions, notée sur 20) sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive.</p></div><div class="spacer"></div>' + chips + "</div>" + grid + mob +
       '<div class="legend">' + ["sv:Sciences de la vie", "adcp:Condition physique", "psy:Psychologie", "soc:Sociologie", "apsa:APSA", "rev:Annales et révisions"].map(x => { const [c, n] = x.split(":"); return '<span class="s-' + c + '"><span class="tag">' + n + "</span></span>"; }).join("") +
       '<span class="spacer"></span><label class="setting" for="startInput">Début du planning <input type="date" id="startInput" value="' + iso(startDate()) + '"></label></div>';
   }
@@ -916,97 +1309,192 @@ const SCHEDULE = [
   let rappelFilter = "all";
   function renderRappels() {
     const el = document.getElementById("v-rappels");
-    const all = CHAPTERS.map(c => c.id);
     const totalCards = CHAPTERS.reduce((n, c) => n + c.cards.length, 0);
     const mastered = Object.values(state.boxes).filter(b => b >= 3).length;
     const toReview = Object.values(state.boxes).filter(b => b === 0).length;
-    const seen = Object.keys(state.boxes).length;
-    const dueIds = dueCards().length;
-    let html = '<div class="view-head"><div><h2>Piqûres de rappel</h2><p>Chaque carte vient d\'un de tes cours. « Je savais » fait monter la carte d\'un niveau, « À revoir » la renvoie au début. La révision intelligente te sert d\'abord les cartes à revoir, puis celles des chapitres déjà étudiés.</p></div></div>';
-    html += '<div class="panel smart"><div class="stat-row"><div><b>' + totalCards + "</b><span>cartes au total</span></div><div><b>" + seen + "</b><span>déjà vues</span></div><div><b>" + toReview + "</b><span>à revoir</span></div><div><b>" + mastered + '</b><span>maîtrisées (niveau 3)</span></div></div><button class="btn primary" data-quiz-smart="1"' + (dueIds ? "" : " disabled") + ">Révision intelligente (" + Math.min(12, dueIds) + " cartes)</button></div>";
+    const grades = state.grades || [];
+    const avg = grades.length ? grades.reduce((s, g) => s + g.s, 0) / grades.length : null;
+    const dueN = dueCards().length;
+    let html = '<div class="view-head"><div><h2>Interros et piqûres de rappel</h2><p>' + totalCards + ' questions tirées de tes cours : QCM, vrai ou faux et questions ouvertes. Chaque interro est notée sur 20 et chronométrée. Les questions ratées reviennent en priorité, et les questions déjà vues récemment passent après les autres.</p></div></div>';
+    html += '<div class="panel smart"><div class="stat-row"><div><b>' + (avg === null ? "–" : fmtNote(avg)) + "</b><span>moyenne /20 (" + grades.length + " interros)</span></div><div><b>" + toReview + "</b><span>questions à revoir</span></div><div><b>" + mastered + "</b><span>maîtrisées</span></div></div>" +
+      '<div class="acts" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-interro="10">Interro sur 10 questions</button><button class="btn primary" data-interro="20">Interro sur 20 questions</button><button class="btn" data-quiz-smart="1"' + (dueN ? "" : " disabled") + ">Questions à revoir</button></div></div>";
+    if (grades.length) {
+      html += '<div class="panel" style="margin-bottom:18px"><span class="sect-lbl">Dernières notes</span><div class="grades">' + grades.slice(-8).reverse().map(g => { const d = new Date(g.d); return '<div class="grade ' + (g.s >= 10 ? "ok" : "ko") + '"><b>' + fmtNote(g.s) + "</b><span>/20 · " + d.getDate() + " " + MONTHS[d.getMonth()] + "</span><small>" + esc(g.t) + "</small></div>"; }).join("") + "</div></div>";
+    }
     const subs = [["all", "Tout"], ["sv", "Sciences de la vie"], ["adcp", "Condition physique"], ["psy", "Psychologie"], ["soc", "Sociologie"], ["apsa", "APSA"]];
-    html += '<div class="chips" style="margin-bottom:12px" role="group" aria-label="Filtrer par matière">' + subs.map(([k, n]) => '<button class="chip" data-rfilter="' + k + '" aria-pressed="' + (rappelFilter === k) + '">' + n + "</button>").join("") + "</div>";
+    html += '<p class="mini" style="margin:0 0 8px">Le filtre choisit aussi la matière des interros sur 10 ou 20 (chapitres déjà vus en priorité).</p><div class="chips" style="margin-bottom:12px" role="group" aria-label="Filtrer par matière">' + subs.map(([k, n]) => '<button class="chip" data-rfilter="' + k + '" aria-pressed="' + (rappelFilter === k) + '">' + n + "</button>").join("") + "</div>";
     html += '<div class="deck-grid">';
     CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).forEach(c => {
       const st = c.cards.filter((_, i) => (state.boxes[cardId(c.id, i)] ?? -1) >= 3).length;
-      html += '<button class="deck s-' + SUBJECTS[c.subj].color + '" data-quiz-ch="' + c.id + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span><b>" + esc(c.title) + "</b>" + boxBar([c.id]) + '<span class="mini">' + st + "/" + c.cards.length + " maîtrisées</span></button>";
+      html += '<button class="deck s-' + SUBJECTS[c.subj].color + '" data-quiz-ch="' + c.id + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span><b>" + esc(c.title) + "</b>" + boxBar([c.id]) + '<span class="mini">' + c.cards.length + " questions · " + st + " maîtrisées</span></button>";
     });
     html += "</div>";
     el.innerHTML = html;
   }
 
   /* ---------- quiz ---------- */
-  function seeded(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
-  function shuffle(arr, rnd) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-  function pickCards(ids, max, seed) {
-    const rnd = seeded(seed || Date.now());
+  function shuffle(arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function norm(card) {
+    if (Array.isArray(card)) return { t: "open", q: card[0], a: card[1] };
+    return card;
+  }
+  function correctText(c) {
+    if (c.t === "qcm") return c.o[c.a];
+    if (c.t === "vf") return c.v ? "Vrai" : "Faux";
+    return c.a;
+  }
+  // Priorité : cartes ratées, puis jamais vues, puis les moins récemment vues. Tirage aléatoire à chaque fois.
+  function pickCards(ids, max) {
     const pool = []; ids.forEach(id => CH[id].cards.forEach((_, i) => pool.push([id, i])));
-    const score = ([id, i]) => { const b = state.boxes[cardId(id, i)]; return b === 0 ? 0 : (b === undefined ? 1 : 2 + b); };
-    const sh = shuffle(pool, rnd).sort((a, b) => score(a) - score(b));
-    // spread across chapters: at most ceil(max/ids.length)+1 per chapter
-    const per = Math.max(2, Math.ceil(max / ids.length));
+    const prio = ([id, i]) => {
+      const k = cardId(id, i); const b = state.boxes[k]; const seen = (state.seen || {})[k] || 0;
+      const base = b === 0 ? 0 : (b === undefined ? 1 : 2 + b);
+      return base + Math.random() * 1.5 + (seen && Date.now() - seen < 2 * 864e5 ? 1.2 : 0);
+    };
+    const sorted = pool.map(c => [c, prio(c)]).sort((a, b) => a[1] - b[1]).map(x => x[0]);
+    const per = Math.max(2, Math.ceil(max / ids.length) + 1);
     const count = {}; const out = [];
-    for (const c of sh) { if (out.length >= max) break; count[c[0]] = (count[c[0]] || 0) + 1; if (count[c[0]] <= per) out.push(c); }
-    for (const c of sh) { if (out.length >= max) break; if (!out.includes(c)) out.push(c); }
-    return out;
+    for (const c of sorted) { if (out.length >= max) break; count[c[0]] = (count[c[0]] || 0) + 1; if (count[c[0]] <= per) out.push(c); }
+    for (const c of sorted) { if (out.length >= max) break; if (!out.includes(c)) out.push(c); }
+    return shuffle(out);
   }
   function studiedIds() {
     const t = todayIndex(); const now = new Date();
     const lim = t >= 0 ? t : (now > dateOf(19) ? 99 : -1);
-    const ids = Object.keys(completion).filter(id => Math.floor(completion[id]) <= lim || (sessionsOf[id] || []).some(s => state.done[s.key]));
-    return ids;
+    return Object.keys(completion).filter(id => Math.floor(completion[id]) <= lim || (sessionsOf[id] || []).some(s => state.done[s.key]));
   }
   function dueCards() {
     const ids = studiedIds();
     const out = [];
-    CHAPTERS.forEach(c => c.cards.forEach((_, i) => { const b = state.boxes[cardId(c.id, i)]; if (b === 0 || (b === undefined && ids.includes(c.id)) || (b !== undefined && b < 3 && ids.includes(c.id))) out.push([c.id, i]); }));
+    CHAPTERS.forEach(c => c.cards.forEach((_, i) => { const b = state.boxes[cardId(c.id, i)]; if (b === 0 || (ids.includes(c.id) && (b === undefined || b < 3))) out.push([c.id, i]); }));
     return out;
   }
 
-  let quiz = null;
+  let quiz = null; let timer = null;
   const dlg = document.getElementById("dlg"); const body = document.getElementById("dlgBody");
   function openDlg(html) { body.innerHTML = html; if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); } } }
-  function closeDlg() { quiz = null; try { dlg.close(); } catch (e) { dlg.removeAttribute("open"); } }
-  dlg.addEventListener("close", () => { quiz = null; renderAll(); });
+  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+  function closeDlg() { quiz = null; stopTimer(); try { dlg.close(); } catch (e) { dlg.removeAttribute("open"); } }
+  dlg.addEventListener("close", () => { quiz = null; stopTimer(); renderAll(); });
   dlg.addEventListener("click", e => { if (e.target === dlg) closeDlg(); });
 
-  function startQuiz(cards, title, slotKey) {
-    if (!cards.length) return;
-    quiz = { cards, i: 0, shown: false, good: 0, title, slotKey };
+  function fmtNote(x) { const r = Math.round(x * 2) / 2; return String(r).replace(".", ","); }
+  function quizScore() { return quiz.pts.reduce((s, p) => s + p, 0) * 20 / quiz.items.length; }
+  function tickTimer() {
+    const el = document.getElementById("qtimer"); if (!quiz || !el) return;
+    const left = Math.round((quiz.deadline - Date.now()) / 1000);
+    if (left <= 0) { el.textContent = "Temps écoulé"; el.classList.add("late"); return; }
+    el.textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+  }
+  function startQuiz(items, title, opts) {
+    opts = opts || {};
+    if (!items.length) return;
+    const minutes = opts.minutes || Math.max(5, Math.round(items.length * 1.5));
+    quiz = { items, i: 0, step: "ask", pts: [], wrong: [], title, slotKey: opts.slotKey || null, deadline: Date.now() + minutes * 60000, minutes, order: null, picked: null };
+    stopTimer(); timer = setInterval(tickTimer, 1000);
     drawQuiz();
   }
+  function head() {
+    return '<div class="dlg-head"><h3>' + esc(quiz.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div>';
+  }
+  function appreciation(n) {
+    if (n >= 18) return "Excellent, c'est maîtrisé.";
+    if (n >= 15) return "Très bien. Quelques détails à reprendre.";
+    if (n >= 12) return "Bien. Revois les questions ratées ci-dessous.";
+    if (n >= 10) return "Juste la moyenne. Relis les fiches de ces chapitres.";
+    return "À retravailler : reprends les cours concernés avant le prochain rappel.";
+  }
   function drawQuiz() {
-    const q = quiz; const [id, i] = q.cards[q.i] || [];
-    if (q.i >= q.cards.length) {
-      if (q.slotKey) { state.done[q.slotKey] = true; save(); }
-      openDlg('<div class="dlg-head"><h3>' + esc(q.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><div class="summary"><b>' + q.good + "/" + q.cards.length + "</b> cartes sues.</div><p>" + (q.good === q.cards.length ? "Parfait. Ces notions sont bien ancrées." : "Les cartes « à revoir » reviendront en priorité au prochain rappel.") + '</p><div class="acts"><button class="btn primary" data-close>Terminer</button></div>');
+    const q = quiz;
+    if (q.i >= q.items.length) {
+      stopTimer();
+      const note = quizScore();
+      if (!q.saved) {
+        q.saved = true;
+        state.grades = state.grades || [];
+        state.grades.push({ d: new Date().toISOString(), t: q.title, s: Math.round(note * 2) / 2, n: q.items.length });
+        if (state.grades.length > 200) state.grades = state.grades.slice(-200);
+        if (q.slotKey) state.done[q.slotKey] = true;
+        save();
+      }
+      let rec = "";
+      if (q.wrong.length) rec = '<div><div class="sect-lbl">Corrections à retenir</div><ul class="recap">' + q.wrong.map(w => "<li><b>" + esc(w.q) + "</b><br>" + esc(w.a) + "</li>").join("") + "</ul></div>";
+      openDlg(head() + '<div class="summary"><b>' + fmtNote(note) + '</b><span class="over">/20</span></div><p>' + appreciation(note) + " " + (q.items.length - q.wrong.length) + " réponse(s) juste(s) sur " + q.items.length + ".</p>" + rec + '<div class="acts"><button class="btn primary" data-close>Terminer</button></div>');
       return;
     }
-    const c = CH[id]; const card = c.cards[i];
-    openDlg('<div class="dlg-head"><h3>' + esc(q.title) + '</h3><button class="x" data-close aria-label="Fermer">×</button></div>' +
-      '<div class="qprog"><span class="s-' + SUBJECTS[c.subj].color + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span> " + esc(c.title) + "</span><span>" + (q.i + 1) + "/" + q.cards.length + "</span></div>" +
-      '<div class="card s-' + SUBJECTS[c.subj].color + '"><div class="q">' + esc(card[0]) + "</div>" + (q.shown ? '<div class="a">' + esc(card[1]) + "</div>" : "") + "</div>" +
-      '<div class="acts">' + (q.shown ? '<button class="btn good" data-ans="1">Je savais (1)</button><button class="btn warn" data-ans="0">À revoir (2)</button>' : '<button class="btn primary" data-flip>Voir la réponse (espace)</button>') + "</div>");
+    const [id, idx] = q.items[q.i]; const c = CH[id]; const card = norm(c.cards[idx]);
+    const per = 20 / q.items.length;
+    let html = head() + '<div class="qprog"><span>Question ' + (q.i + 1) + "/" + q.items.length + " · " + fmtNote(per) + ' pt</span><span class="timer" id="qtimer"></span><span>Note : ' + fmtNote(quizScore()) + "/20</span></div>" +
+      '<div class="qchap s-' + SUBJECTS[c.subj].color + '"><span class="tag">' + esc(SUBJECTS[c.subj].name) + "</span> " + esc(c.title) + ' <span class="kind">' + (card.t === "qcm" ? "QCM" : card.t === "vf" ? "Vrai ou faux" : "Question ouverte") + "</span></div>" +
+      '<div class="card s-' + SUBJECTS[c.subj].color + '"><div class="q">' + esc(card.q) + "</div>";
+    if (card.t === "qcm") {
+      if (!q.order) q.order = shuffle(card.o.map((_, k) => k));
+      html += '<div class="opts">' + q.order.map((k, n) => {
+        let cls = "opt";
+        if (q.step === "fb") { if (k === card.a) cls += " ok"; else if (k === q.picked) cls += " ko"; }
+        return '<button class="' + cls + '" data-opt="' + k + '"' + (q.step === "fb" ? " disabled" : "") + "><span>" + (n + 1) + "</span>" + esc(card.o[k]) + "</button>";
+      }).join("") + "</div>";
+    } else if (card.t === "vf") {
+      html += '<div class="opts two">' + [[1, "Vrai"], [0, "Faux"]].map(([v, lbl], n) => {
+        let cls = "opt";
+        if (q.step === "fb") { if (!!v === card.v) cls += " ok"; else if (v === q.picked) cls += " ko"; }
+        return '<button class="' + cls + '" data-opt="' + v + '"' + (q.step === "fb" ? " disabled" : "") + "><span>" + (n + 1) + "</span>" + lbl + "</button>";
+      }).join("") + "</div>";
+    } else if (q.step !== "ask") {
+      html += '<div class="a">' + esc(card.a) + "</div>";
+    }
+    if (q.step === "fb" && card.t !== "open") {
+      const ok = q.pts[q.i] > 0;
+      html += '<div class="fb ' + (ok ? "good" : "bad") + '"><b>' + (ok ? "Juste." : "Faux.") + "</b> " + (ok ? "" : "Réponse : " + esc(correctText(card)) + ". ") + esc(card.e || "") + "</div>";
+    }
+    html += "</div><div class=\"acts\">";
+    if (card.t === "open") {
+      if (q.step === "ask") html += '<button class="btn primary" data-flip>Voir la réponse (espace)</button>';
+      else if (q.step === "reveal") html += '<span class="mini" style="align-self:center">Note-toi honnêtement :</span><button class="btn good" data-self="1">Juste (1)</button><button class="btn" data-self="0.5">À moitié (2)</button><button class="btn warn" data-self="0">Faux (3)</button>';
+    } else if (q.step === "fb") html += '<button class="btn primary" data-next>' + (q.i + 1 < q.items.length ? "Question suivante (entrée)" : "Voir ma note (entrée)") + "</button>";
+    html += "</div>";
+    openDlg(html); tickTimer();
   }
-  function answer(ok) {
-    const [id, i] = quiz.cards[quiz.i]; const k = cardId(id, i);
+  function record(points) {
+    const [id, idx] = quiz.items[quiz.i]; const k = cardId(id, idx);
     const b = state.boxes[k];
-    state.boxes[k] = ok ? Math.min(3, (b === undefined || b < 0 ? 0 : b) + 1) : 0;
-    if (ok) quiz.good++;
-    save(); quiz.i++; quiz.shown = false; drawQuiz();
+    if (points >= 1) state.boxes[k] = Math.min(3, (b === undefined ? 0 : b) + 1);
+    else if (points === 0) state.boxes[k] = 0;
+    else if (b === undefined) state.boxes[k] = 0;
+    state.seen = state.seen || {}; state.seen[k] = Date.now();
+    quiz.pts[quiz.i] = points;
+    if (points < 1) { const card = norm(CH[id].cards[idx]); quiz.wrong.push({ q: card.q, a: correctText(card) + (card.e ? " (" + card.e + ")" : "") }); }
+    save();
+  }
+  function next() { quiz.i++; quiz.step = "ask"; quiz.order = null; quiz.picked = null; drawQuiz(); }
+  function choose(v) {
+    const [id, idx] = quiz.items[quiz.i]; const card = norm(CH[id].cards[idx]);
+    const ok = card.t === "qcm" ? v === card.a : (!!v === card.v);
+    quiz.picked = v; record(ok ? 1 : 0); quiz.step = "fb"; drawQuiz();
   }
   document.addEventListener("keydown", e => {
-    if (!quiz || !dlg.open) return;
-    if (e.key === " " && !quiz.shown && quiz.i < quiz.cards.length) { e.preventDefault(); quiz.shown = true; drawQuiz(); }
-    else if (quiz.shown && (e.key === "1" || e.key === "2")) { e.preventDefault(); answer(e.key === "1"); }
+    if (!quiz || !dlg.open || quiz.i >= quiz.items.length) return;
+    const [id, idx] = quiz.items[quiz.i]; const card = norm(CH[id].cards[idx]);
+    const n = Number(e.key);
+    if (card.t === "open") {
+      if (e.key === " " && quiz.step === "ask") { e.preventDefault(); quiz.step = "reveal"; drawQuiz(); }
+      else if (quiz.step === "reveal" && n >= 1 && n <= 3) { e.preventDefault(); record([1, 0.5, 0][n - 1]); next(); }
+    } else if (quiz.step === "ask" && n >= 1) {
+      if (card.t === "qcm" && quiz.order && n <= quiz.order.length) { e.preventDefault(); choose(quiz.order[n - 1]); }
+      if (card.t === "vf" && n <= 2) { e.preventDefault(); choose(n === 1 ? 1 : 0); }
+    } else if (quiz.step === "fb" && e.key === "Enter") { e.preventDefault(); next(); }
   });
 
   function rappelQuiz(slotKey) {
     const f = findSlot(slotKey); if (!f) return;
     const ids = f.slot.list.map(x => x.id);
     if (!ids.length) { openDlg('<div class="dlg-head"><h3>Piqûre de rappel</h3><button class="x" data-close aria-label="Fermer">×</button></div><p>Rien à revoir pour l\'instant : c\'est le tout début. Profite de ces 15 minutes pour ouvrir le dossier Drive et préparer tes fiches.</p><div class="acts"><button class="btn" data-mark="' + slotKey + '">Marquer comme fait</button></div>'); return; }
-    const n = Math.min(8, Math.max(4, ids.length * 2));
-    startQuiz(pickCards(ids, n, f.day.g * 10 + (f.slot.lbl === "R1" ? 1 : 2)), "Piqûre de rappel · " + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)), slotKey);
+    let items = pickCards(ids, 10);
+    if (items.length < 10) {
+      const others = studiedIds().filter(id => !ids.includes(id));
+      if (others.length) items = items.concat(pickCards(others, 10 - items.length));
+    }
+    startQuiz(items, "Interro de rappel · " + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)), { slotKey, minutes: 15 });
   }
 
   function openSlot(key) {
@@ -1014,7 +1502,7 @@ const SCHEDULE = [
     const s = f.slot;
     if (s.kind === "rappel") {
       const lst = s.list.length ? "<ul>" + s.list.map(x => "<li>" + esc(CH[x.id].title) + ' <span class="mini">(' + esc(x.label) + ")</span></li>").join("") + "</ul>" : "<p>Pas encore de chapitre à revoir.</p>";
-      openDlg('<div class="dlg-head"><h3>Piqûre de rappel · ' + s.time[0] + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><p class="mini">' + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + ' · 15 minutes</p><div><div class="sect-lbl">Chapitres réactivés</div>' + lst + '</div><div class="acts">' + (s.list.length ? '<button class="btn primary" data-quiz-slot="' + key + '">Lancer le rappel</button>' : "") + '<button class="btn" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + "</button></div>");
+      openDlg('<div class="dlg-head"><h3>Piqûre de rappel · ' + s.time[0] + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><p class="mini">' + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + ' · 15 minutes</p><div><div class="sect-lbl">Chapitres réactivés</div>' + lst + '</div><div class="acts">' + (s.list.length ? '<button class="btn primary" data-quiz-slot="' + key + '">Lancer l\'interro (10 questions, /20)</button>' : "") + '<button class="btn" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + "</button></div>");
       return;
     }
     const info = slotInfo(s);
@@ -1035,7 +1523,7 @@ const SCHEDULE = [
         quizIds.push(c.id);
       }
     });
-    html += '<div class="acts"><button class="btn primary" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + '</button><button class="btn" data-quiz-ids="' + quizIds.join(",") + '">Tester mes connaissances</button></div>';
+    html += '<div class="acts"><button class="btn primary" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + '</button><button class="btn" data-quiz-ids="' + quizIds.join(",") + '">Interro notée /20</button></div>';
     openDlg(html);
   }
 
@@ -1048,13 +1536,16 @@ const SCHEDULE = [
   document.addEventListener("click", e => {
     const t = e.target.closest("button, [data-close]"); if (!t) return;
     if (t.hasAttribute("data-close")) { closeDlg(); return; }
-    if (t.dataset.flip !== undefined) { quiz.shown = true; drawQuiz(); return; }
-    if (t.dataset.ans !== undefined) { answer(t.dataset.ans === "1"); return; }
+    if (t.dataset.flip !== undefined) { quiz.step = "reveal"; drawQuiz(); return; }
+    if (t.dataset.opt !== undefined) { if (quiz.step === "ask") choose(Number(t.dataset.opt)); return; }
+    if (t.dataset.self !== undefined) { record(Number(t.dataset.self)); next(); return; }
+    if (t.dataset.next !== undefined) { next(); return; }
+    if (t.dataset.interro) { const n = Number(t.dataset.interro); const inF = CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).map(c => c.id); const st = studiedIds().filter(id => inF.includes(id)); const ids = st.length >= 2 ? st : inF; startQuiz(pickCards(ids, n), "Interro sur " + n + " · " + (rappelFilter === "all" ? "toutes matières" : ({ sv: "Sciences de la vie", adcp: "Condition physique", psy: "Psychologie", soc: "Sociologie", apsa: "APSA" })[rappelFilter]), { minutes: n === 20 ? 25 : 15 }); return; }
     if (t.dataset.mark) { state.done[t.dataset.mark] = !state.done[t.dataset.mark]; save(); closeDlg(); return; }
     if (t.dataset.quizSlot) { rappelQuiz(t.dataset.quizSlot); return; }
-    if (t.dataset.quizCh) { const c = CH[t.dataset.quizCh]; startQuiz(pickCards([c.id], c.cards.length), c.title); return; }
-    if (t.dataset.quizIds) { const ids = [...new Set(t.dataset.quizIds.split(","))]; startQuiz(pickCards(ids, Math.min(10, ids.length * 3)), "Test de connaissances"); return; }
-    if (t.dataset.quizSmart) { const d = dueCards(); const rnd = seeded(Date.now()); const sorted = shuffle(d, rnd).sort((a, b) => (state.boxes[cardId(a[0], a[1])] === 0 ? 0 : 1) - (state.boxes[cardId(b[0], b[1])] === 0 ? 0 : 1)); startQuiz(sorted.slice(0, 12), "Révision intelligente"); return; }
+    if (t.dataset.quizCh) { const c = CH[t.dataset.quizCh]; const n = Math.min(10, c.cards.length); startQuiz(pickCards([c.id], n), "Interro · " + c.title, { minutes: 15 }); return; }
+    if (t.dataset.quizIds) { const ids = [...new Set(t.dataset.quizIds.split(","))]; const n = ids.length >= 5 ? 20 : 10; startQuiz(pickCards(ids, n), "Interro sur " + n, { minutes: n === 20 ? 25 : 15 }); return; }
+    if (t.dataset.quizSmart) { const d = shuffle(dueCards()).sort((a, b) => (state.boxes[cardId(a[0], a[1])] === 0 ? 0 : 1) - (state.boxes[cardId(b[0], b[1])] === 0 ? 0 : 1)); startQuiz(shuffle(d.slice(0, 10)), "Questions à revoir", { minutes: 15 }); return; }
     if (t.dataset.openCh) { openChapter(t.dataset.openCh); return; }
     if (t.dataset.week !== undefined) { curWeek = Number(t.dataset.week); renderWeek(); return; }
     if (t.dataset.day !== undefined) { curDay = Math.max(0, Math.min(19, Number(t.dataset.day))); renderToday(); return; }
