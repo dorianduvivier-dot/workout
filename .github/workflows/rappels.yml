@@ -1,0 +1,56 @@
+name: Rappels push
+
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'   # toutes les 15 min
+  workflow_dispatch: {}
+
+permissions:
+  actions: write   # pour garder le planning actif (GitHub le coupe après 60 jours sans activité)
+  contents: read
+
+concurrency:
+  group: rappels
+  cancel-in-progress: false
+
+jobs:
+  rappel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: rappels
+
+      - name: Mémoire (rappels déjà envoyés, dernier état)
+        uses: actions/cache/restore@v4
+        with:
+          path: .rappels
+          key: rappels-${{ github.run_id }}
+          restore-keys: rappels-
+
+      - name: Envoyer le rappel si besoin
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: node rappels/rappel.mjs
+
+      - name: Sauver la mémoire
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .rappels
+          key: rappels-${{ github.run_id }}
+
+      - name: Nettoyer les vieilles mémoires
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache list --repo "$GITHUB_REPOSITORY" --key rappels- --sort created_at --order desc --limit 100 --json id --jq '.[5:][].id' \
+            | xargs -r -n1 gh cache delete --repo "$GITHUB_REPOSITORY" || true
+
+      - name: Garder le planning actif
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/rappels.yml/enable" || true

@@ -1,5 +1,5 @@
 // Service worker : hors-ligne + clic sur notification + rappel en arrière-plan (Android, si dispo).
-const VERSION = 'serie-v1';
+const VERSION = 'serie-v2';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

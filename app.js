@@ -14,7 +14,9 @@ const DEFAULT_STATE = {
   eod: '21:30',
   notified: {},          // 'AAAA-MM-JJ' -> ['09:00', 'eod', ...]
   best: 0,
+  topic: '',             // code ntfy pour les notifications push
 };
+const NTFY = 'https://ntfy.sh';
 
 function load() {
   try {
@@ -24,6 +26,10 @@ function load() {
   return structuredClone(DEFAULT_STATE);
 }
 let state = load();
+if (!state.topic) {
+  const r = crypto.getRandomValues(new Uint8Array(9));
+  state.topic = 'serie-' + Array.from(r, b => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
+}
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { toast("Impossible d'enregistrer"); }
 }
@@ -128,6 +134,7 @@ function render() {
   $('#week').innerHTML = week.join('');
 
   renderSettings();
+  publishState();
 }
 
 function renderSettings() {
@@ -144,6 +151,7 @@ function renderSettings() {
   </li>`).join('') || '<li class="hint">Aucun rappel.</li>';
 
   $('#eod-input').value = state.eod;
+  $('#topic').value = state.topic;
   updateNotifStatus();
 }
 
@@ -321,6 +329,53 @@ async function syncToServiceWorker() {
     if (reg && 'periodicSync' in reg) await reg.periodicSync.register('rappel', { minInterval: 60 * 60 * 1000 }).catch(() => {});
   } catch (e) { /* facultatif */ }
 }
+
+/* ---------- Notifications push (ntfy + robot GitHub) ---------- */
+// L'appli publie sa progression sur "<code>-etat" ; le robot GitHub la lit
+// toutes les 15 min et envoie les rappels sur "<code>" (appli ntfy).
+let publishTimer, lastPublished = '', lastPublishedAt = 0;
+function publishState() {
+  clearTimeout(publishTimer);
+  publishTimer = setTimeout(async () => {
+    const d = today();
+    const payload = {
+      day: dayKey(), tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      reminders: state.reminders, eod: state.eod,
+      exercises: state.exercises.map(e => ({ name: e.name, goal: e.goal, done: doneOf(d, e.id) })),
+      complete: progress(d).complete, streak: streak(),
+      url: location.href.split('#')[0].split('?')[0],
+    };
+    const sig = JSON.stringify(payload);
+    if (sig === lastPublished && Date.now() - lastPublishedAt < 3 * 3600e3) return;
+    try {
+      const res = await fetch(`${NTFY}/${state.topic}-etat`, { method: 'POST', body: JSON.stringify({ ...payload, updated: Date.now() }) });
+      if (res.ok) { lastPublished = sig; lastPublishedAt = Date.now(); }
+    } catch (e) { /* hors-ligne : on réessaiera */ }
+  }, 1500);
+}
+
+$('#copy-topic').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(state.topic); toast('Code copié'); }
+  catch { $('#topic').select(); toast('Sélectionne et copie le code'); }
+});
+
+$('#push-test').addEventListener('click', async () => {
+  const el = $('#push-status');
+  el.textContent = 'Envoi…';
+  try {
+    const res = await fetch(NTFY, {
+      method: 'POST',
+      body: JSON.stringify({
+        topic: state.topic, title: '✅ Ça marche !', tags: ['muscle'],
+        message: `Tu recevras tes rappels ici. Il te reste : ${reminderText(today()) || 'rien, bravo !'}`,
+        click: location.href.split('#')[0].split('?')[0],
+      }),
+    });
+    el.textContent = res.ok
+      ? "Envoyée ! Si rien n'arrive, vérifie que tu t'es bien abonné au code dans ntfy."
+      : `Erreur ${res.status}, réessaie dans un instant.`;
+  } catch { el.textContent = "Pas de connexion, réessaie plus tard."; }
+});
 
 /* ---------- Calendrier (.ics) ---------- */
 function buildICS() {
