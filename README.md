@@ -23,11 +23,19 @@ Aucune dépendance, aucun serveur : c'est une PWA statique (HTML/CSS/JS).
 - **iPhone** (Safari) : Partager → *Sur l'écran d'accueil*. Ouvre-la ensuite depuis l'icône (obligatoire pour les notifications sur iOS 16.4+).
 - **Android** (Chrome) : menu ⋮ → *Installer l'application*.
 
-## Les rappels
+## Les rappels (notifications push)
 
-Dans **Réglages** :
+Les notifications arrivent même quand l'appli est fermée et disent ce qu'il te reste (« 💪 62 % fait, on continue ? — Il te reste : 30 pompes »). Elles s'arrêtent dès que la journée est validée. À l'heure de fin de journée, tu reçois « 🔥 Ne casse pas ta série de X jours ! ».
 
-1. **Notifications de l'appli** – elles disent ce qu'il te reste (« Il te reste : 15 tractions, 20 pompes ») et ne te dérangent plus quand la journée est validée. Limite : sans serveur, le téléphone peut les retarder ou ne pas les envoyer quand l'appli est complètement fermée.
-2. **Rappels calendrier** – bouton *Ajouter les rappels au calendrier* : télécharge un fichier `.ics` avec un événement quotidien par heure de rappel + l'alerte de fin de journée. Ils sonnent à coup sûr, et chaque événement contient le lien qui ouvre l'appli. Sur Android, si Google Agenda n'ouvre pas le fichier, importe-le depuis calendar.google.com (Paramètres → Importer).
+Fonctionnement : l'appli publie ta progression sur [ntfy.sh](https://ntfy.sh). Toutes les 15 minutes, un robot GitHub Actions (`.github/workflows/rappels.yml`) la lit et t'envoie le rappel via l'appli **ntfy**. C'est gratuit, sans serveur à gérer.
 
-Utiliser les deux, c'est le combo idéal.
+Mise en place (une fois) :
+
+1. Dans l'appli **Série** → Réglages → *Notifications push* : copie ton code (`serie-xxxxxxxxx`).
+2. Installe **ntfy** ([iPhone](https://apps.apple.com/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)), autorise les notifications, appuie sur **+** et colle le code.
+3. Sur GitHub : **Settings → Secrets and variables → Actions → New repository secret**, avec le nom `NTFY_TOPIC` et ton code comme valeur ([lien direct](https://github.com/dorianduvivier-dot/workout/settings/secrets/actions/new)).
+4. Dans Série, appuie sur *Envoyer une notification de test*.
+
+Les rappels peuvent arriver jusqu'à ~15 min après l'heure choisie (GitHub ne lance pas le robot à la seconde près).
+
+Autres options (dans *Autres options de rappel*) : les notifications du navigateur (seulement appli ouverte) et l'export des rappels vers le calendrier (heures fixes, sans tenir compte de la progression).

@@ -66,17 +66,29 @@
         <input id="eod-input" type="time">
       </div>
 
-      <h2>Activer les notifications</h2>
+      <h2>Notifications push</h2>
       <div class="card">
-        <p><strong>1. Notifications de l'appli</strong> — intelligentes (elles te disent combien il te reste), mais le téléphone peut les retarder quand l'appli est fermée longtemps.</p>
-        <button class="btn wide" id="notif-btn">Autoriser les notifications</button>
+        <p>Elles arrivent même appli fermée et te disent ce qu'il te reste. Elles s'arrêtent dès que ta journée est validée.</p>
+        <p class="hint">Ton code de notifications&nbsp;:</p>
+        <div class="add-row">
+          <input id="topic" readonly aria-label="Code de notifications">
+          <button class="btn" id="copy-topic" type="button">Copier</button>
+        </div>
+        <ol class="steps">
+          <li>Installe l'appli gratuite <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">ntfy</a> (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a>), autorise ses notifications, appuie sur <b>+</b> et colle ce code.</li>
+          <li>Une seule fois&nbsp;: colle aussi ce code sur <a href="https://github.com/dorianduvivier-dot/workout/settings/secrets/actions/new" target="_blank" rel="noopener">GitHub</a> avec le nom <code>NTFY_TOPIC</code>.</li>
+        </ol>
+        <button class="btn wide ghost" id="push-test" type="button">Envoyer une notification de test</button>
+        <p class="hint" id="push-status"></p>
+      </div>
+      <details class="card">
+        <summary>Autres options de rappel</summary>
+        <p><strong>Notifications du navigateur</strong> : elles marchent seulement quand l'appli est ouverte.</p>
+        <button class="btn wide ghost" id="notif-btn">Autoriser les notifications</button>
         <p class="hint" id="notif-status"></p>
-      </div>
-      <div class="card">
-        <p><strong>2. Rappels dans ton calendrier</strong> — 100&nbsp;% fiables, même appli fermée. Importe le fichier, chaque rappel contient un lien qui ouvre l'appli.</p>
-        <button class="btn wide" id="ics-btn">Ajouter les rappels au calendrier</button>
-        <p class="hint">À refaire si tu changes les heures.</p>
-      </div>
+        <p><strong>Rappels dans le calendrier</strong> : ils sonnent à heure fixe, sans tenir compte de ta progression.</p>
+        <button class="btn wide ghost" id="ics-btn">Ajouter les rappels au calendrier</button>
+      </details>
 
       <h2>Données</h2>
       <div class="row-btns">

@@ -107,6 +107,14 @@ input:focus { outline: none; border-color: var(--accent); }
 .row-btns > * { flex: 1; }
 .card { background: var(--surface); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
 .card p { margin: 0 0 6px; font-size: 15px; }
+.card a { color: var(--accent); }
+.card code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; font-size: 14px; }
+.card summary { font-weight: 600; cursor: pointer; }
+details.card[open] summary { margin-bottom: 10px; }
+details.card p { margin-top: 10px; }
+.steps { margin: 12px 0 4px; padding-left: 20px; font-size: 15px; }
+.steps li { margin-bottom: 8px; }
+#topic { flex: 1; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
 
 .tabs {
   position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: 8px;
