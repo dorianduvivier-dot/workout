@@ -1,6 +1,6 @@
 // Service worker : hors-ligne + clic sur notification + rappel en arrière-plan (Android, si dispo).
-const VERSION = 'serie-v3';
-const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
+const VERSION = 'serie-v4';
+const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'levels.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
