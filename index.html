@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="top">
@@ -42,6 +42,15 @@
       <div class="week" id="week"></div>
     </section>
 
+    <!-- Vue : Niveaux -->
+    <section id="view-levels" class="view">
+      <div class="rank-card" id="rank-card"></div>
+      <div class="body-wrap" id="body"></div>
+      <div class="legend" id="legend"></div>
+      <ul class="level-list" id="level-list"></ul>
+      <p class="hint center">Ton niveau dépend de ta <b>moyenne de répétitions par jour sur les 7 derniers jours</b> : la régularité paie, un jour sauté fait baisser la moyenne. Paliers estimés pour un pratiquant amateur.</p>
+    </section>
+
     <!-- Vue : Réglages -->
     <section id="view-settings" class="view">
       <h2>Objectifs du jour</h2>
@@ -50,6 +59,7 @@
         <input id="add-name" placeholder="Nouvel exercice" required maxlength="30">
         <input id="add-goal" type="number" inputmode="numeric" min="1" placeholder="Obj." required>
         <button class="btn" type="submit">Ajouter</button>
+        <select id="add-kind" class="kind-select" aria-label="Type d'exercice"></select>
       </form>
 
       <h2>Rappels</h2>
@@ -100,6 +110,7 @@
 
   <nav class="tabs">
     <button class="tab active" data-view="today">Aujourd'hui</button>
+    <button class="tab" data-view="levels">Niveaux</button>
     <button class="tab" data-view="settings">Réglages</button>
   </nav>
 
@@ -118,6 +129,7 @@
   </dialog>
 
   <div class="toast" id="toast"></div>
-  <script src="app.js?v=3"></script>
+  <script src="levels.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

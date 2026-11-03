@@ -142,3 +142,37 @@ dialog::backdrop { background: rgba(0, 0, 0, .55); }
   opacity: 0; pointer-events: none; transition: .25s; max-width: 90vw; text-align: center;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Niveaux ---------- */
+:root { --body-off: #2a2e38; --body-base: #3a3f4b; }
+@media (prefers-color-scheme: light) { :root { --body-off: #dfe2e8; --body-base: #c9cdd6; } }
+.rank-card { display: flex; align-items: center; gap: 14px; background: var(--surface); border-radius: var(--radius); padding: 14px 16px; margin-top: 8px; }
+.rank-card .hint { margin: 0; }
+.rank-card strong { font-size: 22px; }
+.body-wrap { margin: 14px 0 6px; }
+.body { width: 100%; height: auto; display: block; }
+.body-base { fill: var(--body-base); }
+.muscle { stroke: var(--bg); stroke-width: 1.2; transition: fill .4s; }
+.body-label { fill: var(--muted); font-size: 12px; }
+.legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 12px; font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+.level-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.lvl { background: var(--surface); border-radius: var(--radius); padding: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.lvl-main { flex: 1; min-width: 0; }
+.lvl-top { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; font-weight: 600; }
+.lvl-sub { color: var(--muted); font-size: 13px; margin-top: 8px; }
+.lvl-sub b { color: var(--text); }
+.chip.aim { margin-top: 10px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 14px; }
+.badge {
+  flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--c); color: #15171c; font-weight: 800; font-size: 13px; letter-spacing: -.05em;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .25);
+}
+.badge.big { width: 54px; height: 54px; border-radius: 16px; font-size: 17px; }
+.center { text-align: center; margin-top: 16px; }
+.kind-select {
+  background: var(--surface-2); color: var(--text); border: 0; border-radius: 12px; padding: 10px; font: inherit;
+}
+#add-form { flex-wrap: wrap; }
+#add-form .kind-select { flex-basis: 100%; }
+.kind-select.small { display: block; margin-top: 4px; padding: 4px 8px; font-size: 13px; font-weight: 400; color: var(--muted); }

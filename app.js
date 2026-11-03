@@ -26,6 +26,7 @@ function load() {
   return structuredClone(DEFAULT_STATE);
 }
 let state = load();
+for (const ex of state.exercises) if (!ex.kind) ex.kind = Levels.guessKind(ex.name);
 if (!state.topic) {
   const r = crypto.getRandomValues(new Uint8Array(9));
   state.topic = 'serie-' + Array.from(r, b => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
@@ -134,12 +135,17 @@ function render() {
   $('#week').innerHTML = week.join('');
 
   renderSettings();
+  renderLevels();
   publishState();
 }
 
 function renderSettings() {
+  const kindOptions = sel => Object.entries(Levels.KINDS)
+    .map(([k, v]) => `<option value="${k}" ${k === sel ? 'selected' : ''}>${v.label}</option>`).join('');
+  if (!$('#add-kind').options.length) $('#add-kind').innerHTML = kindOptions('autre');
   $('#goal-list').innerHTML = state.exercises.map(ex => `<li>
-    <span class="name">${esc(ex.name)}</span>
+    <span class="name">${esc(ex.name)}
+      <select class="kind-select small" data-kind="${ex.id}" aria-label="Type">${kindOptions(ex.kind)}</select></span>
     <input type="number" inputmode="numeric" min="1" value="${ex.goal}" data-goal="${ex.id}" aria-label="Objectif ${esc(ex.name)}">
     <button class="icon-btn" data-del="${ex.id}" aria-label="Supprimer">×</button>
   </li>`).join('');
@@ -153,6 +159,74 @@ function renderSettings() {
   $('#eod-input').value = state.eod;
   $('#topic').value = state.topic;
   updateNotifStatus();
+}
+
+/* ---------- Niveaux ---------- */
+// Moyenne de rép./jour sur 7 jours. On prend la meilleure des deux fenêtres
+// « 7 jours jusqu'à hier » et « 7 jours jusqu'à aujourd'hui » : la journée
+// en cours ne peut que faire monter le niveau, jamais le faire chuter le matin.
+// Au début, on divise par le nombre de jours depuis la première séance.
+function avg7(id) {
+  const keys = Object.keys(state.days).filter(k => state.days[k].sets.length).sort();
+  if (!keys.length) return 0;
+  const first = new Date(keys[0] + 'T12:00:00');
+  const since = Math.round((new Date(dayKey() + 'T12:00:00') - first) / 864e5) + 1;
+  const window = (offset, days) => {
+    const n = Math.max(1, Math.min(7, days));
+    let sum = 0;
+    for (let i = offset; i < offset + n; i++) { const d = state.days[dayKey(addDays(new Date(), -i))]; if (d) sum += doneOf(d, id); }
+    return sum / n;
+  };
+  return Math.max(window(0, since), since > 1 ? window(1, since - 1) : 0);
+}
+
+function renderLevels() {
+  const rows = state.exercises.map(ex => {
+    const avg = avg7(ex.id);
+    const lvl = Levels.levelFor(ex.kind, avg);
+    return { ex, avg, lvl, next: Levels.nextThreshold(ex.kind, lvl), prev: lvl ? Levels.KINDS[ex.kind].t[lvl - 1] : 0 };
+  });
+
+  // Niveau de chaque muscle = meilleur niveau des exercices qui le travaillent.
+  const muscles = {};
+  for (const r of rows) for (const m of Levels.KINDS[r.ex.kind].muscles) muscles[m] = Math.max(muscles[m] || 0, r.lvl);
+  $('#body').innerHTML = Levels.bodySVG(muscles);
+
+  // Rang global : moyenne des niveaux des exercices.
+  const ranked = rows.filter(r => r.ex.kind !== 'autre' || r.lvl);
+  const overall = ranked.length ? Math.floor(ranked.reduce((a, r) => a + r.lvl, 0) / ranked.length) : 0;
+  const O = Levels.levelInfo(overall);
+  $('#rank-card').innerHTML = `<span class="badge big" style="--c:${Levels.levelColor(overall) || 'var(--surface-2)'}">${badgeIcon(overall)}</span>
+    <div><p class="hint">Rang global</p><strong>${O.label}</strong></div>`;
+
+  $('#legend').innerHTML = Levels.TIERS.map(t => `<span><i style="background:${t.color}"></i>${t.name}</span>`).join('');
+
+  $('#level-list').innerHTML = rows.map(({ ex, avg, lvl, next, prev }) => {
+    const L = Levels.levelInfo(lvl);
+    const color = Levels.levelColor(lvl) || 'var(--surface-2)';
+    const pct = next ? Math.min(100, (avg - prev) / (next - prev) * 100) : 100;
+    const nextL = Levels.levelInfo(lvl + 1);
+    const avgTxt = avg >= 10 ? Math.round(avg) : Math.round(avg * 10) / 10;
+    const aim = next && ex.goal < next
+      ? `<button class="chip aim" data-aim="${ex.id}" data-value="${next}">Viser ${next}/jour</button>` : '';
+    return `<li class="lvl">
+      <span class="badge" style="--c:${color}">${badgeIcon(lvl)}</span>
+      <div class="lvl-main">
+        <div class="lvl-top"><b>${esc(ex.name)}</b><span style="color:${L.color || 'var(--muted)'}">${L.label}</span></div>
+        <div class="bar"><i style="width:${pct}%;background:${color}"></i></div>
+        <div class="lvl-sub">${avgTxt} / jour en moyenne · ${next ? `encore ${Math.ceil(next - avg)} / jour pour <b>${nextL.label}</b>` : 'niveau maximum 👑'}</div>
+        ${aim}
+      </div>
+    </li>`;
+  }).join('') || '<li class="hint">Ajoute des exercices dans Réglages.</li>';
+}
+
+function badgeIcon(lvl) {
+  const L = Levels.levelInfo(lvl);
+  if (!lvl) return '–';
+  if (L.name === 'Légende') return '👑';
+  if (L.name === 'Maître') return '★';
+  return 'I'.repeat(L.step);
 }
 
 /* ---------- Saisie ---------- */
@@ -175,12 +249,15 @@ function addSet(id, n) {
   if (!(n > 0)) return;
   const d = today();
   const before = progress(d).complete;
-  d.sets.push({ id, n: Math.round(n), t: Date.now() });
   const ex = state.exercises.find(e => e.id === id);
+  const lvlBefore = Levels.levelFor(ex.kind, avg7(id));
+  d.sets.push({ id, n: Math.round(n), t: Date.now() });
+  const lvlAfter = Levels.levelFor(ex.kind, avg7(id));
   const left = Math.max(0, ex.goal - doneOf(d, id));
   render();
   const after = progress(d).complete;
-  if (after && !before) toast(`Journée validée ! Série : ${streak()} 🔥`);
+  if (lvlAfter > lvlBefore) toast(`🎉 ${ex.name} : ${Levels.levelInfo(lvlAfter).label} !`, 3500);
+  else if (after && !before) toast(`Journée validée ! Série : ${streak()} 🔥`);
   else toast(left ? `+${n} ${ex.name.toLowerCase()} · reste ${left}` : `${ex.name} : terminé ✓`);
 }
 
@@ -204,10 +281,13 @@ document.addEventListener('click', e => {
   } else if (t.dataset.deltime) {
     state.reminders = state.reminders.filter(x => x !== t.dataset.deltime);
     render();
+  } else if (t.dataset.aim) {
+    const ex = state.exercises.find(x => x.id === t.dataset.aim);
+    if (ex) { ex.goal = Number(t.dataset.value); render(); toast(`Nouvel objectif : ${ex.goal} ${ex.name.toLowerCase()} / jour`); }
   } else if (t.dataset.view) {
     document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === t));
     document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + t.dataset.view));
-    $('#headline').textContent = t.dataset.view === 'today' ? "Aujourd'hui" : 'Réglages';
+    $('#headline').textContent = { today: "Aujourd'hui", levels: 'Niveaux', settings: 'Réglages' }[t.dataset.view];
     window.scrollTo(0, 0);
   }
 });
@@ -219,7 +299,10 @@ $('#log-dialog').addEventListener('close', () => {
 
 document.addEventListener('change', e => {
   const t = e.target;
-  if (t.dataset.goal) {
+  if (t.dataset.kind) {
+    const ex = state.exercises.find(x => x.id === t.dataset.kind);
+    if (ex) { ex.kind = t.value; render(); }
+  } else if (t.dataset.goal) {
     const ex = state.exercises.find(x => x.id === t.dataset.goal);
     const v = Math.round(Number(t.value));
     if (ex && v > 0) { ex.goal = v; render(); } else t.value = ex.goal;
@@ -231,7 +314,10 @@ $('#add-form').addEventListener('submit', e => {
   const name = $('#add-name').value.trim();
   const goal = Math.round(Number($('#add-goal').value));
   if (!name || !(goal > 0)) return;
-  state.exercises.push({ id: 'ex' + Date.now().toString(36), name, goal });
+  const picked = $('#add-kind').value;
+  const kind = picked === 'autre' ? Levels.guessKind(name) : picked;
+  state.exercises.push({ id: 'ex' + Date.now().toString(36), name, goal, kind });
+  $('#add-kind').value = 'autre';
   e.target.reset();
   render();
   toast(`${name} ajouté`);
@@ -441,12 +527,12 @@ $('#import-input').addEventListener('change', async e => {
 
 /* ---------- Divers ---------- */
 let toastTimer;
-function toast(msg) {
+function toast(msg, ms = 2200) {
   const el = $('#toast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 
 let lastDay = dayKey();
