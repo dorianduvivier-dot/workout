@@ -1,5 +1,5 @@
 // Service worker : hors-ligne + clic sur notification + rappel en arrière-plan (Android, si dispo).
-const VERSION = 'serie-v2';
+const VERSION = 'serie-v3';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -16,7 +16,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: 'no-cache' })
       .then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put(e.request, copy)); return res; })
       .catch(() => caches.match(e.request, { ignoreSearch: true }).then(r => r || caches.match('index.html')))
   );
