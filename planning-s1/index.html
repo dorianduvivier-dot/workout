@@ -89,6 +89,14 @@ main { padding-block: 20px 60px; }
 .slot.rappel .sub { font-size: 12px; color: var(--muted); }
 .slot.rappel.done { opacity: .55; }
 .off { border-radius: var(--r); background: repeating-linear-gradient(135deg, transparent 0 8px, color-mix(in srgb, var(--line) 45%, transparent) 8px 9px); display: grid; place-items: center; color: var(--muted); font-weight: 600; font-size: 13px; text-align: center; padding: 8px; }
+.slot.study[draggable="true"] { cursor: grab; }
+.slot.dragging { opacity: .4; }
+.slot.picked { outline: 2px dashed var(--accent); outline-offset: 2px; }
+.over { outline: 2px solid var(--accent) !important; outline-offset: 2px; }
+.off.drop { border: 1px dashed var(--line); min-height: 64px; }
+.off.drop.target { border-color: var(--accent); color: var(--accent); cursor: pointer; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.movebar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); border-radius: var(--r); padding: 10px 14px; margin-bottom: 14px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 112px); z-index: 4; }
+@media (max-width: 820px) { .movebar { top: env(safe-area-inset-top, 0px); } }
 .lunch { border-radius: var(--r); color: var(--muted); font-size: 12px; text-align: center; padding: 4px; border: 1px solid transparent; font-family: var(--f-mono); }
 
 .mobile-week { display: none; }
@@ -1086,42 +1094,27 @@ const EXTRA = {
   function snapMonday(d) { const day = (d.getDay() + 6) % 7; const r = new Date(d); r.setDate(d.getDate() - day); return r; }
 
   /* ---------- build the plan ---------- */
-  // Each day: list of slots {key, kind, time, ...}
-  const DAYS = [];
-  const completion = {}; // chapter id -> day index of its last part
-  const sessionsOf = {}; // chapter id -> [{g, part, key}]
-  const STUDY_KEYS = [];
-  for (let w = 0; w < 4; w++) {
-    for (let d = 0; d < 5; d++) {
-      const g = w * 5 + d;
-      const blocks = SCHEDULE[w][d];
-      const full = blocks.length === 4 && blocks[0] !== null;
-      const labels = blocks.length === 4 ? ["A", "B", "C", "D"] : ["C", "D"];
-      const slots = [];
-      blocks.forEach((code, i) => {
-        if (code === null) return;
-        const lbl = labels[i];
-        const key = "w" + w + "d" + d + lbl;
-        const items = code.split("+").map(part => {
-          if (REVIEWS[part]) return { review: part };
-          const [id, p] = part.split(":");
-          return { ch: id, part: Number(p) };
-        });
-        items.forEach(it => {
-          if (it.ch) {
-            (sessionsOf[it.ch] = sessionsOf[it.ch] || []).push({ g, part: it.part, key, lbl });
-            if (it.part === CH[it.ch].parts) completion[it.ch] = Math.max(completion[it.ch] ?? -1, g + (lbl === "A" || lbl === "B" ? 0 : 0.5));
-          }
-        });
-        slots.push({ key, kind: "study", lbl, time: FULL[lbl], items });
-        STUDY_KEYS.push(key);
-      });
-      DAYS.push({ g, w, d, full, slots });
-    }
+  // Créneaux de travail possibles : lun., mer., jeu. A-D ; mar., ven. C-D seulement (matin libre).
+  const POS_ORDER = { A: 1, B: 2, C: 3, D: 4 };
+  function posLabels(d) { return (d === 1 || d === 4) ? ["C", "D"] : ["A", "B", "C", "D"]; }
+  function posKey(w, d, lbl) { return "w" + w + "d" + d + lbl; }
+  function parsePos(k) { const m = /^w(\d)d(\d)([ABCD])$/.exec(k); return m ? { w: +m[1], d: +m[2], lbl: m[3] } : null; }
+  function baseCode(w, d, lbl) {
+    const blocks = SCHEDULE[w][d];
+    const labels = blocks.length === 4 ? ["A", "B", "C", "D"] : ["C", "D"];
+    const i = labels.indexOf(lbl);
+    return i >= 0 ? blocks[i] : null;
   }
-  // completion fraction .5 marks afternoon. Rappels:
+  function codeAt(w, d, lbl) {
+    const k = posKey(w, d, lbl);
+    if (state.layout && Object.prototype.hasOwnProperty.call(state.layout, k)) return state.layout[k];
+    return baseCode(w, d, lbl);
+  }
+  const DAYS = [];
+  const completion = {}; // chapter id -> day index of its last session (+0.5 if afternoon)
+  const sessionsOf = {}; // chapter id -> [{g, part, key, lbl}]
+  const STUDY_KEYS = [];
   function rappelChapters(g, which) {
-    // which: "R1" (morning) or "R2" (afternoon)
     const out = [];
     const full = DAYS[g].full;
     const want = which === "R1" ? [[1, "Hier"], [3, "J-3"]] : (full ? [[0, "Ce matin"], [7, "J-7"], [14, "J-14"]] : [[1, "Hier"], [3, "J-3"], [7, "J-7"], [14, "J-14"]]);
@@ -1132,17 +1125,71 @@ const EXTRA = {
         else if (g - day === lag) out.push({ id, label });
       });
     });
-    // order by schedule order
     out.sort((a, b) => completion[a.id] - completion[b.id]);
     return out;
   }
-  DAYS.forEach(day => {
-    const g = day.g;
-    if (day.full) day.slots.unshift({ key: "w" + day.w + "d" + day.d + "R1", kind: "rappel", lbl: "R1", time: FULL.R1, list: rappelChapters(g, "R1") });
-    const r2 = { key: "w" + day.w + "d" + day.d + "R2", kind: "rappel", lbl: "R2", time: FULL.R2, list: rappelChapters(g, "R2") };
-    const idx = day.slots.findIndex(s => s.lbl === "C");
-    if (idx >= 0) day.slots.splice(idx, 0, r2);
-  });
+  function buildPlan() {
+    DAYS.length = 0; STUDY_KEYS.length = 0;
+    Object.keys(completion).forEach(k => delete completion[k]);
+    Object.keys(sessionsOf).forEach(k => delete sessionsOf[k]);
+    for (let w = 0; w < 4; w++) {
+      for (let d = 0; d < 5; d++) {
+        const g = w * 5 + d;
+        const slots = [];
+        posLabels(d).forEach(lbl => {
+          const code = codeAt(w, d, lbl);
+          if (!code) return;
+          const key = posKey(w, d, lbl);
+          const items = code.split("+").map(part => {
+            if (REVIEWS[part]) return { review: part };
+            const [id, p] = part.split(":");
+            return { ch: id, part: Number(p) };
+          });
+          items.forEach(it => { if (it.ch) (sessionsOf[it.ch] = sessionsOf[it.ch] || []).push({ g, part: it.part, key, lbl, it }); });
+          slots.push({ key, kind: "study", lbl, time: FULL[lbl], items });
+          STUDY_KEYS.push(key);
+        });
+        const full = slots.some(s => s.lbl === "A" || s.lbl === "B");
+        DAYS.push({ g, w, d, full, slots, morning: posLabels(d).length === 4 });
+      }
+    }
+    // Les parties sont renumérotées dans l'ordre où elles tombent dans le planning,
+    // et le chapitre compte comme vu après sa dernière séance.
+    Object.keys(sessionsOf).forEach(id => {
+      const list = sessionsOf[id].sort((a, b) => (a.g * 10 + POS_ORDER[a.lbl]) - (b.g * 10 + POS_ORDER[b.lbl]));
+      list.forEach((s, i) => { s.part = i + 1; s.it.part = i + 1; });
+      const last = list[list.length - 1];
+      completion[id] = last.g + (last.lbl === "C" || last.lbl === "D" ? 0.5 : 0);
+    });
+    DAYS.forEach(day => {
+      const g = day.g;
+      if (day.full) day.slots.unshift({ key: posKey(day.w, day.d, "R1").replace("dR", "dR"), kind: "rappel", lbl: "R1", time: FULL.R1, list: rappelChapters(g, "R1") });
+      const idx = day.slots.findIndex(s => s.lbl === "C" || s.lbl === "D");
+      if (idx >= 0) day.slots.splice(idx, 0, { key: "w" + day.w + "d" + day.d + "R2", kind: "rappel", lbl: "R2", time: FULL.R2, list: rappelChapters(g, "R2") });
+    });
+  }
+  buildPlan();
+
+  /* ---------- déplacement des blocs ---------- */
+  let moving = null; let resetArmed = false;
+  function moveSlot(from, to) {
+    if (!from || !to || from === to) return;
+    const a = parsePos(from), b = parsePos(to); if (!a || !b) return;
+    if (!posLabels(b.d).includes(b.lbl)) return;
+    const ca = codeAt(a.w, a.d, a.lbl), cb = codeAt(b.w, b.d, b.lbl);
+    state.layout = state.layout || {};
+    state.layout[to] = ca; state.layout[from] = cb;
+    // l'état « fait » suit le bloc
+    const da = !!state.done[from], db = !!state.done[to];
+    if (db) state.done[from] = true; else delete state.done[from];
+    if (da) state.done[to] = true; else delete state.done[to];
+    // nettoyer les entrées identiques au planning d'origine
+    [from, to].forEach(k => { const p = parsePos(k); if (state.layout[k] === baseCode(p.w, p.d, p.lbl)) delete state.layout[k]; });
+    save(); buildPlan();
+  }
+  function emptyCell(k, extraStyle) {
+    return '<div class="off drop' + (moving ? " target" : "") + '" data-pos="' + k + '"' + (extraStyle ? ' style="' + extraStyle + '"' : "") + ">" + (moving ? "Placer ici" : "Libre") + "</div>";
+  }
 
   /* ---------- helpers ---------- */
   function esc(s) { return String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]); }
@@ -1179,7 +1226,7 @@ const EXTRA = {
         '<div class="ttl">Piqûre de rappel · 15 min</div><div class="sub">' + sub + "</div></button>";
     }
     const info = slotInfo(slot);
-    return '<button class="slot study s-' + info.color + (done ? " done" : "") + '" data-key="' + slot.key + '">' +
+    return '<button class="slot study s-' + info.color + (done ? " done" : "") + (moving === slot.key ? " picked" : "") + '" data-key="' + slot.key + '" data-pos="' + slot.key + '" draggable="true">' +
       '<div class="meta"><span class="tag">' + esc(info.tag) + '</span><span class="check">' + (done ? "✓" : "") + "</span></div>" +
       '<div class="ttl">' + esc(info.title) + "</div>" +
       '<span class="time">' + slot.time[0] + "-" + slot.time[1] + "</span></button>";
@@ -1215,10 +1262,13 @@ const EXTRA = {
       days.forEach((d, di) => {
         const col = di + 2, row = ri + 2;
         if (lbl === "L") { grid += '<div class="lunch" style="grid-column:' + col + ";grid-row:" + row + '">Pause 12h-14h</div>'; return; }
-        if (!d.full && lbl === "R1") { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + ' / span 3">Matin libre<br>(pas de travail)</div>'; return; }
-        if (!d.full && (lbl === "A" || lbl === "B")) return;
+        if (!d.morning && lbl === "R1") { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + ' / span 3">Matin libre<br>(pas de travail)</div>'; return; }
+        if (!d.morning && (lbl === "A" || lbl === "B")) return;
         const s = d.slots.find(x => x.lbl === lbl);
-        if (!s) { grid += '<div class="off" style="grid-column:' + col + ";grid-row:" + row + '">Libre</div>'; return; }
+        if (!s) {
+          if (lbl === "R1" || lbl === "R2") { grid += '<div class="lunch" style="grid-column:' + col + ";grid-row:" + row + '">Pas de rappel</div>'; return; }
+          grid += emptyCell(posKey(d.w, d.d, lbl), "grid-column:" + col + ";grid-row:" + row); return;
+        }
         grid += '<div style="grid-column:' + col + ";grid-row:" + row + ';display:grid">' + slotButton(s) + "</div>";
       });
     });
@@ -1226,14 +1276,21 @@ const EXTRA = {
     // mobile list
     let mob = '<div class="mobile-week">';
     days.forEach(d => {
-      mob += '<div class="mday"><h3>' + DAY_NAMES[d.d] + "<small>" + fmt(dateOf(d.g)) + (d.full ? "" : " · matin libre") + '</small></h3><div class="list">';
-      d.slots.forEach(s => { mob += slotButton(s); if (s.lbl === "B") mob += '<div class="lunch">Pause 12h-14h</div>'; });
+      mob += '<div class="mday"><h3>' + DAY_NAMES[d.d] + "<small>" + fmt(dateOf(d.g)) + (d.morning ? "" : " · matin libre") + '</small></h3><div class="list">';
+      ["R1", "A", "B", "R2", "C", "D"].forEach(lbl => {
+        if (!d.morning && (lbl === "R1" || lbl === "A" || lbl === "B")) return;
+        const s = d.slots.find(x => x.lbl === lbl);
+        if (s) mob += slotButton(s);
+        else if (lbl !== "R1" && lbl !== "R2") mob += emptyCell(posKey(d.w, d.d, lbl));
+        if (lbl === "B") mob += '<div class="lunch">Pause 12h-14h</div>';
+      });
       mob += "</div></div>";
     });
     mob += "</div>";
-    el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une interro de rappel de 15 min (10 questions, notée sur 20) sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive.</p></div><div class="spacer"></div>' + chips + "</div>" + grid + mob +
+    el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une interro de rappel de 15 min (10 questions, notée sur 20) sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive. Pour changer l\'ordre, glisse un bloc sur un autre créneau (ou ouvre-le et choisis « Déplacer ») : les rappels se recalculent tout seuls.</p></div><div class="spacer"></div>' + chips + "</div>" +
+      (moving ? '<div class="movebar"><span>Choisis le nouveau créneau pour <b>' + esc(slotInfo(findSlot(moving).slot).title) + '</b> : clique sur un bloc pour l\'échanger ou sur une case libre. Tu peux changer de semaine.</span><button class="btn" data-cancel-move>Annuler</button></div>' : "") + grid + mob +
       '<div class="legend">' + ["sv:Sciences de la vie", "adcp:Condition physique", "psy:Psychologie", "soc:Sociologie", "apsa:APSA", "rev:Annales et révisions"].map(x => { const [c, n] = x.split(":"); return '<span class="s-' + c + '"><span class="tag">' + n + "</span></span>"; }).join("") +
-      '<span class="spacer"></span><label class="setting" for="startInput">Début du planning <input type="date" id="startInput" value="' + iso(startDate()) + '"></label></div>';
+      '<span class="spacer"></span>' + (state.layout && Object.keys(state.layout).length ? '<button class="btn" data-reset-layout>' + (resetArmed ? "Clique encore pour confirmer" : "Rétablir le planning d\'origine") + "</button>" : "") + '<label class="setting" for="startInput">Début du planning <input type="date" id="startInput" value="' + iso(startDate()) + '"></label></div>';
   }
 
   function renderToday() {
@@ -1523,7 +1580,7 @@ const EXTRA = {
         quizIds.push(c.id);
       }
     });
-    html += '<div class="acts"><button class="btn primary" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + '</button><button class="btn" data-quiz-ids="' + quizIds.join(",") + '">Interro notée /20</button></div>';
+    html += '<div class="acts"><button class="btn primary" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + '</button><button class="btn" data-quiz-ids="' + quizIds.join(",") + '">Interro notée /20</button><button class="btn" data-start-move="' + key + '">Déplacer ce bloc</button></div>';
     openDlg(html);
   }
 
@@ -1534,8 +1591,12 @@ const EXTRA = {
 
   /* ---------- events ---------- */
   document.addEventListener("click", e => {
-    const t = e.target.closest("button, [data-close]"); if (!t) return;
+    const t = e.target.closest("button, [data-close], [data-pos]"); if (!t) return;
     if (t.hasAttribute("data-close")) { closeDlg(); return; }
+    if (t.dataset.startMove) { moving = t.dataset.startMove; closeDlg(); const p = parsePos(moving); curWeek = p.w; if (location.hash !== "#semaine") location.hash = "semaine"; else renderAll(); return; }
+    if (t.hasAttribute("data-cancel-move")) { moving = null; renderAll(); return; }
+    if (t.hasAttribute("data-reset-layout")) { if (!resetArmed) { resetArmed = true; renderAll(); return; } resetArmed = false; state.layout = {}; save(); buildPlan(); renderAll(); return; }
+    if (moving && t.dataset.pos) { const from = moving; moving = null; moveSlot(from, t.dataset.pos); renderAll(); return; }
     if (t.dataset.flip !== undefined) { quiz.step = "reveal"; drawQuiz(); return; }
     if (t.dataset.opt !== undefined) { if (quiz.step === "ask") choose(Number(t.dataset.opt)); return; }
     if (t.dataset.self !== undefined) { record(Number(t.dataset.self)); next(); return; }
@@ -1552,6 +1613,28 @@ const EXTRA = {
     if (t.dataset.rfilter) { rappelFilter = t.dataset.rfilter; renderRappels(); return; }
     if (t.dataset.key) { openSlot(t.dataset.key); return; }
   });
+  /* glisser-déposer (ordinateur) */
+  let dragFrom = null;
+  document.addEventListener("dragstart", e => {
+    const el = e.target.closest && e.target.closest(".slot.study[draggable]"); if (!el) return;
+    dragFrom = el.dataset.key; el.classList.add("dragging");
+    try { e.dataTransfer.setData("text/plain", dragFrom); e.dataTransfer.effectAllowed = "move"; } catch (err) {}
+  });
+  document.addEventListener("dragend", () => { dragFrom = null; document.querySelectorAll(".dragging, .over").forEach(n => n.classList.remove("dragging", "over")); });
+  document.addEventListener("dragover", e => {
+    if (!dragFrom) return;
+    const el = e.target.closest && e.target.closest("[data-pos]"); if (!el) return;
+    e.preventDefault(); try { e.dataTransfer.dropEffect = "move"; } catch (err) {}
+    document.querySelectorAll(".over").forEach(n => { if (n !== el) n.classList.remove("over"); });
+    el.classList.add("over");
+  });
+  document.addEventListener("drop", e => {
+    const el = e.target.closest && e.target.closest("[data-pos]"); if (!el || !dragFrom) return;
+    e.preventDefault();
+    const from = dragFrom; dragFrom = null; moving = null;
+    moveSlot(from, el.dataset.pos); renderAll();
+  });
+
   document.addEventListener("change", e => {
     if (e.target.id === "startInput" && e.target.value) { state.start = iso(snapMonday(parseDate(e.target.value))); save(); locateToday(); renderAll(); }
   });
