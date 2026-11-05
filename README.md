@@ -34,4 +34,4 @@ Utiliser les deux, c'est le combo idéal.
 
 ## Planning S1 (LAS 2 STAPS)
 
-`planning-s1/index.html` : planning de révision interactif sur 4 semaines (lun., mer., jeu. 8h-18h ; mar., ven. 14h-18h ; pause 12h-14h) couvrant tout le dossier Drive 2025-2026 du 1er semestre (sauf anglais et anatomie, mineure santé incluse), avec piqûres de rappel en flashcards (J-1, J-3, J-7, J-14). La progression est enregistrée dans le navigateur.
+`planning-s1/index.html` : planning de révision interactif sur 5 semaines (lun., mer., jeu. 8h-18h ; mar., ven. 14h-18h ; pause 12h-14h) couvrant tout le dossier Drive 2025-2026 du 1er semestre (sauf anglais et anatomie, mineure santé incluse), avec piqûres de rappel en flashcards (J-1, J-3, J-7, J-14). La semaine 5 est consacrée aux 10 cours « Découverte des médicaments et produits de santé », chacun avec un cours au propre tiré des fiches Supmed 2022-2023. La progression est enregistrée dans le navigateur.
