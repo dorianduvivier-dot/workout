@@ -13,7 +13,7 @@
 /* Layout: a coach's whiteboard week. Day columns on cool court paper, subjects worn as coloured jersey tags. */
 :root {
   --bg: #f2f5f7; --surface: #ffffff; --ink: #14212b; --muted: #586874; --line: #d3dce3; --accent: #1f5bd6;
-  --sv: #c2384f; --adcp: #b86f0e; --psy: #6d4fc4; --soc: #11806f; --apsa: #4a8420; --rev: #46545f;
+  --sv: #c2384f; --adcp: #b86f0e; --psy: #6d4fc4; --soc: #11806f; --apsa: #4a8420; --rev: #46545f; --min: #a1307b;
   --good: #1d7a45; --warn: #b5520e;
   --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -22,11 +22,11 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #0e161c; --surface: #16212a; --ink: #e6edf2; --muted: #95a6b3; --line: #2a3843; --accent: #7ba3ff;
-  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba;
+  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba; --min: #e98bcb;
   --good: #5fd08e; --warn: #f39a5b; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #0e161c; --surface: #16212a; --ink: #e6edf2; --muted: #95a6b3; --line: #2a3843; --accent: #7ba3ff;
-  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba;
+  --sv: #f07086; --adcp: #f0a646; --psy: #a88ff5; --soc: #43c3b3; --apsa: #8bc75a; --rev: #a2afba; --min: #e98bcb;
   --good: #5fd08e; --warn: #f39a5b; color-scheme: dark; }
 
 * { box-sizing: border-box; }
@@ -38,7 +38,7 @@ button { font: inherit; color: inherit; }
 a { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.s-sv { --c: var(--sv); } .s-adcp { --c: var(--adcp); } .s-psy { --c: var(--psy); } .s-soc { --c: var(--soc); } .s-apsa { --c: var(--apsa); } .s-rev { --c: var(--rev); }
+.s-sv { --c: var(--sv); } .s-adcp { --c: var(--adcp); } .s-psy { --c: var(--psy); } .s-soc { --c: var(--soc); } .s-apsa { --c: var(--apsa); } .s-rev { --c: var(--rev); } .s-min { --c: var(--min); }
 
 /* Header */
 header.top { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
@@ -243,6 +243,8 @@ const SUBJECTS = {
   psy:   { name: "Psychologie", ue: "Sciences humaines et sociales", color: "psy" },
   soc:   { name: "Sociologie", ue: "Sciences humaines et sociales", color: "soc" },
   apsa:  { name: "APSA", ue: "APSA", color: "apsa" },
+  emb:   { name: "Embryologie", ue: "Mineure santé", color: "min" },
+  ssh:   { name: "SSH santé", ue: "Mineure santé", color: "min" },
   rev:   { name: "Révision", ue: "Annales et bilans", color: "rev" }
 };
 
@@ -358,7 +360,7 @@ const CHAPTERS = [
       ["Rôle des aires de Broca et de Wernicke ?", "Broca : production du langage (aphasie si lésion). Wernicke : compréhension du langage."],
       ["Quelle voie commande les mouvements volontaires ?", "La voie pyramidale (cortico-spinale), avec décussation et synapse dans la corne ventrale."]
     ] },
-  { id: "musc", subj: "phys", title: "Physiologie du muscle squelettique", parts: 3,
+  { id: "musc", subj: "phys", title: "Physiologie du muscle squelettique", parts: 2,
     files: [["Cours", D("18CHvxGAFJK03kT-0qf96hgZWN99xHLpi")], ["Diaporama", D("16v-RDIrws_YICmku9_VIy9I9L3kRlPDg")]],
     notions: ["Organisation : endomysium, périmysium, épimysium, sarcomère", "Jonction neuromusculaire et couplage excitation-contraction", "Rôle du calcium et de la troponine", "Relations force-longueur et force-vitesse", "Types de fibres, unités motrices, loi de Henneman", "Modèle de Hill, fatigue, crampes"],
     cards: [
@@ -373,7 +375,7 @@ const CHAPTERS = [
       ["Que montre la relation force-vitesse ?", "Plus la vitesse de contraction est élevée, plus la force est faible. F0 à vitesse nulle, V0 à charge nulle ; P = F × v."],
       ["Quelles sont les 3 composantes du modèle de Hill ?", "Composante contractile, élastique série (tendon, ponts) et élastique parallèle (enveloppes)."]
     ] },
-  { id: "cardio", subj: "phys", title: "Physiologie de l'exercice : système cardio-respiratoire", parts: 3,
+  { id: "cardio", subj: "phys", title: "Physiologie de l'exercice : système cardio-respiratoire", parts: 2,
     files: [["Cours", D("1Pe_babtOduOAxoKfmD0OmZ91BSJQmPmB")], ["Diaporama", D("15B2Gy32ZNvvoUygyV_WuH4xx6GRDAMPr")]],
     notions: ["Filières énergétiques", "Cascade de l'O2 et équation de Fick", "FC, VES, débit cardiaque, pression artérielle", "Redistribution du débit sanguin", "Transport de l'O2 : Hb, hématocrite, EPO, effet Bohr", "Ventilation et seuil ventilatoire"],
     cards: [
@@ -626,9 +628,9 @@ const CHAPTERS = [
 const REVIEWS = {
   bilan1: { title: "Bilan de la semaine 1", type: "bilan", chapters: ["sdef", "cine", "nbase", "nmsg", "dyn", "attach", "nutri", "smeth"],
     notions: ["Quiz sur toute la semaine (onglet Rappels)", "Relire les fiches des chapitres marqués « à revoir »", "Refaire de mémoire le schéma du potentiel d'action", "Lister ce qui reste flou"] },
-  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["nsyn", "stat", "trav", "musc", "depense", "ado", "secole", "tdbio"],
+  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["nsyn", "stat", "trav", "musc", "depense", "ado", "secole", "tdbio", "e_sperm", "e_ovo", "e_fec", "e_s1"],
     notions: ["Quiz sur toute la semaine", "Revoir les formules de biomécanique", "Schéma du couplage excitation-contraction de mémoire", "Lister ce qui reste flou"] },
-  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "sinteg", "gr", "sa", "co"],
+  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "gr", "sa", "co", "e_s2", "e_s3", "e_s4", "e_snc", "h_mal", "h_diag"],
     notions: ["Quiz sur toute la semaine", "Redessiner les voies ascendantes et descendantes", "Refaire l'équation de Fick et ses ordres de grandeur", "Lister les auteurs de psycho et socio"] },
   annSV1: { title: "Annale Sciences de la vie : session 1 2024-2025", type: "annale",
     chapters: ["cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
@@ -674,8 +676,8 @@ const REVIEWS = {
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     notions: ["Frise des lois et dispositifs (1965, 1993, 2001, 2006, 2012, 2016)", "Bourdieu, Boudon, Durkheim, Weber : idée clé de chacun", "Chiffres clés des pratiques 2025"] },
   revFin: { title: "Grande révision Condition physique + APSA", type: "revision",
-    chapters: ["nutri", "depense", "dqp", "gr", "muscu", "tennis", "sa", "co"],
-    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, musculation"] },
+    chapters: ["nutri", "depense", "dqp", "gr", "muscu", "tennis", "sa", "co", "e_face", "e_branch", "e_squel", "e_cv", "e_resp", "e_dig", "h_clin", "h_cult", "h_eth", "h_terre"],
+    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, musculation", "Mineure santé : interro sur l'embryologie et la SSH de la semaine"] },
   revFlash: { title: "Dernier passage sur les cartes à revoir", type: "revision", chapters: "all",
     notions: ["Révision intelligente jusqu'à épuisement des cartes à revoir", "Relire les fiches des chapitres les plus faibles"] },
   bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
@@ -684,12 +686,337 @@ const REVIEWS = {
 
 /* Block codes: "chapterId:part" for study, review id for reviews, "a+b" for two chapters in one block, null = libre.
    Lundi 2 nov. : seulement un cours ce soir (16h15-18h). */
+const SCHEDULE_VERSION = 3;
 const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
-  [ ["nsyn:1", "stat:1", "ado:1", "depense:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:2"], ["musc:3", "snc:1", "secole:1", "dqp:1"], ["tdbio:1", "bilan2"] ],
-  [ ["snc:2", "cardio:1", "strib:1", "gr:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "cardio:3", "sprat:1", "dqp:2"], ["sdop:1", "ssante:1", "sa:1", "co:1"], ["sinteg:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "annAPSA"], ["annSoc", "revSoc"], ["annADCP", "revPhys", "revPsy", "revCardio"], ["annSV2", "corrSV2", "revBio", "revFin"], ["revFlash", "bilanFin"] ]
+  [ ["nsyn:1", "stat:1", "ado:1", "e_sperm:1+e_ovo:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "e_fec:1+e_s1:1"], ["tdbio:1", "bilan2"] ],
+  [ ["snc:2", "cardio:1", "strib:1+sprat:1", "e_s2:1+e_s3:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "e_s4:1+e_snc:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
+  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "sinteg:1"], ["e_face:1+e_branch:1", "h_clin:1+h_cult:1"], ["annADCP", "e_squel:1", "annSoc", "h_eth:1+h_terre:1"], ["annSV2", "e_cv:1", "e_resp:1+e_dig:1", "annAPSA"], ["revFin", "bilanFin"] ]
 ];
+
+/* Mineure santé (Drive 2025-2026 › 1er semestre › Mineure santé › Fiches de cours) */
+const MIN_EMB = "https://drive.google.com/drive/folders/1ONDJv6GToPPLHenQ2baodpMot4U0grP2";
+const MIN_TUTO = "https://drive.google.com/drive/folders/1NHKFGRjr1ls-NqQwjNVg394lcd7ayr-W";
+const MIN_PREPA = "https://drive.google.com/drive/folders/1xc0XiEcgD182EJmuVqrpZSO3rotF8YZb";
+const MINEURE = [
+  { id: "e_sperm", subj: "emb", title: "Spermatogenèse", parts: 1,
+    files: [["Fiche", D("15OVUqVtue5JS0m-NK2T-O-amqwneZoKK")], ["Tutorat", MIN_TUTO]],
+    notions: ["Testicule : compartiments intra-tubulaire et interstitiel", "3 étapes : mitoses (27 j), méiose (24 j), spermiogenèse (23 j)", "Acrosome, flagelle, axonème, protamines", "Cellules de Sertoli, barrière hémato-testiculaire, cellules de Leydig", "Régulation : FSH, LH, testostérone, inhibine B, température, gène SRY / AZF"],
+    cards: [
+      ["Durée totale de la spermatogenèse et sens de progression ?", "74 jours, de façon centripète : de la périphérie du tube séminifère vers sa lumière."],
+      ["Les 3 étapes de la spermatogenèse et leur durée ?", "Mitoses des spermatogonies jusqu'au spermatocyte I (27 j), méiose (24 j : 23 j méiose I + 1 j méiose II), spermiogenèse (23 j)."],
+      ["Rôle des cellules de Leydig ?", "Cellules du compartiment interstitiel, avec récepteurs à la LH : elles sécrètent les androgènes (95 % de la testostérone chez l'adulte)."],
+      ["Composition de la barrière hémato-testiculaire ?", "Jonctions serrées entre cellules de Sertoli, endothélium des capillaires interstitiels et cellules myofibroblastiques de la gaine péritubulaire."],
+      ["Que devient le noyau pendant la spermiogenèse ?", "Il s'allonge et se compacte : les histones sont remplacées par des protéines de transition puis par des protamines (80 % protamines / 20 % histones)."],
+      ["Qu'est-ce que la dyskinésie ciliaire primitive ?", "Absence des bras de dynéine de l'axonème : spermatozoïdes immobiles (infertilité) et atteintes respiratoires. Avec situs inversus = syndrome de Kartagener."],
+      { t: "qcm", q: "Quelle hormone agit sur les cellules de Sertoli ?", o: ["LH", "FSH", "Prolactine", "Ocytocine"], a: 1, e: "La LH agit sur les cellules de Leydig ; les Sertoli expriment les récepteurs à la FSH et à la testostérone." },
+      { t: "qcm", q: "Quelle protéine sécrétée par les cellules de Sertoli exerce un rétrocontrôle négatif sur la FSH ?", o: ["ABP", "Inhibine B", "AMH", "Lactate"], a: 1, e: "L'ABP transporte la testostérone ; l'AMH fait régresser les canaux de Müller chez le fœtus." },
+      { t: "qcm", q: "L'acrosome provient :", o: ["Des mitochondries", "De l'appareil de Golgi", "Du centriole distal", "Du noyau"], a: 1, e: "Il contient des enzymes (proacrosine, hyaluronidase) pour traverser la zone pellucide." },
+      { t: "qcm", q: "Le centriole distal est à l'origine :", o: ["Du premier fuseau mitotique du zygote", "De l'axonème du flagelle", "De l'acrosome", "Du manchon mitochondrial"], a: 1, e: "Le centriole proximal donne le premier fuseau mitotique après la fécondation." },
+      { t: "vf", q: "La spermatogenèse se fait idéalement à 3-4 °C sous la température du corps.", v: true, e: "Grâce à la position scrotale et au plexus pampiniforme (échange thermique à contre-courant)." },
+      { t: "vf", q: "L'épithélium germinal du tube séminifère est richement vascularisé.", v: false, e: "Il n'est pas vascularisé : les cellules de Sertoli assurent la nutrition des cellules germinales." },
+      { t: "qcm", q: "Les spermatocytes I se trouvent dans le compartiment :", o: ["Basal uniquement", "Basal (pré-leptotène) puis adluminal (en méiose)", "Interstitiel", "Sanguin"], a: 1, e: "Le compartiment basal contient spermatogonies et spermatocytes I pré-méiotiques ; l'adluminal les cellules en méiose et après." }
+    ] },
+  { id: "e_ovo", subj: "emb", title: "Folliculogenèse et ovogenèse", parts: 1,
+    files: [["Fiche", D("1O02SdWkFA6zTUpExF_g8b5u39bso_itB")], ["Tutorat", MIN_TUTO]],
+    notions: ["Ovaire : cortex, médulla ; fonctions exocrine, endocrine, paracrine", "Stades : primordial, primaire, pré-antral, antral, De Graaf, corps jaune", "Croissance : initiation, basale (65 j), terminale (20 j : recrutement, sélection, dominance)", "Stock folliculaire : 7 M (7e mois in utero) → 1 M à la naissance → 200 000 à la puberté", "Ovogenèse discontinue : blocage en prophase I puis métaphase II, rôle du pic de LH"],
+    cards: [
+      ["Que devient un follicule dans 99,9 % des cas ?", "Il dégénère par apoptose (atrésie). Seuls 0,1 % (≈ 400 sur une vie) sont ovulés, 1 par cycle."],
+      ["À quel stade est bloqué l'ovocyte I dans le follicule primordial ?", "En prophase de méiose I, au stade diplotène (vésicule germinative)."],
+      ["Quand apparaît la zone pellucide ?", "Au stade de follicule primaire pluristratifié, entre la granulosa et l'ovocyte."],
+      ["Qu'est-ce qui caractérise le follicule antral ?", "L'apparition de l'antrum, cavité de liquide folliculaire produit par la granulosa ; thèques interne et externe ; granules corticaux."],
+      ["Durée de vie du corps jaune sans grossesse et devenir ?", "14 jours, puis il involue en corpus albicans (cicatrice fibreuse)."],
+      ["Évolution du stock de follicules primordiaux ?", "Jusqu'à 7 millions au 7e mois in utero, 1 million à la naissance, 200 000 à la puberté, 70 000 à 20 ans, épuisé à la ménopause."],
+      ["Délai entre le pic de LH et l'ovulation ?", "33 à 36 heures."],
+      { t: "qcm", q: "Taille d'un follicule de De Graaf :", o: ["50 µm", "200 µm", "2 cm", "5 cm"], a: 2, e: "C'est la taille maximale ; il fait saillie sous l'épithélium ovarien (stigma)." },
+      { t: "qcm", q: "La phase de croissance folliculaire basale :", o: ["Dépend de la FSH et de la LH", "Dure 65 jours et ne dépend pas des gonadotrophines", "N'existe qu'après la ménopause", "Dure 14 jours"], a: 1, e: "La phase terminale (20 j, après la puberté) dépend des gonadotrophines." },
+      { t: "qcm", q: "Pendant la sélection, le follicule choisi est celui qui :", o: ["Est le plus gros", "A le moins besoin de FSH pour croître", "Produit le plus de progestérone", "Est le plus ancien"], a: 1, e: "Le dominant produit ensuite de l'œstradiol qui fait chuter la FSH : les autres s'atrésient." },
+      { t: "qcm", q: "L'ovocyte fécondable (ovocyte II) est bloqué en :", o: ["Prophase I", "Métaphase I", "Métaphase II", "Anaphase II"], a: 2, e: "La méiose ne s'achève qu'en cas de fécondation (expulsion du 2e globule polaire)." },
+      { t: "vf", q: "L'ovogenèse est un processus continu de la puberté à la ménopause.", v: false, e: "C'est la folliculogenèse qui est continue ; l'ovogenèse est discontinue (blocages en prophase I et métaphase II)." },
+      { t: "vf", q: "L'AMP cyclique et le facteur OMI maintiennent l'ovocyte bloqué en prophase I.", v: true, e: "OMI vient de la granulosa via les jonctions GAP ; le pic de LH rompt ces jonctions." },
+      { t: "qcm", q: "Objectif d'une stimulation ovarienne pour FIV :", o: ["1 ovocyte en prophase I", "10 à 15 ovocytes en métaphase II", "100 follicules primordiaux", "Un corps jaune"], a: 1, e: "FSH exogène, antagoniste de la GnRH, LH, puis ponction 35 h après." }
+    ] },
+  { id: "e_fec", subj: "emb", title: "Fécondation", parts: 1,
+    files: [["Fiche", D("1fSKZ9fxjS6fp5WoLyCNd4MnSitXvfdf4")], ["Tutorat", MIN_TUTO]],
+    notions: ["Lieu : ampoule (1/3 externe) de la trompe", "Transit épididymaire, décapacitation puis capacitation", "Barrières : glaire cervicale, glandes endocervicales, isthme tubaire", "Cumulus, zone pellucide (ZP1, ZP2, ZP3), réaction acrosomique, Izumo-Juno", "Activation ovocytaire, blocage de la polyspermie, pronucléi ; FIV et ICSI"],
+    cards: [
+      ["Où a lieu la fécondation ?", "Dans l'ampoule de la trompe utérine (tiers externe)."],
+      ["Qu'est-ce que la capacitation ?", "La restauration du pouvoir fécondant dans les voies génitales féminines : retrait des protéines de masquage, efflux de cholestérol, fluidification de la membrane."],
+      ["Aspect de la glaire cervicale avant et après l'ovulation ?", "Avant (œstradiol) : fluide, abondante, larges mailles (30 µm), perméable. Après (progestérone) : visqueuse, mailles 10 fois plus étroites, imperméable."],
+      ["Liaison primaire et secondaire à la zone pellucide ?", "Primaire : ZP3 se lie au spermatozoïde et déclenche la réaction acrosomique. Secondaire : ZP2 se lie à la membrane acrosomique interne."],
+      ["Comment l'ovocyte bloque-t-il la polyspermie ?", "Vague calcique → exocytose des granules corticaux qui modifient ZP2/ZP3, et expulsion des récepteurs Juno."],
+      ["Quand se forment les 2 pronucléi ?", "6 à 7 h après la fécondation, en périphérie ; ils migrent au centre (≈ 18 h) puis fusionnent : zygote."],
+      { t: "qcm", q: "Durée de survie des spermatozoïdes dans les voies génitales féminines :", o: ["24 h", "4 à 5 jours", "2 semaines", "1 heure"], a: 1, e: "Le complexe cumulo-ovocytaire ne vit que 24 h sans fécondation." },
+      { t: "qcm", q: "Le couple de protéines essentiel à la fusion des gamètes :", o: ["ZP2-ZP3", "Izumo-Juno", "ABP-FSH", "Acrosine-hyaluronidase"], a: 1, e: "Izumo est sur le spermatozoïde, Juno est son récepteur sur l'ovocyte." },
+      { t: "qcm", q: "Combien de spermatozoïdes atteignent environ le complexe cumulo-ovocytaire ?", o: ["10", "Une centaine", "10 000", "1 million"], a: 1, e: "Plusieurs millions au vagin, 1 million au col, 10 000 dans l'utérus, une centaine à l'ovocyte." },
+      { t: "vf", q: "La fusion des membranes du spermatozoïde et de l'ovocyte est spécifique d'espèce.", v: false, e: "C'est la zone pellucide (ZP3) qui est spécifique d'espèce ; la fusion ne l'est pas." },
+      { t: "vf", q: "Le spermatozoïde détermine le sexe de l'embryon.", v: true, e: "Selon qu'il porte un chromosome X ou Y." },
+      { t: "qcm", q: "L'ICSI est surtout indiquée en cas :", o: ["De pathologie tubaire", "D'infertilité masculine sévère", "De ménopause", "D'endométriose légère"], a: 1, e: "La FIV classique est indiquée en cas de pathologie tubaire." },
+      { t: "qcm", q: "Une triploïdie (3 pronucléi, 69 chromosomes) vient le plus souvent :", o: ["D'une polyspermie", "D'une monosomie", "D'un défaut de capacitation", "D'une ICSI"], a: 0, e: "Ou de la non-expulsion du 2e globule polaire." }
+    ] },
+  { id: "e_s1", subj: "emb", title: "Première semaine de développement", parts: 1,
+    files: [["Fiche", D("147kfMlYbuTP4pLrSSZjEeaUI-3cISS3g")], ["Tutorat", MIN_TUTO]],
+    notions: ["Préparation de l'utérus : cycle de 28 j, œstradiol (prolifération) et progestérone (sécrétion)", "Segmentation J1-J3 (blastomères de plus en plus petits)", "Compaction : morula, trophectoderme et embryoblaste", "Blastocyste J4, éclosion J4-J5", "Implantation J6-J7 : cytotrophoblaste et syncytiotrophoblaste"],
+    cards: [
+      ["Les phases du cycle menstruel ?", "Menstruelle (4 j), proliférative (jusqu'à J14, œstradiol), ovulation (J13-J14), sécrétoire (progestérone du corps jaune)."],
+      ["Quelle hormone est indispensable à l'implantation ?", "La progestérone, qui doit imprégner la muqueuse au début de la phase sécrétoire."],
+      ["Qu'est-ce que la segmentation ?", "Les premières mitoses du zygote (J1 : 2 blastomères, J2 : 4, J3 : 8) sans augmentation de volume global : les blastomères rapetissent."],
+      ["Les 2 populations cellulaires après compaction ?", "Le trophectoderme (périphérie, futur placenta) et l'embryoblaste ou masse interne (futur embryon)."],
+      ["Qu'est-ce qui rend l'éclosion du blastocyste possible ?", "La pression du liquide du blastocèle et les enzymes du trophectoderme qui fragilisent la zone pellucide."],
+      { t: "qcm", q: "Le blastocyste se forme vers :", o: ["J1", "J4", "J10", "J21"], a: 1, e: "Il apparaît quand le blastocèle se forme, à l'arrivée dans la cavité utérine." },
+      { t: "qcm", q: "Le syncytiotrophoblaste :", o: ["Prolifère par mitoses très actives", "Grossit par fusion de cellules du cytotrophoblaste, sans mitose", "Forme l'embryon", "Disparaît à J5"], a: 1, e: "Le cytotrophoblaste, lui, prolifère activement." },
+      { t: "qcm", q: "L'hormone placentaire qui stimule le corps jaune en début de grossesse :", o: ["FSH", "β-HCG", "Ocytocine", "Prolactine"], a: 1, e: "Elle maintient la sécrétion de progestérone jusqu'au relais placentaire." },
+      { t: "vf", q: "L'implantation de l'embryon a lieu dès J2.", v: false, e: "Elle débute en fin de première semaine (J6-J7)." },
+      { t: "vf", q: "Une désynchronisation entre muqueuse utérine et hormones est une cause fréquente d'infertilité.", v: true, e: "Cité dans la fiche." },
+      { t: "qcm", q: "La décidualisation concerne :", o: ["Les cellules du chorion de l'endomètre", "Les blastomères", "La zone pellucide", "Les spermatozoïdes"], a: 0, e: "Elles deviennent de grandes cellules claires sécrétantes qui participent au placenta." }
+    ] },
+  { id: "e_s2", subj: "emb", title: "Deuxième semaine de développement", parts: 1,
+    files: [["Fiche", D("15Mjyh10U60vQuisd-aJysF4hzpp8jWdq")], ["Tutorat", MIN_TUTO]],
+    notions: ["Embryon didermique : épiblaste et hypoblaste", "Cavité amniotique (J8) et amnioblaste", "Stade lacunaire (J9) : lacunes du syncytiotrophoblaste", "Membrane de Heuser, vésicule vitelline primitive puis secondaire (J13)", "Mésenchyme extra-embryonnaire (J10), cœlome extra-embryonnaire, pédicule embryonnaire"],
+    cards: [
+      ["Quels sont les 2 feuillets de l'embryon didermique ?", "L'épiblaste (dorsal, au contact de la cavité amniotique, à l'origine de toutes les cellules de l'embryon) et l'hypoblaste (ventral, au contact du blastocèle)."],
+      ["Quand et comment apparaît la cavité amniotique ?", "À J8, par séparation de l'épiblaste et du cytotrophoblaste ; elle est bordée par l'épiblaste et l'amnioblaste."],
+      ["Que contiennent les lacunes du syncytiotrophoblaste dès J10 ?", "Du sang maternel : le syncytiotrophoblaste érode les vaisseaux utérins (futures zones d'échanges)."],
+      ["Qu'est-ce que la membrane de Heuser ?", "Des cellules aplaties d'origine hypoblastique qui tapissent le blastocèle et bordent la vésicule vitelline primitive."],
+      ["Que devient le pédicule embryonnaire ?", "Le cordon ombilical : c'est la zone de mésenchyme non creusée qui relie l'embryon au futur placenta."],
+      { t: "qcm", q: "Le cœlome extra-embryonnaire divise le mésenchyme extra-embryonnaire en :", o: ["Ectoderme et endoderme", "Somatopleure et splanchnopleure extra-embryonnaires", "Épiblaste et hypoblaste", "Cyto- et syncytiotrophoblaste"], a: 1, e: "La somatopleure qui tapisse le cytotrophoblaste devient la plaque choriale." },
+      { t: "qcm", q: "La vésicule vitelline secondaire (lécithocèle) apparaît vers :", o: ["J8", "J10", "J13", "J21"], a: 2, e: "Les reliquats de la vésicule primitive forment les kystes exocœlomiques." },
+      { t: "qcm", q: "Le mésenchyme extra-embryonnaire apparaît à :", o: ["J7", "J10", "J15", "J20"], a: 1, e: "Tissu conjonctif embryonnaire lâche qui participe à la formation du sang." },
+      { t: "vf", q: "L'implantation est complète et la muqueuse restaurée vers J11-J12.", v: true, e: "La cicatrice de fibrine (stigma) disparaît." },
+      { t: "vf", q: "À la fin de la 2e semaine, l'embryon possède 3 feuillets.", v: false, e: "Il est didermique (épiblaste + hypoblaste) ; les 3 feuillets apparaissent à la 3e semaine." },
+      { t: "qcm", q: "La réaction déciduale transforme :", o: ["Les cellules conjonctives du chorion utérin", "Les cellules de l'épiblaste", "La zone pellucide", "Le cordon ombilical"], a: 0, e: "Elles deviennent globuleuses, chargées en lipides et sécrétrices." }
+    ] },
+  { id: "e_s3", subj: "emb", title: "Troisième semaine de développement", parts: 1,
+    files: [["Fiche", D("1yrFn0lr8TCouYfaAunRDPHbOeJnM9DIX")], ["Tutorat", MIN_TUTO]],
+    notions: ["3 axes : céphalo-caudal, dorso-ventral, droite-gauche", "Ligne, gouttière et nœud primitifs (J14-J15)", "Gastrulation (J15-J16) : ectoderme, endoderme, mésoderme", "Canal chordal, plaque chordale, canal neurentérique, notochorde", "Mésoderme para-axial, intermédiaire, lame latérale ; plaque neurale, crêtes neurales, placodes"],
+    cards: [
+      ["Qu'est-ce que la gastrulation ?", "L'ingression des cellules épiblastiques par la gouttière et le nœud primitifs (J15-J16) qui forme les 3 feuillets : ectoderme, endoderme, mésoderme."],
+      ["D'où viennent les 3 feuillets embryonnaires ?", "Tous de l'épiblaste."],
+      ["Que reste-t-il de la chorde à l'âge adulte ?", "Les nucléus pulposus des disques intervertébraux."],
+      ["Quelles zones restent sans mésoderme ?", "La membrane cloacale (futur anus) et la membrane oropharyngienne (future bouche)."],
+      ["Que donnent les 3 territoires du mésoderme ?", "Para-axial : somites (squelette axial, muscles, derme) et mésoderme céphalique. Intermédiaire : appareil uro-génital. Lame latérale : somatopleure et splanchnopleure."],
+      { t: "qcm", q: "Le nœud primitif est aussi appelé :", o: ["Nœud de Hensen", "Membrane de Heuser", "Nœud sinusal", "Nœud de Ranvier"], a: 0, e: "Il est situé à l'avant de la gouttière primitive." },
+      { t: "qcm", q: "Le canal neurentérique fait communiquer :", o: ["Amnios et vésicule vitelline secondaire", "Cœur et poumons", "Trompe et utérus", "Ectoderme et placenta"], a: 0, e: "Transitoirement, quand le canal chordal fusionne avec l'endoderme." },
+      { t: "qcm", q: "Les placodes donnent :", o: ["L'épiderme", "Les organes sensoriels", "Le squelette axial", "L'appareil uro-génital"], a: 1, e: "L'ectoderme de surface donne l'épiderme ; les crêtes neurales d'autres éléments nerveux." },
+      { t: "vf", q: "Le pôle d'entrée du spermatozoïde dans l'ovocyte correspond au futur pôle caudal.", v: true, e: "Cité dans la fiche (axe céphalo-caudal)." },
+      { t: "vf", q: "L'allantoïde est une expansion de l'ectoderme apparue à J16.", v: false, e: "C'est une expansion de la vésicule vitelline secondaire, d'origine endodermique." },
+      { t: "qcm", q: "À partir de J19-J20, la ligne primitive :", o: ["S'allonge vers la tête", "Régresse vers l'extrémité caudale", "Devient la chorde", "Forme le cœur"], a: 1, e: "Elle laisse derrière elle la plaque et les crêtes neurales ; la gouttière neurale se forme." }
+    ] },
+  { id: "e_s4", subj: "emb", title: "Quatrième semaine de développement", parts: 1,
+    files: [["Fiche", D("1MTaDM0He_r9DBV2VU8W9GeuDhE26nnOc")], ["Tutorat", MIN_TUTO]],
+    notions: ["Neurulation : plaque neurale (J18), gouttière (J20), tube neural (J22)", "Fermeture des neuropores antérieur (J24) et postérieur (J26)", "Devenir des crêtes neurales", "Soulèvement et plicature de l'embryon (embryon en 3D)", "Intestin primitif, canal vitellin, cœlome intra-embryonnaire (séreuses)"],
+    cards: [
+      ["Les grands événements de la 4e semaine ?", "Neurulation, soulèvement/plicature de l'embryon, formation du cœlome intra-embryonnaire et des somites."],
+      ["Quand se ferment les neuropores ?", "Antérieur à J24, postérieur à J26."],
+      ["Que donnent les cellules des crêtes neurales ?", "Mélanocytes, neurones et nerfs périphériques, cellules de Schwann, cartilage, os et derme de la face, médullosurrénale, leptoméninges…"],
+      ["Que donne le cœlome intra-embryonnaire ?", "Les cavités des séreuses : péricarde, plèvres et péritoine."],
+      { t: "qcm", q: "Le tube neural est l'ébauche :", o: ["Du système nerveux périphérique", "Du système nerveux central", "Du tube digestif", "Du cœur"], a: 1, e: "Il se forme par fusion des berges de la gouttière neurale sur la ligne médiane." },
+      { t: "qcm", q: "En se repliant, l'endoderme forme :", o: ["L'intestin primitif", "Le tube neural", "La chorde", "L'amnios"], a: 0, e: "Il reste relié à la vésicule vitelline par le canal vitellin (omphalo-mésentérique)." },
+      { t: "qcm", q: "Que trouve-t-on juste sous le tube neural ?", o: ["La notochorde", "Le cœur", "L'allantoïde", "Le placenta"], a: 0, e: "Cité dans la fiche (région occipitale à J22)." },
+      { t: "vf", q: "Pendant le soulèvement, la cavité amniotique grandit par rapport à la vésicule vitelline.", v: true, e: "La vésicule vitelline secondaire perd rapidement du volume." },
+      { t: "vf", q: "La fusion du tube neural progresse uniquement vers l'extrémité caudale.", v: false, e: "Elle progresse dans les deux sens, crânial et caudal." }
+    ] },
+  { id: "e_squel", subj: "emb", title: "Développement du squelette", parts: 1,
+    files: [["Fiche", D("1bHzG1rpjnHv2Hagh_K6MUX0HgYdb4q1U")], ["Tutorat", MIN_TUTO]],
+    notions: ["Squelette axial (somites) et appendiculaire (lame latérale)", "Somites : somitocèle, sclérotome, dermo-myotome", "Devenir du sclérotome : corps et arc vertébraux, côtes", "Resegmentation : ligne de Von Ebner, chaque vertèbre vient de 2 somites", "Bourgeons des membres : crête ectodermique, ossification enchondrale"],
+    cards: [
+      ["Quel os du squelette axial ne vient pas des somites ?", "Le sternum (mésenchyme non somitique de la somatopleure intra-embryonnaire)."],
+      ["Comment le somite se divise-t-il ?", "En dermo-myotome (dorsal : derme et muscles) et sclérotome (ventro-médial : pièces osseuses du squelette axial)."],
+      ["Que forme chaque portion du sclérotome ?", "Ventrale : corps vertébral (autour de la chorde). Dorsale : arc vertébral et apophyse épineuse. Latérale : apophyses transverses et côtes."],
+      ["Épimère et hypomère : que donnent-ils ?", "Épimère : muscles extenseurs du rachis. Hypomère : muscles latéraux et ventraux du tronc et musculature des membres."],
+      ["De combien de somites dérive une vertèbre ?", "De 2 paires : les 2/3 caudaux du somite sus-jacent et le 1/3 crânial du somite sous-jacent (ligne de Von Ebner)."],
+      { t: "qcm", q: "Nombre approximatif de paires de somites :", o: ["10", "≈ 40", "100", "206"], a: 1, e: "Leur nombre suit à peu près celui des vertèbres." },
+      { t: "qcm", q: "Le squelette des membres se forme par :", o: ["Ossification membraneuse à partir des somites", "Ossification enchondrale à partir du mésoderme de la lame latérale", "Les crêtes neurales", "L'endoderme"], a: 1, e: "Le mésoderme se spécifie en cartilage et périchondre." },
+      { t: "qcm", q: "La population ventrale de l'hypomère donne, au membre supérieur :", o: ["Extenseurs et supinateurs", "Fléchisseurs et pronateurs", "Extenseurs du rachis", "Muscles de la face"], a: 1, e: "La population dorsale donne extenseurs et supinateurs." },
+      { t: "vf", q: "Les ébauches des membres supérieurs apparaissent avant celles des membres inférieurs.", v: true, e: "Quelques jours avant, puis environ une semaine de décalage." },
+      { t: "qcm", q: "Combien de paires de somites cervicaux ?", o: ["4", "7", "8", "12"], a: 2, e: "Elles donnent le bas de l'écaille occipitale, les 7 cervicales et le haut de T1." }
+    ] },
+  { id: "e_face", subj: "emb", title: "Développement de la face", parts: 1,
+    files: [["Fiche", D("1EPXmHIFOyxTBcLDMEuweFQ8cle3SoU0m")], ["Tutorat", MIN_TUTO]],
+    notions: ["5 bourgeons faciaux (4e-7e semaine) autour du stomodeum", "Placodes olfactives, bourgeons nasaux internes et externes", "Choane primitif, septum nasal, lames palatines", "Palais primaire (massif médian) et secondaire (lames palatines)", "Fentes labiales, palatines, labio-palatines ; syndrome de Pierre Robin"],
+    cards: [
+      ["Quels sont les 5 bourgeons faciaux ?", "1 bourgeon frontal (impair, médian), 2 maxillaires et 2 mandibulaires (ces 4 dérivent du 1er arc branchial)."],
+      ["Qu'est-ce que le stomodeum ?", "La bouche primitive, formée par délitement de la membrane pharyngienne (oropharyngienne)."],
+      ["Comment se forme le choane primitif ?", "Par rupture de la membrane oronasale qui séparait la fossette olfactive de la cavité buccale."],
+      ["Quelles structures cloisonnent le choane primitif ?", "Le septum nasal (issu du bourgeon frontal) et les lames palatines (issues des bourgeons maxillaires) qui forment le palais secondaire."],
+      ["Origine d'une fente labiale supérieure ?", "Un défaut de soudure entre le bourgeon maxillaire et le bourgeon nasal interne du même côté (≈ 1/1000 naissances, plutôt les garçons)."],
+      { t: "qcm", q: "Les bourgeons nasaux internes donnent :", o: ["Les ailes du nez", "Le palais primaire, le philtrum et la gencive des 4 incisives supérieures", "Le menton", "Le voile du palais"], a: 1, e: "Les bourgeons nasaux externes donnent les ailes du nez." },
+      { t: "qcm", q: "La fusion du palais s'achève à la fin de la :", o: ["4e semaine", "7e semaine", "12e semaine", "20e semaine"], a: 2, e: "Suivant une ligne de suture en Y." },
+      { t: "qcm", q: "Le voile du palais correspond à :", o: ["La partie antérieure ossifiée du palais", "La partie postérieure non ossifiée du palais secondaire", "Le palais primaire", "Le septum nasal"], a: 1, e: "Il sert de clapet à la déglutition ; il porte l'uvule." },
+      { t: "vf", q: "Les fentes palatines touchent environ 1 naissance sur 2000, plutôt des filles.", v: true, e: "Elles sont opérables." },
+      { t: "vf", q: "Les bourgeons faciaux sont induits par la migration des cellules des crêtes neurales.", v: true, e: "Ce sont des soulèvements de l'ectoderme par prolifération du mésoderme sous-jacent." },
+      { t: "qcm", q: "Le canal lacrymo-nasal provient :", o: ["Du sillon lacrymo-nasal entre bourgeon maxillaire et bourgeon nasal externe", "Du 2e arc branchial", "De la placode optique", "Du stomodeum"], a: 0, e: "Il relie l'œil à la fosse nasale." }
+    ] },
+  { id: "e_branch", subj: "emb", title: "Développement de l'appareil branchial", parts: 1,
+    files: [["Fiche", D("1u-qyir1QrQNDm27WjYyKovPdiVtt3dHr")], ["Tutorat", MIN_TUTO]],
+    notions: ["6 paires d'arcs (4 visibles) : muscle, squelette, nerf, artère", "Sillons (ectoderme) et poches pharyngées (endoderme)", "Plancher du pharynx : tubercule impar, canal thyréoglosse, copula, furcula", "Langue (V lingual, foramen cæcum), épiglotte, larynx, thyroïde", "Arcs aortiques : carotides, crosse de l'aorte, canal artériel"],
+    cards: [
+      ["Composition d'un arc branchial ?", "Du mésoderme bordé d'ectoderme (sillon) à l'extérieur et d'endoderme (poche pharyngée) à l'intérieur, avec un muscle, un squelette, un nerf et une artère."],
+      ["Que donne la 1re poche pharyngée ? Le 1er sillon ?", "Poche : oreille moyenne (caisse du tympan, trompe d'Eustache). Sillon : oreille externe (conduit auditif, pavillon)."],
+      ["Que donnent les 3e et 4e poches pharyngées ?", "3e : thymus et parathyroïdes inférieures. 4e : parathyroïdes supérieures. (5e : corps ultimo-branchial ; 2e : amygdale palatine.)"],
+      ["D'où vient la langue ?", "2/3 antérieurs (mobile) : tubercule impar + bourrelets linguaux latéraux. 1/3 postérieur (fixe) : copula. Séparés par le V lingual."],
+      ["Qu'est-ce que le foramen cæcum ?", "Le reliquat du canal thyréoglosse, à la pointe du V lingual, après la descente de la thyroïde."],
+      { t: "qcm", q: "La furcula donne :", o: ["La thyroïde", "L'épiglotte", "Le larynx", "La langue fixe"], a: 1, e: "Le tube laryngotrachéal donne le larynx." },
+      { t: "qcm", q: "Le 6e arc aortique gauche donne :", o: ["La carotide interne", "Le canal artériel", "La sous-clavière droite", "La crosse de l'aorte"], a: 1, e: "Le canal artériel se ferme à la naissance et laisse un ligament." },
+      { t: "qcm", q: "Les carotides internes proviennent :", o: ["Des 3es arcs aortiques", "Des 4es arcs aortiques", "Des aortes dorsales", "Du bulbe artériel"], a: 0, e: "Les aortes ventrales deviennent les carotides communes." },
+      { t: "vf", q: "L'appareil branchial participe à la formation de l'appareil respiratoire humain.", v: false, e: "Il a perdu sa fonction respiratoire : il donne des éléments de la face et du cou." },
+      { t: "vf", q: "La crosse de l'aorte suit le trajet du 4e arc aortique gauche.", v: true, e: "Le 4e arc droit donne le tronc brachiocéphalique et la sous-clavière droite." }
+    ] },
+  { id: "e_snc", subj: "emb", title: "Développement du système nerveux", parts: 1,
+    files: [["Fiche", D("1DRuCrMQKBpA_rylcpdV8Zd9w-P2ZRNDD")], ["Tutorat", MIN_TUTO]],
+    notions: ["Neurulation en 3 étapes, induction par la chorde (chordine)", "Neuropores : antérieur J24-J25, postérieur J26-J28", "Vésicules primitives (prosencéphale, mésencéphale, rhombencéphale) puis secondaires", "Système ventriculaire, courbures, métamérisation (31 segments)", "Polarité : SHH ventral (moteur), TGFβ dorsal (sensitif) ; tératologie"],
+    cards: [
+      ["De quel feuillet dérive tout le système nerveux ?", "De l'ectoderme (neural : tube et crêtes neurales)."],
+      ["Comment la chorde induit-elle l'incurvation de la plaque neurale ?", "Elle sécrète la chordine qui active le réseau d'actine apical des cellules ectodermiques : le pôle apical rétrécit et la plaque se creuse en gouttière."],
+      ["Que donnent les vésicules secondaires ?", "Télencéphale : hémisphères. Diencéphale : noyaux gris, posthypophyse, vésicules optiques. Mésencéphale : étage supérieur du tronc cérébral. Métencéphale : pont et cervelet. Myélencéphale : bulbe."],
+      ["Quels facteurs installent la polarité dorso-ventrale de la moelle ?", "SHH (chorde, plancher) en ventral → motoneurones (corne antérieure). TGFβ/dorsaline (toit) en dorsal → neurones sensitifs (corne postérieure)."],
+      ["Anencéphalie et spina bifida ?", "Anencéphalie : non-fermeture du neuropore antérieur, incompatible avec la vie. Spina bifida : non-fermeture du neuropore postérieur, prévenue par l'acide folique."],
+      { t: "qcm", q: "Le rhombencéphale se divise en :", o: ["Télencéphale et diencéphale", "Métencéphale et myélencéphale", "Mésencéphale et pont", "Cervelet et moelle"], a: 1, e: "Le prosencéphale se divise en télencéphale et diencéphale ; le mésencéphale ne se divise pas." },
+      { t: "qcm", q: "L'aqueduc de Sylvius relie :", o: ["Les 2 ventricules latéraux", "Le 3e et le 4e ventricule", "Le 4e ventricule et le canal épendymaire", "L'amnios et le tube neural"], a: 1, e: "Les ventricules latéraux communiquent avec le 3e par le foramen de Monro." },
+      { t: "qcm", q: "Une sténose de l'aqueduc mésencéphalique provoque :", o: ["Une anencéphalie", "Une hydrocéphalie obstructive", "Une holoprosencéphalie", "Un spina bifida"], a: 1, e: "Le LCR s'accumule et dilate les ventricules." },
+      { t: "vf", q: "Le neuropore antérieur se ferme avant le postérieur.", v: true, e: "Antérieur J24-J25, postérieur J26-J28." },
+      { t: "vf", q: "Le système nerveux est entièrement achevé à la naissance.", v: false, e: "Il se développe pendant la vie utérine et en post-natal." },
+      { t: "qcm", q: "La moelle épinière est segmentée en combien de métamères ?", o: ["12", "24", "31", "40"], a: 2, e: "Chaque neuromère correspond à un dermatome, un myotome et un sclérotome." }
+    ] },
+  { id: "e_cv", subj: "emb", title: "Développement du système cardiovasculaire", parts: 1,
+    files: [["Fiche", D("1dOyas6SfH1g1bD16wFG-ojjrOuOidyhr")], ["Tutorat", MIN_TUTO]],
+    notions: ["Îlots angioformateurs, hémangioblastes (angioblastes, hémocytoblastes)", "Tube cardiaque (1ers battements J22), plicature en S", "Cloisonnements atrio-ventriculaire, inter-atrial, inter-ventriculaire, du tronc artériel", "3 stades circulatoires : vitellin, placentaire, néonatal", "Malformations : foramen ovale perméable, CIA, CIV, transposition, Fallot"],
+    cards: [
+      ["De quel feuillet dérivent le sang et le système cardiovasculaire ?", "Du mésoderme."],
+      ["Quand battent les premières fois le tube cardiaque ?", "Dès J22."],
+      ["Les segments du tube cardiaque, du crânial au caudal ?", "Tronc artériel, bulbe artériel, ventricule primitif, atrium primitif, sinus veineux."],
+      ["Comment le sang passe-t-il de l'atrium droit au gauche chez le fœtus ?", "Par un trajet en baïonnette : foramen ovale (septum secundum) puis ostium secundum (septum primum)."],
+      ["Que se passe-t-il à la naissance (stade néonatal) ?", "Fermeture du canal artériel et du foramen ovale (fusion des septums), oblitération des artères ombilicales (ligaments ombilicaux latéraux) et de la veine ombilicale (ligament rond)."],
+      { t: "qcm", q: "Le canal atrio-ventriculaire droit donne :", o: ["La valve mitrale", "La valve tricuspide", "La valve aortique", "Le foramen ovale"], a: 1, e: "Le gauche donne la valve mitrale." },
+      { t: "qcm", q: "La séparation définitive des 2 ventricules a lieu vers :", o: ["La 3e semaine", "La 5e semaine", "La 7e semaine", "La naissance"], a: 2, e: "Avant, il existe une communication interventriculaire." },
+      { t: "qcm", q: "Dans le cordon ombilical on trouve :", o: ["1 artère et 2 veines", "2 artères et 1 veine", "2 artères et 2 veines", "1 artère et 1 veine"], a: 1, e: "La veine apporte le sang oxygéné : inversion fonctionnelle par rapport à l'adulte." },
+      { t: "qcm", q: "La transposition des gros vaisseaux vient :", o: ["D'un défaut d'alignement entre le cloisonnement du tronc artériel et le septum interventriculaire", "D'un foramen ovale perméable", "D'une dextrocardie", "D'une sténose mitrale"], a: 0, e: "Malformation très grave." },
+      { t: "vf", q: "Le foramen ovale perméable est une malformation fréquente et souvent asymptomatique.", v: true, e: "Les septums primum et secundum ne se sont pas accolés." },
+      { t: "vf", q: "Le stade placentaire commence dès la 3e semaine.", v: false, e: "Stade vitellin : 3e semaine → fin du 2e mois ; placentaire : à partir du 3e mois." },
+      { t: "qcm", q: "Les malformations cardiaques touchent environ :", o: ["0,07 % des nouveau-nés", "0,7 % des nouveau-nés vivants", "7 % des nouveau-nés", "27 %"], a: 1, e: "Et 2,7 % des enfants mort-nés." }
+    ] },
+  { id: "e_resp", subj: "emb", title: "Développement de l'appareil respiratoire", parts: 1,
+    files: [["Fiche", D("1TSVjXj9bxHFh-Q3VEnUyzm_JtO4X_KAD")], ["Tutorat", MIN_TUTO]],
+    notions: ["Origine : épithéliums de l'endoderme, soutien du mésoderme", "Tube laryngotrachéal (4e semaine), septum trachéopharyngien", "Bourgeons bronchiques : 3 lobes à droite, 2 à gauche ; divisions dichotomiques", "4 périodes : pseudoglandulaire, canaliculaire, sac terminal (viable vers 26 SA), alvéolaire", "Surfactant (pneumocytes II), malformations, maladie des membranes hyalines"],
+    cards: [
+      ["Quelle partie de l'appareil respiratoire vient de l'endoderme ? Du mésoderme ?", "Endoderme : épithéliums (respiratoire, alvéolaire, glandulaire). Mésoderme : cartilages, muscles lisses, tissus conjonctifs et fibro-élastiques."],
+      ["Qu'est-ce qui sépare le tube laryngotrachéal de l'intestin antérieur ?", "Le septum trachéopharyngien (le tube est ventral, l'intestin antérieur dorsal)."],
+      ["Les 4 périodes du développement pulmonaire ?", "Pseudoglandulaire, canaliculaire (non viables), sac terminal (viable à la fin, vers la 26e semaine), alvéolaire (jusqu'à 8 ans)."],
+      ["Rôle du surfactant ?", "Substance tensio-active (phospholipides) des pneumocytes II qui maintient les alvéoles ouvertes ; son insuffisance donne la maladie des membranes hyalines."],
+      { t: "qcm", q: "Combien de bourgeons bronchiques secondaires à droite ?", o: ["1", "2", "3", "4"], a: 2, e: "3 à droite (3 lobes), 2 à gauche (2 lobes)." },
+      { t: "qcm", q: "Une fistule trachéo-œsophagienne résulte :", o: ["D'une agénésie pulmonaire", "D'une mauvaise séparation par le septum laryngotrachéal", "D'un manque de surfactant", "D'une bronche surnuméraire"], a: 1, e: "Communication anormale entre œsophage et trachée." },
+      { t: "qcm", q: "Les sacs terminaux apparaissent par :", o: ["Amincissement de l'épithélium qui devient pavimenteux (pneumocytes)", "Épaississement du cartilage", "Fusion des bronches", "Rupture de la plèvre"], a: 0, e: "Les capillaires arrivent au contact : les échanges gazeux deviennent possibles." },
+      { t: "vf", q: "Les alvéoles continuent de se multiplier jusqu'à environ 8 ans.", v: true, e: "Environ 20 niveaux de division bronchique." },
+      { t: "vf", q: "Pendant la période canaliculaire, les échanges gazeux sont possibles.", v: false, e: "Les vaisseaux ne sont pas encore au contact des voies respiratoires." }
+    ] },
+  { id: "e_dig", subj: "emb", title: "Développement de l'appareil digestif et du cœlome", parts: 1,
+    files: [["Fiche", D("1zmnwqk4pJMd37inADNeR-N8AjchAVjeZ")], ["Tutorat", MIN_TUTO]],
+    notions: ["Intestin primitif antérieur, moyen, postérieur et leurs dérivés", "Vascularisation : tronc cœliaque, mésentériques supérieure et inférieure", "Rotations de l'estomac, foie, rate, pancréas (2 bourgeons)", "Hernie physiologique (6e-10e semaine), cordon ombilical", "Cloaque, septum uro-rectal ; cœlome et diaphragme"],
+    cards: [
+      ["Que donnent l'endoderme et la splanchnopleure dans l'appareil digestif ?", "Endoderme : épithéliums (digestif, hépatique, pancréatique). Splanchnopleure : musculeuse et séreuse."],
+      ["Quelle artère pour quel segment intestinal ?", "Tronc cœliaque : intestin antérieur. Mésentérique supérieure : intestin moyen. Mésentérique inférieure : intestin postérieur."],
+      ["Que donne l'intestin moyen ?", "Duodénum distal, jéjunum, iléon, cæcum, appendice, côlon ascendant et 2/3 proximaux du transverse."],
+      ["Qu'est-ce que la hernie physiologique ?", "Le développement de l'intestin moyen dans le cœlome extra-embryonnaire du cordon (6e-10e semaine), avec une rotation anti-horaire totale de 270°."],
+      ["Comment se forme le pancréas ?", "Par fusion d'un bourgeon ventral et d'un bourgeon dorsal ; dans 90 % des cas il ne reste qu'un canal (Wirsung, issu du ventral)."],
+      { t: "qcm", q: "Le mésogastre dorsal devient :", o: ["Le petit épiploon", "Le grand épiploon", "Le ligament falciforme", "Le diaphragme"], a: 1, e: "Le mésogastre ventral donne le petit épiploon et le ligament falciforme." },
+      { t: "qcm", q: "La rate est d'origine :", o: ["Endodermique", "Mésodermique", "Ectodermique", "Crêtes neurales"], a: 1, e: "Bourgeon splénique dans le mésogastre dorsal, 5e semaine." },
+      { t: "qcm", q: "Le septum uro-rectal sépare le cloaque en :", o: ["Estomac et duodénum", "Rectum et vessie (sinus uro-génital)", "Foie et pancréas", "Œsophage et trachée"], a: 1, e: "La membrane cloacale se rompt à la 7e semaine (anus)." },
+      { t: "qcm", q: "La partie antérieure du diaphragme vient :", o: ["Du septum transversum", "Des replis pleuro-péritonéaux", "Du méso-œsophage", "De la somatopleure"], a: 0, e: "Replis pleuro-péritonéaux : partie fibreuse ; méso-œsophage : piliers ; somatopleure : périphérie musculaire." },
+      { t: "vf", q: "Les deux rotations de l'estomac sont de 90° chacune, dans le sens horaire.", v: true, e: "La 1re selon l'axe crânio-caudal (4e-5e sem.), la 2e selon l'axe ventro-dorsal (6e-8e sem.)." },
+      { t: "vf", q: "L'intestin postérieur participe aussi au revêtement de la vessie.", v: true, e: "Avec l'allantoïde." }
+    ] },
+  { id: "h_mal", subj: "ssh", title: "Concepts de maladie et de santé", parts: 1,
+    files: [["Fiche", D("1ZdOIgfiESdCxhzXCAsd0NRA-GeeBrsbR")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Maladies controversées (koro, orthorexie, fibromyalgie) et disparues (dysesthésie éthiopique, schizophrénie torpide)", "Illness, disease, sickness", "Faits et valeurs", "Naturalisme et normativisme", "Médicalisation, pathologisation et leurs critiques"],
+    cards: [
+      ["Différence entre illness, disease et sickness ?", "Illness : l'état vécu comme indésirable (subjectif, axiologique). Disease : le dysfonctionnement biologique (théorique, descriptif). Sickness : le statut social de malade."],
+      ["Qu'est-ce que le naturalisme ?", "Définir la maladie par le fait : un dysfonctionnement biologique (fonction statistiquement anormale), les valeurs étant secondaires."],
+      ["Qu'est-ce que le normativisme et son risque ?", "Définir la maladie par les valeurs (souffrance, gêne) ; risque d'extension indéfinie du domaine de la médecine."],
+      ["Qu'est-ce que la médicalisation ?", "Le passage d'un phénomène dans le domaine médical alors qu'il n'y était pas (ex. grossesse, calvitie, mort, alcoolisme). Notion née en sociologie dans les années 1960."],
+      { t: "qcm", q: "L'hypertension artérielle asymptomatique est :", o: ["Une illness sans disease", "Une disease sans illness", "Une sickness uniquement", "Ni l'un ni l'autre"], a: 1, e: "Pas de plainte du patient, mais un dysfonctionnement justifiant une prise en charge." },
+      { t: "qcm", q: "La « schizophrénie torpide » a servi en URSS à :", o: ["Soigner l'anxiété", "Interner des opposants politiques", "Expliquer la paresse", "Décrire l'épilepsie"], a: 1, e: "Inadaptation sociale sans symptômes psychotiques : exemple de maladie qui n'en est plus une." },
+      { t: "qcm", q: "Une valeur (norme) est :", o: ["Mesurable indépendamment de l'observateur", "Un jugement humain sur ce qui est bon ou mauvais", "Un résultat de laboratoire", "Un signe pathognomonique"], a: 1, e: "Le fait, lui, se constate et se mesure (lien avec la disease)." },
+      { t: "vf", q: "La pathologisation est toujours négative pour le patient.", v: false, e: "Elle peut être positive (dépression) ou négative (comportements jugés inappropriés)." },
+      { t: "vf", q: "L'épistémologie est une branche de la philosophie qui porte sur la connaissance.", v: true, e: "Ici, la connaissance médicale." },
+      { t: "qcm", q: "Selon la critique de la médicalisation, son principal risque est :", o: ["Le manque de médecins", "Le contrôle de la société", "La baisse des prix", "L'oubli des symptômes"], a: 1, e: "Le normal et le pathologique servent à séparer « normaux » et « anormaux »." }
+    ] },
+  { id: "h_diag", subj: "ssh", title: "Diagnostic et décision en médecine", parts: 1,
+    files: [["Fiche", D("1i24WPY2LenAJYJU8_2kE4SiSnNuSxdHL")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Décision en situation d'incertitude", "Anamnèse, examen physique, tests complémentaires (subjectivité)", "Diagnostic = explication causale ; affections idiopathiques et non spécifiques", "Sensibilité, spécificité, fréquence de base, VPP", "Dépistage (sur-diagnostic) et arbre décisionnel"],
+    cards: [
+      ["Qu'est-ce que l'anamnèse ?", "L'interrogatoire du patient : plainte, symptômes, antécédents, cadre de vie, ce qu'il pense de sa maladie."],
+      ["Qu'est-ce qu'un signe pathognomonique ?", "Un signe propre à une seule maladie, qui permet d'en poser le diagnostic certain (ex. signe de Koplik pour la rougeole)."],
+      ["Qu'est-ce qu'une affection idiopathique ?", "Une affection dont la cause (étiologie) est inconnue : le diagnostic nomme sans expliquer."],
+      ["Qu'est-ce que l'oubli de la fréquence de base ?", "Oublier la probabilité préalable d'être malade : pour une maladie rare, un test positif a une faible valeur prédictive positive."],
+      { t: "qcm", q: "La sensibilité d'un test correspond au taux de :", o: ["Vrais négatifs", "Vrais positifs", "Faux positifs", "Malades dans la population"], a: 1, e: "La spécificité correspond au taux de vrais négatifs." },
+      { t: "qcm", q: "Plus une maladie est rare, plus la VPP d'un test :", o: ["Augmente", "Diminue", "Reste constante", "Atteint 100 %"], a: 1, e: "D'où l'importance de la formule de Bayes." },
+      { t: "qcm", q: "Le syndrome grippal est un exemple d'affection :", o: ["Idiopathique", "Non spécifique (cause non recherchée car inutile cliniquement)", "Pathognomonique", "Génétique"], a: 1, e: "On peut le traiter sans identifier l'étiologie exacte." },
+      { t: "vf", q: "Le dépistage du cancer de la prostate a un fort impact sur la mortalité de la population.", v: false, e: "Faible impact, beaucoup de faux positifs et un risque de surtraitement." },
+      { t: "vf", q: "Dans un arbre décisionnel, les utilités attribuées aux résultats sont subjectives.", v: true, e: "Médecin et patient n'attribuent pas forcément les mêmes valeurs (ex. à la mort)." },
+      { t: "qcm", q: "Les observations du médecin sont :", o: ["Parfaitement objectives", "Des perceptions façonnées par des théories (donc subjectives)", "Inutiles", "Toujours des signes paracliniques"], a: 1, e: "Des biais (stéréotypes de genre…) peuvent influencer ce qu'on cherche." }
+    ] },
+  { id: "h_clin", subj: "ssh", title: "Histoire de la médecine : la clinique", parts: 1,
+    files: [["Fiche", D("1U7UE4ikvnjHK69puXqmEnXT-mCxIauYR")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Canguilhem : la clinique n'est pas une science", "Symptômes (plainte) et signes (examen) ; diagnostic, pronostic, thérapeutique", "Hippocrate : médecine-technè, rationnelle, séculière, holistique ; phronesis", "Galien, Sydenham (« l'Hippocrate anglais »), Linné", "Anatomoclinique : hôpital après 1789, Laënnec, Morgagni, Bichat ; Foucault (1963)"],
+    cards: [
+      ["Comment Canguilhem définit-il la clinique ?", "L'expérience de la maladie partagée par le malade et le médecin ; « la clinique n'est pas une science et ne sera jamais une science »."],
+      ["Différence entre symptôme et signe ?", "Symptôme : ce que dit le malade (sa plainte). Signe : ce que recueille le médecin à l'examen (clinique ou paraclinique)."],
+      ["Les 3 caractéristiques de la médecine hippocratique ?", "Rationnelle (déséquilibre des humeurs), séculière (pas d'explication divine, ex. épilepsie) et holistique (le malade comme un tout)."],
+      ["Qu'est-ce que la phronesis ?", "La sagesse pratique : savoir saisir la particularité d'un cas pour trouver la règle à suivre, acquise par l'habitude."],
+      ["Apport de Sydenham ?", "Partir des symptômes pour construire des types de maladies (portraits de maladies et non de malades) ; quinine contre la fièvre intermittente."],
+      { t: "qcm", q: "Qui a inventé le stéthoscope (1816) ?", o: ["Corvisart", "Laënnec", "Bichat", "Morgagni"], a: 1, e: "Auenbrugger a inventé la percussion, systématisée par Corvisart." },
+      { t: "qcm", q: "Le père de l'histologie est :", o: ["Morgagni", "Bichat", "Galien", "Linné"], a: 1, e: "Morgagni a relié lésions d'autopsie et observations cliniques (sièges et causes des maladies)." },
+      { t: "qcm", q: "« Naissance de la clinique » (1963) est de :", o: ["Canguilhem", "Foucault", "Durkheim", "Sydenham"], a: 1, e: "Les médecins ne voient pas mieux, ils regardent autrement : le malade devient porteur de maladie." },
+      { t: "qcm", q: "Galien considère la médecine comme :", o: ["Une technè uniquement pratique", "Une science (épistémè) aux principes théoriques", "Une religion", "Un art sans règles"], a: 1, e: "Cette médecine spéculative est enseignée dans les universités médiévales." },
+      { t: "vf", q: "Hippocrate a écrit lui-même tous les textes du corpus hippocratique.", v: false, e: "On parle de corpus (≈ 60 textes) et de médecins hippocratiques." },
+      { t: "vf", q: "Après la Révolution, l'hôpital devient un lieu de soin où le malade accepte d'être observé.", v: true, e: "Création des écoles de santé en 1794." }
+    ] },
+  { id: "h_eth", subj: "ssh", title: "Fondements de la réflexion éthique en médecine", parts: 1,
+    files: [["Fiche", D("1EDMZDaZ97gUpwSf_CQ-yzG-vCWWR0YAb")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Éthique = questionnement sur les valeurs ; 2 piliers : relation et incertitude", "Dilemmes et indétermination du bien", "Morale, éthique, droit, déontologie", "Ricœur : visée de la vie bonne (je, tu, il)", "Courants : vertu (Aristote), déontologie (Kant), contractualisme"],
+    cards: [
+      ["Pourquoi l'éthique est-elle omniprésente en médecine ?", "Parce que la médecine est une relation (valeurs différentes) et qu'elle évolue dans l'incertitude (cas singuliers)."],
+      ["Différence entre morale et éthique ?", "La morale est un système collectif de règles (injonctions « tu dois »). L'éthique argumente et critique la pertinence de ces règles."],
+      ["Définition de l'éthique selon Ricœur ?", "« La visée de la vie bonne avec et pour les autres dans des institutions justes » : je (estime de soi), tu (sollicitude), il (justice)."],
+      ["Ce qui compte chez Kant ?", "L'intention (volonté bonne) : agir par devoir selon un impératif catégorique, inconditionnel et universel, quelles que soient les conséquences."],
+      { t: "qcm", q: "L'éthique de la vertu se focalise sur :", o: ["L'acte", "L'agent (son caractère moral)", "Les conséquences", "La procédure"], a: 1, e: "Aristote ; la déontologie kantienne se focalise sur l'acte." },
+      { t: "qcm", q: "Chez Aristote, le courage est le juste milieu entre :", o: ["Peur et colère", "Lâcheté et témérité", "Force et faiblesse", "Prudence et sagesse"], a: 1, e: "La phronesis (prudence) permet de trouver ce juste milieu." },
+      { t: "qcm", q: "Pour le contractualisme moral, est juste :", o: ["Ce qui a les meilleures conséquences", "Ce qui est construit par une procédure correcte, quel qu'en soit le résultat", "Ce que dicte la religion", "Ce que veut le médecin"], a: 1, e: "Il cherche le raisonnable plutôt que le rationnel." },
+      { t: "vf", q: "Éthique et morale ont une origine étymologique différente.", v: false, e: "Ethos (grec) = mores (latin) : la distinction est conventionnelle." },
+      { t: "vf", q: "Le code de déontologie fait partie du droit.", v: true, e: "Le droit s'accompagne de sanctions, contrairement à la morale." },
+      { t: "vf", q: "Pour Kant, les conflits de devoirs sont réels et fréquents.", v: false, e: "Ils ne sont qu'apparents, liés à un mauvais jugement." }
+    ] },
+  { id: "h_cult", subj: "ssh", title: "Histoire de la médecine : les maladies comme phénomènes culturels", parts: 1,
+    files: [["Fiche", D("1zfvxx4d1D7_VSxRNXzFikddCAGWL_O1s")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Sickness : le rôle social du malade", "Construction sociale de la maladie (nosologie liée à l'époque)", "La lèpre : bacille de Hansen, stigmatisation médiévale, régression au XIVe s.", "Le saturnisme selon Didier Fassin (1981 → 1999)", "Interpénétration du biologique et du social"],
+    cards: [
+      ["Que signifie la « construction sociale » d'une maladie ?", "Le phénomène pathologique change selon le cadre social et culturel ; ce n'est pas dire que la maladie est moins réelle."],
+      ["Pourquoi les lépreux étaient-ils exclus au Moyen Âge ?", "Moins par peur de la contagion (faible) que par la lecture du mal : punition divine et stigmate des mutilations."],
+      ["Comment le lépreux était-il « mis hors du siècle » ?", "Par une cérémonie funéraire (voile noir) : mort sociale, puis vie en léproserie, croix jaune et crécelle obligatoires."],
+      ["Qu'a montré Didier Fassin sur le saturnisme ?", "Il est passé de maladie rare (1981) à 85 000 cas (1999) non par hausse de la prévalence mais par changement du regard : seuil de toxicité, dépistage, lien avec la pauvreté."],
+      { t: "qcm", q: "La lèpre est causée par :", o: ["Le bacille de Koch", "Le bacille de Hansen", "Le plomb", "Un virus"], a: 1, e: "Découvert en 1873 ; traitement par polyantibiothérapie de 6 à 12 mois." },
+      { t: "qcm", q: "Incidence maximale de la lèpre en Europe :", o: ["Antiquité", "XIIe-XIIIe siècles (≈ 1 % de la population)", "XVIIIe siècle", "XXe siècle"], a: 1, e: "Elle régresse à partir du XIVe siècle." },
+      { t: "qcm", q: "Laquelle n'est PAS une hypothèse recevable de la régression de la lèpre ?", o: ["La peste noire", "Les léproseries", "L'essor de la laine", "La montée de la tuberculose"], a: 1, e: "Les léproseries n'étaient pas assez strictes pour éradiquer la maladie." },
+      { t: "vf", q: "La lèpre a totalement disparu dans le monde.", v: false, e: "Elle reste un problème de santé publique en Asie, Afrique et Amérique latine." },
+      { t: "vf", q: "Le statut de malade ouvre des droits en échange de l'obligation de se soigner.", v: true, e: "C'est la contrepartie sociale de la sickness." }
+    ] },
+  { id: "h_terre", subj: "ssh", title: "Histoire de la Terre", parts: 1,
+    files: [["Fiche", D("1Hg1PANYvZSdRCnK5BbWLQCDjk7SQ7vod")], ["Tutorat SSH", MIN_TUTO]],
+    notions: ["Âge de la Terre : 4,55 milliards d'années (connu depuis les années 1950)", "Antiquité (Aristote, stoïciens), chronologies bibliques (Ussher)", "Chronomètres : Halley, Buffon, Darwin, Kelvin, Rutherford, Patterson", "Premières traces de vie (3,5 Ga) ; métabolisme, génétique, membrane", "LUCA, monde à ARN, Miller-Urey, sources hydrothermales, météorites"],
+    cards: [
+      ["Âge de la Terre et qui l'a établi ?", "4,55 milliards d'années, par Clair Patterson (datation uranium-plomb d'une météorite)."],
+      ["Visions antiques de la Terre ?", "Aristote : Terre éternelle en équilibre perpétuel. Stoïciens : cycles de créations et destructions. Dans les deux cas, conservation du monde."],
+      ["Les 3 caractéristiques fondamentales de la vie ?", "Le métabolisme, le matériel génétique et la membrane."],
+      ["Qu'est-ce que LUCA ?", "Le dernier ancêtre commun universel des 3 domaines (archées, bactéries, eucaryotes) ; ce n'est pas la première forme de vie."],
+      { t: "qcm", q: "James Ussher datait la création de la Terre :", o: ["À 4,55 milliards d'années", "Au 23 octobre 4004 av. J.-C.", "À 300 millions d'années", "À 5500 av. J.-C."], a: 1, e: "Plus de 200 calculs ont été proposés entre le XVIe et le XVIIIe siècle." },
+      { t: "qcm", q: "Edmond Halley (1715) cherchait un chronomètre dans :", o: ["La radioactivité", "La salinité de l'océan", "L'érosion", "Le refroidissement"], a: 1, e: "Buffon s'appuie ensuite sur les sédiments et le refroidissement." },
+      { t: "qcm", q: "Les plus anciens microfossiles datent d'environ :", o: ["500 millions d'années", "3,5 milliards d'années", "4,55 milliards d'années", "10 000 ans"], a: 1, e: "Les premières signatures isotopiques datent de 4,1 milliards d'années." },
+      { t: "qcm", q: "L'expérience de Miller et Urey a produit :", o: ["De l'ADN", "Des acides aminés à partir d'une atmosphère primitive simulée", "Des cellules", "Des météorites"], a: 1, e: "Les sources hydrothermales et les météorites sont les 2 autres environnements possibles." },
+      { t: "vf", q: "Selon l'hypothèse du monde à ARN (Gilbert), l'ARN aurait précédé l'ADN.", v: true, e: "Appuyée par les ribozymes (ARN catalyseur et support d'information)." },
+      { t: "vf", q: "Un animal est un organisme photo-litho-autotrophe.", v: false, e: "Les animaux sont chimio-organo-hétérotrophes." }
+    ] }
+];
+CHAPTERS.push(...MINEURE);
 
 /* Questions supplémentaires : Q = QCM (la bonne réponse est l'index a), V = vrai/faux. */
 const Q = (q, o, a, e) => ({ t: "qcm", q, o, a, e });
@@ -1168,6 +1495,11 @@ const EXTRA = {
       if (idx >= 0) day.slots.splice(idx, 0, { key: "w" + day.w + "d" + day.d + "R2", kind: "rappel", lbl: "R2", time: FULL.R2, list: rappelChapters(g, "R2") });
     });
   }
+  // Nouvelle version du planning de base : on garde les déplacements de la semaine 1, on oublie ceux des semaines suivantes.
+  if (state.schedVer !== SCHEDULE_VERSION) {
+    if (state.layout) Object.keys(state.layout).forEach(k => { if (!/^w0/.test(k)) delete state.layout[k]; });
+    state.schedVer = SCHEDULE_VERSION; save();
+  }
   buildPlan();
 
   /* ---------- déplacement des blocs ---------- */
@@ -1289,7 +1621,7 @@ const EXTRA = {
     mob += "</div>";
     el.innerHTML = '<div class="view-head"><div><h2>Semaine ' + (w + 1) + " · " + fmt(dateOf(w * 5)) + " → " + fmt(dateOf(w * 5 + 4)) + '</h2><p>Blocs de travail de 1h45 avec 15 min de pause. Chaque demi-journée commence par une interro de rappel de 15 min (10 questions, notée sur 20) sur les chapitres vus la veille, à J-3, J-7 et J-14. Clique sur un bloc pour voir les notions et les fichiers du Drive. Pour changer l\'ordre, glisse un bloc sur un autre créneau (ou ouvre-le et choisis « Déplacer ») : les rappels se recalculent tout seuls.</p></div><div class="spacer"></div>' + chips + "</div>" +
       (moving ? '<div class="movebar"><span>Choisis le nouveau créneau pour <b>' + esc(slotInfo(findSlot(moving).slot).title) + '</b> : clique sur un bloc pour l\'échanger ou sur une case libre. Tu peux changer de semaine.</span><button class="btn" data-cancel-move>Annuler</button></div>' : "") + grid + mob +
-      '<div class="legend">' + ["sv:Sciences de la vie", "adcp:Condition physique", "psy:Psychologie", "soc:Sociologie", "apsa:APSA", "rev:Annales et révisions"].map(x => { const [c, n] = x.split(":"); return '<span class="s-' + c + '"><span class="tag">' + n + "</span></span>"; }).join("") +
+      '<div class="legend">' + ["sv:Sciences de la vie", "adcp:Condition physique", "psy:Psychologie", "soc:Sociologie", "apsa:APSA", "min:Mineure santé", "rev:Annales et révisions"].map(x => { const [c, n] = x.split(":"); return '<span class="s-' + c + '"><span class="tag">' + n + "</span></span>"; }).join("") +
       '<span class="spacer"></span>' + (state.layout && Object.keys(state.layout).length ? '<button class="btn" data-reset-layout>' + (resetArmed ? "Clique encore pour confirmer" : "Rétablir le planning d\'origine") + "</button>" : "") + '<label class="setting" for="startInput">Début du planning <input type="date" id="startInput" value="' + iso(startDate()) + '"></label></div>';
   }
 
@@ -1344,7 +1676,7 @@ const EXTRA = {
     const el = document.getElementById("v-chapitres");
     const groups = {};
     CHAPTERS.forEach(c => { const ue = SUBJECTS[c.subj].ue; (groups[ue] = groups[ue] || []).push(c); });
-    let html = '<div class="view-head"><div><h2>Tout le contenu du dossier Drive 2025-2026</h2><p>' + CHAPTERS.length + " chapitres répartis sur 4 semaines (l'anglais et l'anatomie sont exclus). Chaque carte indique quand le chapitre est prévu, les fichiers à ouvrir et ton niveau sur les cartes de rappel.</p></div></div>";
+    let html = '<div class="view-head"><div><h2>Tout le contenu du dossier Drive 2025-2026</h2><p>' + CHAPTERS.length + " chapitres répartis sur 4 semaines (l'anglais et l'anatomie sont exclus ; la mineure santé est incluse). Chaque carte indique quand le chapitre est prévu, les fichiers à ouvrir et ton niveau sur les cartes de rappel.</p></div></div>";
     Object.keys(groups).forEach(ue => {
       const list = groups[ue];
       const parts = list.reduce((n, c) => n + c.parts, 0);
@@ -1378,7 +1710,7 @@ const EXTRA = {
     if (grades.length) {
       html += '<div class="panel" style="margin-bottom:18px"><span class="sect-lbl">Dernières notes</span><div class="grades">' + grades.slice(-8).reverse().map(g => { const d = new Date(g.d); return '<div class="grade ' + (g.s >= 10 ? "ok" : "ko") + '"><b>' + fmtNote(g.s) + "</b><span>/20 · " + d.getDate() + " " + MONTHS[d.getMonth()] + "</span><small>" + esc(g.t) + "</small></div>"; }).join("") + "</div></div>";
     }
-    const subs = [["all", "Tout"], ["sv", "Sciences de la vie"], ["adcp", "Condition physique"], ["psy", "Psychologie"], ["soc", "Sociologie"], ["apsa", "APSA"]];
+    const subs = [["all", "Tout"], ["sv", "Sciences de la vie"], ["adcp", "Condition physique"], ["psy", "Psychologie"], ["soc", "Sociologie"], ["apsa", "APSA"], ["min", "Mineure santé"]];
     html += '<p class="mini" style="margin:0 0 8px">Le filtre choisit aussi la matière des interros sur 10 ou 20 (chapitres déjà vus en priorité).</p><div class="chips" style="margin-bottom:12px" role="group" aria-label="Filtrer par matière">' + subs.map(([k, n]) => '<button class="chip" data-rfilter="' + k + '" aria-pressed="' + (rappelFilter === k) + '">' + n + "</button>").join("") + "</div>";
     html += '<div class="deck-grid">';
     CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).forEach(c => {
@@ -1601,7 +1933,7 @@ const EXTRA = {
     if (t.dataset.opt !== undefined) { if (quiz.step === "ask") choose(Number(t.dataset.opt)); return; }
     if (t.dataset.self !== undefined) { record(Number(t.dataset.self)); next(); return; }
     if (t.dataset.next !== undefined) { next(); return; }
-    if (t.dataset.interro) { const n = Number(t.dataset.interro); const inF = CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).map(c => c.id); const st = studiedIds().filter(id => inF.includes(id)); const ids = st.length >= 2 ? st : inF; startQuiz(pickCards(ids, n), "Interro sur " + n + " · " + (rappelFilter === "all" ? "toutes matières" : ({ sv: "Sciences de la vie", adcp: "Condition physique", psy: "Psychologie", soc: "Sociologie", apsa: "APSA" })[rappelFilter]), { minutes: n === 20 ? 25 : 15 }); return; }
+    if (t.dataset.interro) { const n = Number(t.dataset.interro); const inF = CHAPTERS.filter(c => rappelFilter === "all" || SUBJECTS[c.subj].color === rappelFilter).map(c => c.id); const st = studiedIds().filter(id => inF.includes(id)); const ids = st.length >= 2 ? st : inF; startQuiz(pickCards(ids, n), "Interro sur " + n + " · " + (rappelFilter === "all" ? "toutes matières" : ({ sv: "Sciences de la vie", adcp: "Condition physique", psy: "Psychologie", soc: "Sociologie", apsa: "APSA", min: "Mineure santé" })[rappelFilter]), { minutes: n === 20 ? 25 : 15 }); return; }
     if (t.dataset.mark) { state.done[t.dataset.mark] = !state.done[t.dataset.mark]; save(); closeDlg(); return; }
     if (t.dataset.quizSlot) { rappelQuiz(t.dataset.quizSlot); return; }
     if (t.dataset.quizCh) { const c = CH[t.dataset.quizCh]; const n = Math.min(10, c.cards.length); startQuiz(pickCards([c.id], n), "Interro · " + c.title, { minutes: 15 }); return; }
