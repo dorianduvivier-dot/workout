@@ -779,7 +779,7 @@ const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
   [ ["nsyn:1", "stat:1", "ado:1", "si_c1:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "si_c1:2"], ["tdbio:1", "bilan2"] ],
   [ ["snc:2", "cardio:1", "strib:1+sprat:1", "si_c2:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "si_c3:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "sinteg:1"], [null, "h_clin:1+h_cult:1"], ["annADCP", null, "annSoc", "h_eth:1+h_terre:1"], ["annSV2", null, null, "annAPSA"], ["revFin", "bilanFin"] ]
+  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "sinteg:1"], ["p_regl:1", "h_clin:1+h_cult:1"], ["annADCP", "p_regl:2", "annSoc", "h_eth:1+h_terre:1"], ["annSV2", "p_nat1:1", "p_nat2:1", "annAPSA"], ["revFin", "bilanFin"] ]
 ];
 
 /* Mineure santé (Drive 2025-2026 › 1er semestre › Mineure santé › Fiches de cours) — embryologie retirée du programme */
@@ -1519,7 +1519,7 @@ Object.assign(REVIEWS, {
   qcmMAPS: { title: "QCM Supmed : médicaments et produits de santé", type: "annale",
     chapters: ["p_regl", "p_nat1", "p_nat2", "p_form", "p_ops", "p_parent", "p_enter"],
     files: [["Dossier QCM Supmed 2022-2023", SUP_QCM], ["Annales classées corrigées", SUP_ACC]],
-    notions: ["Un QCM Supmed par cours vu cette semaine (sujet puis corrigé)", "Commence par ceux des cours les plus anciens (réglementation, produits naturels)", "Note chaque erreur dans la fiche du chapitre", "Saute les QCM des chapitres hors programme (circuit du médicament, découverte et impact, pharmacien polytechnicien, prise en charge en établissement)"] },
+    notions: ["Un QCM Supmed par cours vu cette semaine (sujet puis corrigé)", "Commence par ceux des cours vus en semaine 4 (réglementation, produits naturels)", "Note chaque erreur dans la fiche du chapitre", "Saute les QCM des chapitres hors programme (circuit du médicament, découverte et impact, pharmacien polytechnicien, prise en charge en établissement)"] },
   annMAPS: { title: "Concours blanc MAPS en conditions réelles", type: "annale",
     chapters: ["p_regl", "p_nat1", "p_nat2", "p_ops", "p_parent", "p_enter", "p_form"],
     files: [["Sujet ECB1 MAPS", D("12bpAWzYfNfn5Z4NNnI6y8iAG_DUVTpsC")], ["Corrigé ECB1 MAPS", D("1WXvTpoLTxLeBnBNzsFqEiqv73TXMVzvH")], ["Dossier concours blancs", SUP_CB], ["QCM Supmed par chapitre", SUP_QCM], ["Annales classées corrigées", SUP_ACC]],
@@ -1530,12 +1530,12 @@ Object.assign(REVIEWS, {
 });
 REVIEWS.bilanFin.notions = ["Quiz aléatoire sur tous les chapitres vus", "Repos ce week-end : la semaine 5 est consacrée aux médicaments et produits de santé"];
 
-/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v3 : les cours de SI sont avancés en semaines 2 et 3) */
-const W5_VERSION = 3;
+/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v4 : réglementation et produits naturels avancés en semaine 4, révisions en plus) */
+const W5_VERSION = 4;
 SCHEDULE.push([
-  ["p_regl:1", "p_regl:2", "p_nat1:1", "p_nat2:1"],
-  ["p_dm:1", "p_perf:1"],
-  ["p_ingr:1", "p_form:1", "p_ops:1", "p_ops:2"],
+  ["p_dm:1", "p_perf:1", "revPhys", "revSI"],
+  ["p_ingr:1", "p_form:1"],
+  ["p_ops:1", "p_ops:2", "revBio", "revPsy"],
   ["p_parent:1", "p_enter:1", "qcmMAPS", "annMAPS"],
   ["revFlash", "bilanPharma"]
 ]);
@@ -1942,6 +1942,10 @@ CHAPTERS.push(
       { t: "vf", q: "ALFAC n'évalue que des tâches isolées.", v: false, e: "Il évalue aussi l'enchaînement des tâches, la prise de décision et la qualité du parcours." }
     ] }
 );
+
+REVIEWS.revSI = { title: "Révision sciences de l'intervention", type: "revision",
+  chapters: ["si_c1", "si_c2", "si_c3"],
+  notions: ["Refaire de mémoire le tableau des 8 déterminants et la grille SMART", "Construire une situation d'apprentissage complète sur une APSA de ton choix : objectif, but, dispositif (4 types), consignes, critères de réussite et de réalisation, variables", "Recommandations de l'OMS, catégories de Cloes, 4 domaines de la littératie physique", "Interro notée sur les 3 cours"] };
 
 /* ---------- Cours au propre ---------- */
 COURS.si_c1 = {
