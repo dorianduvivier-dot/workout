@@ -716,9 +716,9 @@ const CHAPTERS = [
 const REVIEWS = {
   bilan1: { title: "Bilan de la semaine 1", type: "bilan", chapters: ["sdef", "cine", "nbase", "nmsg", "dyn", "attach", "nutri", "smeth"],
     notions: ["Quiz sur toute la semaine (onglet Rappels)", "Relire les fiches des chapitres marqués « à revoir »", "Refaire de mémoire le schéma du potentiel d'action", "Lister ce qui reste flou"] },
-  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["nsyn", "stat", "trav", "musc", "depense", "ado", "secole", "tdbio"],
+  bilan2: { title: "Bilan de la semaine 2", type: "bilan", chapters: ["nsyn", "stat", "trav", "musc", "depense", "ado", "secole", "tdbio", "si_c1"],
     notions: ["Quiz sur toute la semaine", "Revoir les formules de biomécanique", "Schéma du couplage excitation-contraction de mémoire", "Lister ce qui reste flou"] },
-  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "gr", "sa", "co", "h_mal", "h_diag"],
+  bilan3: { title: "Bilan de la semaine 3", type: "bilan", chapters: ["snc", "cardio", "dqp", "tdadcp", "socdel", "strib", "sprat", "sdop", "ssante", "gr", "sa", "co", "si_c2", "si_c3", "h_mal", "h_diag"],
     notions: ["Quiz sur toute la semaine", "Redessiner les voies ascendantes et descendantes", "Refaire l'équation de Fick et ses ordres de grandeur", "Lister les auteurs de psycho et socio"] },
   annSV1: { title: "Annale Sciences de la vie : session 1 2024-2025", type: "annale",
     chapters: ["cine", "dyn", "stat", "trav", "nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
@@ -777,8 +777,8 @@ const REVIEWS = {
 const SCHEDULE_VERSION = 3;
 const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
-  [ ["nsyn:1", "stat:1", "ado:1", null], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", null], ["tdbio:1", "bilan2"] ],
-  [ ["snc:2", "cardio:1", "strib:1+sprat:1", null], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", null], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
+  [ ["nsyn:1", "stat:1", "ado:1", "si_c1:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "si_c1:2"], ["tdbio:1", "bilan2"] ],
+  [ ["snc:2", "cardio:1", "strib:1+sprat:1", "si_c2:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "si_c3:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
   [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "sinteg:1"], [null, "h_clin:1+h_cult:1"], ["annADCP", null, "annSoc", "h_eth:1+h_terre:1"], ["annSV2", null, null, "annAPSA"], ["revFin", "bilanFin"] ]
 ];
 
@@ -1516,24 +1516,28 @@ const PHARMA = [
 CHAPTERS.push(...PHARMA);
 
 Object.assign(REVIEWS, {
+  qcmMAPS: { title: "QCM Supmed : médicaments et produits de santé", type: "annale",
+    chapters: ["p_regl", "p_nat1", "p_nat2", "p_form", "p_ops", "p_parent", "p_enter"],
+    files: [["Dossier QCM Supmed 2022-2023", SUP_QCM], ["Annales classées corrigées", SUP_ACC]],
+    notions: ["Un QCM Supmed par cours vu cette semaine (sujet puis corrigé)", "Commence par ceux des cours les plus anciens (réglementation, produits naturels)", "Note chaque erreur dans la fiche du chapitre", "Saute les QCM des chapitres hors programme (circuit du médicament, découverte et impact, pharmacien polytechnicien, prise en charge en établissement)"] },
   annMAPS: { title: "Concours blanc MAPS en conditions réelles", type: "annale",
     chapters: ["p_regl", "p_nat1", "p_nat2", "p_ops", "p_parent", "p_enter", "p_form"],
     files: [["Sujet ECB1 MAPS", D("12bpAWzYfNfn5Z4NNnI6y8iAG_DUVTpsC")], ["Corrigé ECB1 MAPS", D("1WXvTpoLTxLeBnBNzsFqEiqv73TXMVzvH")], ["Dossier concours blancs", SUP_CB], ["QCM Supmed par chapitre", SUP_QCM], ["Annales classées corrigées", SUP_ACC]],
-    notions: ["Fais le concours blanc sans notes, chronométré (1h15 max), puis corrige-le", "S'il reste du temps : 1 QCM Supmed sur ton chapitre le plus faible", "Saute les questions des chapitres 2022-2023 absents de ton programme", "Corrige avec le corrigé et reporte tes points perdus", "Les dispositifs médicaux et les ingrédients n'ont pas d'annales : refais leurs cartes à la place"] },
-  bilanPharma: { title: "Bilan de la semaine 5 : médicaments + sciences de l'intervention", type: "bilan",
-    chapters: ["p_regl", "p_dm", "p_perf", "p_nat1", "p_nat2", "p_ingr", "p_form", "p_ops", "p_parent", "p_enter", "si_c1", "si_c2", "si_c3"],
-    notions: ["Interro notée sur les cours de la semaine (médicaments + SI)", "SI : reconstruire de mémoire une situation d'apprentissage complète (8 déterminants)", "Refaire de mémoire : listes I et II, stupéfiants, loi de Dalton, Noyes-Whitney, trajets sublingual et rectal", "Comparer les voies (rapidité, biodisponibilité, exemples)", "Lister ce qui reste flou pour le revoir avant l'examen"] }
+    notions: ["Fais le concours blanc sans notes, chronométré (1h15 max), puis corrige-le",  "Saute les questions des chapitres 2022-2023 absents de ton programme", "Corrige avec le corrigé et reporte tes points perdus", "Les dispositifs médicaux et les ingrédients n'ont pas d'annales : refais leurs cartes à la place"] },
+  bilanPharma: { title: "Bilan de la semaine 5 : médicaments et produits de santé", type: "bilan",
+    chapters: ["p_regl", "p_dm", "p_perf", "p_nat1", "p_nat2", "p_ingr", "p_form", "p_ops", "p_parent", "p_enter"],
+    notions: ["Interro notée sur les 10 cours de la semaine", "Refaire de mémoire : listes I et II, stupéfiants, loi de Dalton, Noyes-Whitney, trajets sublingual et rectal", "Comparer les voies (rapidité, biodisponibilité, exemples)", "Lister ce qui reste flou pour le revoir avant l'examen"] }
 });
 REVIEWS.bilanFin.notions = ["Quiz aléatoire sur tous les chapitres vus", "Repos ce week-end : la semaine 5 est consacrée aux médicaments et produits de santé"];
 
-/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v2 : + sciences de l'intervention) */
-const W5_VERSION = 2;
+/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v3 : les cours de SI sont avancés en semaines 2 et 3) */
+const W5_VERSION = 3;
 SCHEDULE.push([
-  ["p_regl:1", "p_regl:2", "si_c1:1", "p_nat1:1"],
-  ["si_c1:2", "p_nat2:1"],
-  ["p_dm:1+p_perf:1", "p_ingr:1+p_form:1", "si_c2:1", "p_ops:1"],
-  ["p_ops:2", "p_parent:1", "p_enter:1", "si_c3:1"],
-  ["annMAPS", "bilanPharma"]
+  ["p_regl:1", "p_regl:2", "p_nat1:1", "p_nat2:1"],
+  ["p_dm:1", "p_perf:1"],
+  ["p_ingr:1", "p_form:1", "p_ops:1", "p_ops:2"],
+  ["p_parent:1", "p_enter:1", "qcmMAPS", "annMAPS"],
+  ["revFlash", "bilanPharma"]
 ]);
 
 /* Cours au propre, format « lecteur plein écran ».
@@ -2189,6 +2193,20 @@ COURS.si_c3 = {
       if (pos && state.layout[k] === baseCode(pos.w, pos.d, pos.lbl)) { delete state.layout[k]; changed = true; }
     });
     ["boxes", "seen"].forEach(f => { if (state[f]) Object.keys(state[f]).forEach(k => { if (!known(k.slice(0, k.lastIndexOf(".")))) { delete state[f][k]; changed = true; } }); });
+    // Un bloc ajouté au planning de base sur une case qu'un ancien déplacement occupe : on le replace dans une case libre.
+    if (state.layout && Object.keys(state.layout).length) {
+      const eff = {}, base = {}, present = new Set();
+      SCHEDULE.forEach((wk, w) => wk.forEach((_, d) => posLabels(d).forEach(lbl => { const k = posKey(w, d, lbl); eff[k] = codeAt(w, d, lbl); base[k] = baseCode(w, d, lbl); })));
+      Object.values(eff).forEach(c => { if (c) c.split("+").forEach(x => present.add(x)); });
+      const today = todayIndex();
+      Object.keys(base).forEach(k => {
+        const bc = base[k]; if (!bc || bc.split("+").every(x => present.has(x))) return;
+        const p0 = parsePos(k), g0 = p0.w * 5 + p0.d;
+        const free = Object.keys(eff).filter(f => eff[f] === null && (p => p.w * 5 + p.d >= Math.max(today, 0))(parsePos(f)));
+        const pick = free.find(f => state.layout[f] === null && parsePos(f).w === p0.w) || free.find(f => state.layout[f] === null) || free.find(f => parsePos(f).w * 5 + parsePos(f).d >= g0) || free[0];
+        if (pick) { state.layout[pick] = bc; eff[pick] = bc; bc.split("+").forEach(x => present.add(x)); changed = true; }
+      });
+    }
     if (changed) save();
   })();
   buildPlan();
