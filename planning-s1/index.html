@@ -666,17 +666,6 @@ const CHAPTERS = [
       ["Définition de la GR (Delattre et Pechillon) ?", "Un dialogue codifié entre le sujet, des objets manipulés et le milieu physique et humain, dans un espace géométrique, graphique et vécu, en relation avec la musique."],
       ["Qu'est-ce qu'une évolution ?", "Le passage d'une formation à une autre (forme du déplacement, direction, trajets)."]
     ] },
-  { id: "muscu", subj: "apsa", title: "Musculation (dossier APA prothèse de hanche)", parts: 1,
-    files: [["Dossier musculation", D("17Woc4T3nKNnIWzFti1etYFBGasSFJ6pj")], ["Planification musculation", D("1gk4mpsb0jGpD46SBInApyLk-2VZXETr0")], ["SOS APA", D("1TnPddrbzYKvX85leIi46OrJyqLbdkxzh")], ["Haut du corps", D("1CkWZk2oXZaRj-zcE0A3N_xYJHlcSLuKu")], ["TD théorique 2", D("1jfMjo7r_HCilyOgg_65ttXBADHv5oqb5")]],
-    notions: ["Analyse du profil (Patrick, 62 ans, PTH)", "Tests : lever de chaise, unipodal, TUG", "Précautions après prothèse de hanche", "Principes FITTVP", "Séance type de 60 min et suivi"],
-    cards: [
-      ["Que signifie FITTVP ?", "Fréquence, Intensité, Temps, Type, Volume, Progression."],
-      ["Comment se déroule le Timed Up and Go ?", "Se lever d'une chaise, marcher 3 m, faire demi-tour, revenir et se rasseoir, chronométré."],
-      ["Précautions après une prothèse totale de hanche ?", "Pas de flexion de hanche > 90°, pas de rotations extrêmes (croiser les jambes), pas d'impacts, mouvements lents et contrôlés."],
-      ["Quel muscle cible l'abduction de hanche à l'élastique ?", "Le moyen fessier (stabilité du bassin à la marche)."],
-      ["Structure de la séance type ?", "Accueil 5', échauffement 10', renforcement 25-30', équilibre 10-15', retour au calme 5-10'."],
-      ["Seuil de douleur à respecter ?", "Une douleur inférieure à 3/10."]
-    ] },
   { id: "tennis", subj: "apsa", title: "Tennis : séance d'entraînement au service", parts: 1,
     files: [["Séance service", D("1NSef0cv8-8i1Bf8Urvynwdx1PoofsNh5")]],
     notions: ["Rubriques d'une fiche de séance", "4 temps : observation, situation-problème, renforcement, bilan", "Critères de réussite et variables didactiques", "Repères techniques du service"],
@@ -764,8 +753,8 @@ const REVIEWS = {
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     notions: ["Frise des lois et dispositifs (1965, 1993, 2001, 2006, 2012, 2016)", "Bourdieu, Boudon, Durkheim, Weber : idée clé de chacun", "Chiffres clés des pratiques 2025"] },
   revFin: { title: "Grande révision Condition physique + APSA", type: "revision",
-    chapters: ["nutri", "depense", "dqp", "gr", "muscu", "tennis", "sa", "co", "h_clin", "h_cult", "h_eth", "h_terre"],
-    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, musculation", "Mineure santé : interro sur la SSH de la semaine"] },
+    chapters: ["nutri", "depense", "dqp", "gr", "rf_c1", "rf_c2", "rf_c3", "tennis", "sa", "co", "h_clin", "h_cult", "h_eth", "h_terre"],
+    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, renforcement musculaire", "Mineure santé : interro sur la SSH de la semaine"] },
   revFlash: { title: "Dernier passage sur les cartes à revoir", type: "revision", chapters: "all",
     notions: ["Révision intelligente jusqu'à épuisement des cartes à revoir", "Relire les fiches des chapitres les plus faibles"] },
   bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
@@ -779,7 +768,7 @@ const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
   [ ["nsyn:1", "stat:1", "ado:1", "si_c1:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "si_c1:2"], ["tdbio:1", "bilan2"] ],
   [ ["snc:2", "cardio:1", "strib:1+sprat:1", "si_c2:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "si_c3:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", "muscu:1+tennis:1", "sinteg:1"], ["p_regl:1", "h_clin:1+h_cult:1"], ["annADCP", "p_regl:2", "annSoc", "h_eth:1+h_terre:1"], ["annSV2", "p_nat1:1", "p_nat2:1", "annAPSA"], ["revFin", "bilanFin"] ]
+  [ ["annSV1", "corrSV1", "tennis:1", "sinteg:1"], ["p_regl:1", "h_clin:1+h_cult:1"], ["annADCP", "p_regl:2", "annSoc", "h_eth:1+h_terre:1"], ["annSV2", "p_nat1:1", "p_nat2:1", "annAPSA"], ["rf_c1:1+rf_c2:1", "bilanFin"] ]
 ];
 
 /* Mineure santé (Drive 2025-2026 › 1er semestre › Mineure santé › Fiches de cours) — embryologie retirée du programme */
@@ -1201,17 +1190,6 @@ const EXTRA = {
     Q("Une formation en cercle est un dessin :", ["Fermé sans angle", "Ouvert", "En sous-groupes", "Fermé avec angles"], 0, "Carré ou triangle = fermés avec angles."),
     Q("En 1998, la GRS devient la GR parce que :", ["Elle quitte les JO", "Le caractère sportif n'a plus besoin d'être précisé après son entrée aux JO", "Elle devient mixte", "Elle abandonne les engins"], 1, "Le terme « sportive » a été retiré.")
   ],
-  muscu: [
-    Q("Délai minimum après une prothèse de hanche pour l'APA avec accord médical :", ["2 semaines", "1 mois", "3 mois", "1 an"], 2, "Avant 3 mois, les mouvements sont limités."),
-    Q("Le test du lever de chaise compte les levers en :", ["10 s", "30 s", "1 min", "5 min"], 1, "Avec l'équilibre unipodal (jusqu'à 30 s) et le TUG."),
-    Q("Intensité choisie pour la marche de Patrick :", ["Maximale", "Modérée (il doit pouvoir parler)", "Supra-maximale", "Très faible, sans effort"], 1, "Le test de la parole sert de repère."),
-    Q("Nombre de séances par semaine prévues :", ["1", "2 à 3", "5", "7"], 1, "En plus de la marche en autonomie."),
-    V("Croiser les jambes est déconseillé après une prothèse totale de hanche.", true, "On évite les rotations extrêmes."),
-    V("Dans la progression, on augmente d'abord les charges avant la durée.", false, "On augmente d'abord la durée et la fréquence, puis les charges."),
-    Q("Exercice d'équilibre avec double tâche :", ["Squat", "Surface instable + échanges de ballon", "Vélo", "Step"], 1, "Travail proprioceptif et de la ceinture abdominale."),
-    Q("Objectif à moyen terme (3-6 mois) :", ["Courir un marathon", "Marcher 45 à 60 min avec une douleur < 3/10", "Sauter à la corde", "Reprendre le foot"], 1, "Et atteindre 150 à 300 min d'activité par semaine."),
-    Q("Récupération entre les séries de renforcement :", ["30 s", "1 min", "2 min 30", "10 min"], 2, "2 à 3 séries de 10 à 15 répétitions.")
-  ],
   tennis: [
     Q("Le « but » dans une fiche de séance correspond à :", ["La transformation attendue chez le joueur", "La réalisation attendue (telle cible, tel point)", "L'organisation du terrain", "Le matériel"], 1, "L'objectif = « être capable de... »."),
     Q("Situation qui ouvre la séance :", ["Bilan", "Observation (jeu à règles)", "Renforcement", "Étirements"], 1, "Puis situation-problème, renforcement, bilan."),
@@ -1530,14 +1508,14 @@ Object.assign(REVIEWS, {
 });
 REVIEWS.bilanFin.notions = ["Quiz aléatoire sur tous les chapitres vus", "Repos ce week-end : la semaine 5 est consacrée aux médicaments et produits de santé"];
 
-/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v4 : réglementation et produits naturels avancés en semaine 4, révisions en plus) */
-const W5_VERSION = 4;
+/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v5 : + renforcement musculaire CM3 ; réglementation et produits naturels en semaine 4) */
+const W5_VERSION = 5;
 SCHEDULE.push([
-  ["p_dm:1", "p_perf:1", "revPhys", "revSI"],
+  ["p_dm:1", "p_perf:1", "rf_c3:1", "revSI"],
   ["p_ingr:1", "p_form:1"],
   ["p_ops:1", "p_ops:2", "revBio", "revPsy"],
   ["p_parent:1", "p_enter:1", "qcmMAPS", "annMAPS"],
-  ["revFlash", "bilanPharma"]
+  ["revPhys", "bilanPharma"]
 ]);
 
 /* Cours au propre, format « lecteur plein écran ».
@@ -2063,6 +2041,193 @@ COURS.si_c3 = {
   retenir: ["Maria : il manque un objectif complet, un but, l'espace, le temps, les critères et les variables", "ALFAC : natation 6-10 ans, tâches isolées (niveaux 1-5) puis enchaînement et décision", "Scallon 2007 : jugement sur des indicateurs pour décider", "Romainville 2017 : mesurer puis apprécier ; observation → analyse → décision", "Avant (diagnostique), pendant (formative), après (sommative) ; auto- et co-évaluation"]
 };
 
+/* Renforcement musculaire — L2 APAS (nouvelle enseignante) : CM 1, 2 et 3 (PDF envoyés par l'étudiant) */
+const RF_SRC = "Support « Renforcement musculaire — L2 APAS » 2026-2027 (CM 1 à 3), synthétisé et remis en forme.";
+
+CHAPTERS.push(
+  { id: "rf_c1", subj: "apsa", title: "Renfo · CM1 : force, hypertrophie, endurance", parts: 1, src: RF_SRC, files: [],
+    notions: ["Force maximale (1RM), puissance, endurance de force, hypertrophie", "Continuum des répétitions (Campos et al., 2002) et zones de charge NSCA / ACSM", "Débat : charge lourde ou effort proche de l'échec ?", "Adaptations nerveuses (Henneman) puis structurelles", "Variables : volume, fréquence, récupération, tempo, RIR", "Enjeux en APAS : OMS 2 jours par semaine"],
+    cards: [
+      ["Définis la force maximale et la façon de la mesurer en musculation.", "La force la plus élevée que le système neuromusculaire peut produire lors d'une contraction volontaire maximale ; on la mesure par la 1RM, la charge la plus lourde soulevée une seule fois."],
+      ["Qu'est-ce que la puissance ?", "La capacité à produire une force élevée rapidement : puissance = force × vitesse. Elle dépend de la force maximale et du taux de développement de la force."],
+      ["Pourquoi dit-on que l'hypertrophie n'est pas une qualité de performance ?", "C'est une adaptation structurelle : l'augmentation de la section transversale du muscle (taille des fibres), qui augmente le potentiel de force."],
+      ["Donne la zone de travail pour la force maximale.", "≥ 85 % de 1RM, ≤ 6 répétitions, 2 à 6 séries, 2 à 5 min de récupération, intention de vitesse maximale."],
+      ["Donne la zone de travail pour l'hypertrophie.", "65 à 85 % de 1RM, 6 à 12 répétitions, 3 à 6 séries, 1 à 3 min de récupération, exécution contrôlée (0,5 à 8 s par répétition)."],
+      ["Donne la zone de travail pour l'endurance de force.", "≤ 65 % de 1RM, ≥ 12 répétitions, 2 à 3 séries, ≤ 30 s de récupération, vitesse modérée."],
+      ["Quelles sont les 4 adaptations nerveuses des premières semaines ?", "Le recrutement de plus d'unités motrices, une fréquence de décharge plus élevée, la synchronisation des unités motrices, une meilleure coordination intermusculaire (moins de co-contraction des antagonistes)."],
+      ["Quels sont les 3 stimuli de l'hypertrophie selon Schoenfeld (2010) ?", "La tension mécanique (stimulus principal), le stress métabolique et les dommages musculaires (rôle secondaire)."],
+      ["Qu'est-ce que les RIR et pourquoi sont-ils utiles en APAS ?", "Les répétitions en réserve : « combien de répétitions aurais-tu encore pu faire ? ». On pilote l'effort sans tester la 1RM (Helms et al., 2016)."],
+      ["Comment choisir la charge pour une personne âgée fragile ou ostéoporotique ?", "Commencer léger pour apprendre et rassurer, puis progresser vers 70-85 % de 1RM sous supervision, s'arrêter 1 à 3 répétitions avant l'échec, travailler aussi la vitesse de montée : la bonne charge est la plus efficace tolérée en sécurité."],
+      { t: "qcm", q: "Dans l'étude de Campos et al. (2002), quel groupe a le plus progressé en endurance ?", o: ["3-5 RM", "9-11 RM", "20-28 RM", "Aucune différence"], a: 2, e: "Les gains de force maximale étaient, eux, décroissants du groupe 3-5 RM au groupe 20-28 RM." },
+      { t: "qcm", q: "D'où viennent surtout les gains de force des 4 à 8 premières semaines ?", o: ["De l'hypertrophie", "D'adaptations nerveuses", "De la densité mitochondriale", "De la souplesse"], a: 1, e: "Sale (1988), Folland et Williams (2007) : l'hypertrophie prend le relais vers 6 à 8 semaines." },
+      { t: "qcm", q: "Selon le principe de Henneman, quelles unités motrices sont recrutées en premier ?", o: ["Les grosses, fibres rapides (type II)", "Les petites, fibres lentes (type I)", "Toutes en même temps", "Les antagonistes"], a: 1, e: "Les grosses unités motrices ne sont recrutées que si la force demandée ou la fatigue augmente." },
+      { t: "qcm", q: "Quel est le stimulus principal de l'hypertrophie ?", o: ["Les dommages musculaires", "La tension mécanique", "La congestion", "La fréquence cardiaque"], a: 1, e: "Le stress métabolique compte aussi ; le rôle des dommages est jugé secondaire." },
+      { t: "qcm", q: "Quelle récupération entre séries pour la force maximale ?", o: ["≤ 30 s", "1 min", "2 à 5 min", "10 min"], a: 2, e: "≤ 30 s, c'est la zone d'endurance de force." },
+      { t: "qcm", q: "Quelle fréquence donne plus d'hypertrophie (Schoenfeld, Ogborn et Krieger, 2016) ?", o: ["1 fois par semaine", "Au moins 2 fois par semaine par muscle", "Tous les jours obligatoirement", "La fréquence ne compte pas"], a: 1, e: "À volume non égalisé." },
+      { t: "qcm", q: "Quelle durée de répétition est moins efficace pour l'hypertrophie ?", o: ["0,5 s", "2 s", "6 s", "Plus de 10 s"], a: 3, e: "De 0,5 à 8 s, l'hypertrophie est comparable (Schoenfeld, Ogborn et Krieger, 2015)." },
+      { t: "qcm", q: "L'entraînement en endurance de force améliore surtout :", o: ["La section des fibres", "La capillarisation et la densité mitochondriale", "La 1RM", "La souplesse"], a: 1, e: "Aussi les capacités tampons et l'utilisation des substrats énergétiques." },
+      { t: "vf", q: "Les zones force / hypertrophie / endurance sont des frontières étanches.", v: false, e: "Elles se chevauchent : le choix dépend de l'objectif, du public et de la tolérance." },
+      { t: "vf", q: "Des séries légères menées jusqu'à l'échec donnent une hypertrophie similaire aux charges lourdes.", v: true, e: "Méta-analyse de Schoenfeld, Grgic, Ogborn et Krieger (2017), Morton et al. (2016). Mais pour la 1RM, les charges lourdes restent supérieures." },
+      { t: "vf", q: "Avec une personne âgée fragile, il faut aller jusqu'à l'échec à chaque série.", v: false, e: "On s'arrête 1 à 3 répétitions avant : l'échec coûte en inconfort, en durée et en sécurité." },
+      { t: "vf", q: "L'OMS recommande du renforcement musculaire au moins 2 jours par semaine, y compris aux personnes avec une maladie chronique.", v: true, e: "Intensité modérée ou plus, principaux groupes musculaires (Bull et al., 2020)." },
+      { t: "vf", q: "La force est une qualité « mère ».", v: true, e: "L'améliorer améliore en général la puissance et l'endurance de force (Suchomel, Nimphius et Stone, 2016)." }
+    ] },
+  { id: "rf_c2", subj: "apsa", title: "Renfo · CM2 : régimes de contraction", parts: 1, src: RF_SRC, files: [],
+    notions: ["Concentrique, excentrique, isométrique : rapport force musculaire / résistance", "Cycle étirement-détente (pliométrie)", "Relation force-vitesse (Hill, 1938)", "Comparaison des régimes : force, coût, courbatures", "Pourquoi choisir chaque régime, et pour quel public", "Débat concentrique / excentrique, exercice nordique, isométrie et douleur"],
+    cards: [
+      ["Qu'est-ce qui détermine le régime de contraction ?", "Le rapport entre la force produite par le muscle et la résistance externe : force > résistance = concentrique, force < résistance = excentrique, force = résistance = isométrique."],
+      ["Lors de la descente contrôlée d'un curl biceps, quel muscle travaille et comment ?", "Les fléchisseurs du coude, en excentrique : ils freinent en s'allongeant. Le triceps ne travaille pas."],
+      ["Qu'est-ce que le cycle étirement-détente ?", "Une phase excentrique rapide immédiatement suivie d'une phase concentrique (saut, course, rebond) : plus de force et de puissance grâce à l'énergie élastique et au réflexe (Komi, 2000)."],
+      ["Que montre la relation force-vitesse de Hill (1938) ?", "En concentrique, la force diminue quand la vitesse augmente ; en excentrique, la force dépasse la force isométrique maximale et reste élevée quand la vitesse augmente."],
+      ["Pourquoi l'excentrique convient-il aux personnes âgées fragiles ou aux insuffisants cardiaques ?", "Il produit une force élevée pour un faible coût énergétique et cardiovasculaire : charge mécanique importante sans essoufflement (Isner-Horobeti et al., 2013 ; LaStayo et al., 2003)."],
+      ["Quelle précaution avec l'isométrique chez un public cardiovasculaire ?", "Éviter l'apnée (manœuvre de Valsalva) qui fait monter la pression artérielle : respiration continue et intensité modérée."],
+      ["Pourquoi la question « concentrique ou excentrique, lequel est le meilleur ? » est-elle mal posée ?", "La réponse dépend de l'objectif (force concentrique, hypertrophie, prévention), du public, de la tolérance aux courbatures et du matériel : les régimes sont complémentaires."],
+      { t: "qcm", q: "Dans quel régime le muscle produit-il la force la plus élevée ?", o: ["Concentrique", "Excentrique", "Isométrique", "Identique dans les trois"], a: 1, e: "Puis isométrique, puis concentrique." },
+      { t: "qcm", q: "Sur muscle isolé, la force excentrique peut atteindre :", o: ["0,5 fois la force isométrique", "1 fois", "1,5 à 2 fois", "5 fois"], a: 2, e: "Chez l'humain l'écart est plus faible, à cause d'une inhibition nerveuse protectrice." },
+      { t: "qcm", q: "Quel régime provoque le plus de courbatures chez un non habitué ?", o: ["Concentrique", "Excentrique", "Isométrique", "Aucun"], a: 1, e: "Elles diminuent fortement dès la 2e séance (effet de la séance répétée)." },
+      { t: "qcm", q: "Le protocole d'Alfredson et al. (1998) utilise l'excentrique pour :", o: ["La lombalgie", "Le tendon d'Achille", "L'épaule", "L'hypertension"], a: 1, e: "Rééducation des tendinopathies d'Achille." },
+      { t: "qcm", q: "Dans la méta-analyse d'Edwards et al. (2023), quel mode d'exercice baisse le plus la pression artérielle de repos ?", o: ["La course", "Le concentrique lourd", "L'isométrique (chaise contre le mur, handgrip)", "Le HIIT"], a: 2, e: "Intérêt dans l'hypertension, en évitant le blocage respiratoire." },
+      { t: "qcm", q: "Pour se lever d'une chaise ou monter des escaliers, quel régime est le plus spécifique ?", o: ["Concentrique", "Excentrique", "Isométrique", "Pliométrique"], a: 0, e: "Les tâches d'accélération (se lever, monter, pousser, sauter) sont concentriques (Roig et al., 2009)." },
+      { t: "qcm", q: "Descendre des escaliers ou s'asseoir lentement sollicite surtout :", o: ["Le concentrique", "L'excentrique", "L'isométrique", "Aucune contraction"], a: 1, e: "C'est du contrôle du freinage." },
+      { t: "qcm", q: "Les mécanismes de la force excentrique élevée sont surtout :", o: ["Métaboliques", "Mécaniques (ponts actine-myosine, titine)", "Hormonaux", "Psychologiques"], a: 1, e: "Herzog (2014)." },
+      { t: "qcm", q: "Qui juge l'effet de l'exercice nordique « non concluant » ?", o: ["van Dyk, Behan et Whiteley (2019)", "Impellizzeri, McCall et van Smeden (2021)", "van der Horst et al. (2015)", "Hill (1938)"], a: 1, e: "van Dyk et al. concluaient à une division par 2 des lésions des ischio-jambiers ; la ré-analyse pointe le faible nombre d'études et leurs biais." },
+      { t: "vf", q: "Lors du retour d'un exercice contre la gravité, c'est l'antagoniste qui travaille.", v: false, e: "C'est le même muscle, en excentrique." },
+      { t: "vf", q: "À force égale, l'excentrique coûte plusieurs fois moins d'oxygène que le concentrique.", v: true, e: "Faible coût énergétique et cardiovasculaire." },
+      { t: "vf", q: "Les gains de force en isométrique sont spécifiques à l'angle travaillé.", v: true, e: "Le transfert est meilleur en position muscle allongé (Oranchuk et al., 2019 ; Lum et Barbosa, 2019)." },
+      { t: "vf", q: "Selon Franchi et al. (2014), concentrique et excentrique font grossir le muscle par les mêmes voies.", v: false, e: "Par des voies différentes (pennation vs longueur des faisceaux) : ils sont complémentaires." },
+      { t: "vf", q: "L'effet antalgique immédiat de l'isométrie sur la douleur tendineuse (Rio et al., 2015) a été retrouvé par Holden et al. (2020).", v: false, e: "Holden et al. ne l'ont pas retrouvé sur un échantillon plus large : résultat discuté." }
+    ] },
+  { id: "rf_c3", subj: "apsa", title: "Renfo · CM3 : anatomie fonctionnelle appliquée", parts: 1, src: RF_SRC, files: [],
+    notions: ["Plans, axes et mouvements articulaires", "Rôles : agoniste, antagoniste, synergiste, stabilisateur", "Méthode d'analyse en 5 étapes et règle d'or", "Analyses : squat, pompe, curl, tirage vertical", "4 exercices par groupe musculaire (chaîne, régime, niveau)", "Pièges fréquents"],
+    cards: [
+      ["Quels mouvements se font dans le plan sagittal ?", "Flexion / extension (hanche, genou, coude, rachis), flexion dorsale / plantaire, antépulsion / rétropulsion de l'épaule, antéversion / rétroversion du bassin. Axe transversal."],
+      ["Quels mouvements se font dans le plan frontal ?", "Abduction / adduction, inclinaison latérale du rachis, élévation / abaissement de la scapula. Axe sagittal."],
+      ["Quels mouvements se font dans le plan transversal ?", "Rotations médiale / latérale, rotation du tronc, abduction / adduction horizontales de l'épaule, pronation / supination. Axe longitudinal."],
+      ["Quelles sont les 5 étapes de l'analyse d'un exercice ?", "1) Découper en phases ; 2) nommer le mouvement de chaque articulation ; 3) identifier la résistance et sa direction ; 4) trouver le muscle qui s'y oppose et son régime ; 5) repérer les stabilisateurs."],
+      ["Énonce la règle d'or de l'étape 4.", "Le muscle qui travaille est celui qui s'oppose à la résistance : il travaille en concentrique si le segment va contre la résistance, en excentrique s'il va dans son sens, en isométrique s'il n'y a pas de mouvement."],
+      ["Analyse la descente du squat au genou.", "La gravité fléchit le genou : le quadriceps freine en excentrique (ce ne sont pas les ischio-jambiers)."],
+      ["Au tirage vertical, quand la barre descend vers la poitrine, que fait le grand dorsal ?", "Il travaille en concentrique (adduction de l'épaule) contre le câble qui tire vers le haut ; quand la barre remonte, il travaille en excentrique."],
+      ["Pourquoi une rotation du tronc assis sans charge fait-elle travailler deux muscles opposés en concentrique ?", "Dans un plan horizontal, la gravité n'offre presque pas de résistance : l'aller et le retour sont deux concentriques de muscles opposés."],
+      ["Comment proposer 4 exercices différents pour un même groupe musculaire ?", "En variant la chaîne (ouverte / fermée), le matériel, le régime dominant, la position du muscle (court / allongé) et le niveau."],
+      ["Analyse le pont fessier (proposition).", "Montée : extension de hanche, grand fessier en concentrique (ischio-jambiers synergistes) ; maintien en isométrique ; descente : grand fessier en excentrique ; tronc gainé ; chaîne fermée (pieds au sol)."],
+      { t: "qcm", q: "Un muscle qui immobilise un segment pour offrir un point fixe est :", o: ["Agoniste", "Antagoniste", "Synergiste", "Stabilisateur (fixateur)"], a: 3, e: "Il travaille le plus souvent en isométrique." },
+      { t: "qcm", q: "Dans la pompe, le triceps brachial travaille :", o: ["En isométrique tout le temps", "En excentrique à la descente, concentrique à la remontée", "Seulement à la descente", "Il ne travaille pas"], a: 1, e: "Avec le grand pectoral et le deltoïde antérieur ; le tronc est gainé en isométrique." },
+      { t: "qcm", q: "Pendant le squat, les érecteurs du rachis et la sangle abdominale travaillent :", o: ["En concentrique", "En excentrique", "En isométrique (stabilisateurs)", "Pas du tout"], a: 2, e: "Le rachis reste neutre." },
+      { t: "qcm", q: "Quel exercice est le seul où le droit fémoral travaille hanche fléchie ?", o: ["Squat", "Fente", "Leg extension", "Chaise contre le mur"], a: 2, e: "Chaîne ouverte mono-articulaire ; utile en cas d'amyotrophie après chirurgie." },
+      { t: "qcm", q: "Pourquoi le leg curl assis donne-t-il plus d'hypertrophie des ischio-jambiers que couché ?", o: ["La charge est plus lourde", "Hanche fléchie : ischios en position allongée", "Il est en chaîne fermée", "Il est plus rapide"], a: 1, e: "Maeo et al. (2021)." },
+      { t: "qcm", q: "Extension des mollets assis, genoux fléchis : quel muscle travaille surtout ?", o: ["Les gastrocnémiens", "Le soléaire", "Le tibial antérieur", "Les ischio-jambiers"], a: 1, e: "Insuffisance active des gastrocnémiens (bi-articulaires) quand le genou est fléchi." },
+      { t: "qcm", q: "La planche ventrale est un exercice :", o: ["Anti-rotation", "Anti-inclinaison", "Anti-extension", "De flexion du rachis"], a: 2, e: "Gainage latéral = anti-inclinaison ; Pallof press = anti-rotation." },
+      { t: "qcm", q: "Pour le chef long du triceps, quel exercice donne nettement plus d'hypertrophie ?", o: ["Extension bras le long du corps", "Extension nuque (bras au-dessus de la tête)", "Pompes larges", "Curl marteau"], a: 1, e: "Chef long allongé (Maeo et al., 2023)." },
+      { t: "qcm", q: "L'adduction de Copenhague cible :", o: ["Le moyen fessier", "Les adducteurs", "Les ischio-jambiers", "Le grand dorsal"], a: 1, e: "Programme qui réduit les problèmes à l'aine chez les footballeurs (Harøy et al., 2019)." },
+      { t: "qcm", q: "Le curl marteau (prise neutre) met l'accent sur :", o: ["Le chef long du biceps", "Le brachio-radial et le brachial", "Le triceps", "Le deltoïde"], a: 1, e: "Le biceps est en position de force maximale en supination." },
+      { t: "vf", q: "Une activation EMG plus élevée prédit forcément plus d'hypertrophie.", v: false, e: "Vigotsky et al. (2018) : attention à l'interprétation de l'EMG (ex. hip thrust vs squat, Contreras et al., 2015)." },
+      { t: "vf", q: "Au curl biceps, le deltoïde antérieur et les fléchisseurs du poignet travaillent en isométrique.", v: true, e: "L'épaule et le poignet restent immobiles." },
+      { t: "vf", q: "Le squat est un exercice en chaîne cinétique fermée.", v: true, e: "Les pieds sont fixés au sol." },
+      { t: "vf", q: "L'élévation latérale d'haltères isole surtout le faisceau moyen du deltoïde.", v: true, e: "Chaîne ouverte mono-articulaire, charges légères." }
+    ] }
+);
+
+/* ---------- Cours au propre ---------- */
+COURS.rf_c1 = {
+  hook: "« Se renforcer », ça veut dire quoi ? Plus fort, plus gros ou plus endurant ? Chaque objectif a **sa zone de charge**, et chaque public **sa progression**.",
+  sections: [
+    { t: "Les 4 qualités musculaires", b: [
+      ["tab", ["Qualité", "Définition", "Exemple"], [["**Force maximale**", "Force la plus élevée produite lors d'une contraction volontaire maximale ; mesurée par la **1RM** (charge soulevée une seule fois)", "Soulever une valise lourde"], ["**Puissance**", "Produire une force élevée **rapidement** : puissance = force × vitesse ; dépend de la force max et du taux de développement de la force", "Se rattraper d'un déséquilibre, sauter, sprinter"], ["**Endurance de force**", "Maintenir ou répéter une force sous-maximale **le plus longtemps possible** en résistant à la fatigue", "Porter des courses, jardiner, tenir une posture"], ["**Hypertrophie**", "Pas une qualité de performance : **adaptation structurelle** (↑ section transversale des fibres) qui augmente le potentiel de force", "Lutter contre la sarcopénie, après immobilisation ou chimio"]]],
+      ["key", "La **force est une qualité « mère »** : l'améliorer améliore en général la puissance et l'endurance de force, et réduit le risque de blessure (Suchomel, Nimphius et Stone, 2016)."]
+    ]},
+    { t: "Le continuum des répétitions", b: [
+      ["p", "**Campos et al. (2002)** : 3 groupes à **3-5 RM, 9-11 RM et 20-28 RM** → gains de force maximale décroissants ; le groupe **20-28 RM** progresse le plus en **endurance**."],
+      ["tab", ["Objectif", "Charge", "Répétitions", "Séries", "Récupération", "Vitesse"], [["**Force maximale**", "≥ 85 % 1RM", "≤ 6", "2-6", "2-5 min", "Intention maximale"], ["**Puissance**", "0-60 % (balistique) ou 75-90 % (olympique)", "1-5", "3-5", "2-5 min", "Explosive"], ["**Hypertrophie**", "65-85 % 1RM", "6-12", "3-6", "1-3 min", "Contrôlée (0,5 à 8 s)"], ["**Endurance de force**", "≤ 65 % 1RM", "≥ 12", "2-3", "≤ 30 s", "Modérée"]]],
+      ["warn", "Les zones **se chevauchent** : ce ne sont pas des frontières étanches (NSCA : Haff et Triplett, 2016 ; ACSM, 2009). En APAS, on part en général de la zone d'**endurance de force** avant de progresser."]
+    ]},
+    { t: "Débat : faut-il soulever lourd pour grossir ?", b: [
+      ["cmp", [["« Oui, la charge compte »", ["ACSM (2009) : **67-85 % 1RM** pour l'hypertrophie", "Pour la **1RM**, les charges > 60 % restent supérieures (Schoenfeld, Grgic, Ogborn et Krieger, 2017)", "Principe de **spécificité**"]], ["« Non, c'est l'effort qui compte »", ["**Hypertrophie similaire** charges lourdes vs légères (≤ 60 %) si les séries vont **jusqu'à l'échec** (même méta-analyse)", "Morton et al. (2016) : même résultat chez des entraînés (8-12 vs 20-25 RM)", "Près de l'échec, **toutes les unités motrices** sont recrutées (Henneman)"]]]],
+      ["steps", ["Charges **légères au départ** : apprendre le geste, rassurer, habituer les tissus", "Elles **ne suffisent pas** à long terme : la force et l'os ont besoin de charges élevées", "Progresser vers **70-85 % 1RM**, graduellement et sous supervision", "**Pas besoin de l'échec** : s'arrêter 1 à 3 répétitions avant", "Travailler aussi la **vitesse de montée** (se lever vite d'une chaise) contre les chutes"]],
+      ["key", "Pour une personne âgée fragile ou ostéoporotique : la bonne charge est **la plus efficace qu'elle tolère en sécurité**, et elle évolue au fil du programme. Une série légère à l'échec coûte : inconfort, durée, moins de sécurité (apnée, équilibre, technique)."]
+    ]},
+    { t: "Les adaptations nerveuses", b: [
+      ["p", "Pendant les **4 à 8 premières semaines**, on devient plus fort **sans grossir** : le cerveau commande mieux les muscles (Sale, 1988 ; Folland et Williams, 2007). Unité motrice = un motoneurone + les fibres qu'il commande. Image : le muscle est une équipe de **rameurs**, le cerveau est le **barreur**."],
+      ["grid", [["1. Recrutement", "Plus d'unités motrices actives. **Principe de Henneman (1957)** : petites UM (fibres lentes, type I) d'abord, grosses (type II) seulement si l'effort est lourd ou la fatigue s'installe"], ["2. Fréquence de décharge", "Les motoneurones envoient des influx **plus rapprochés** (codage temporel)"], ["3. Synchronisation", "Les unités motrices se contractent **en même temps** : les forces s'additionnent"], ["4. Coordination intermusculaire", "Agonistes mieux activés, **moins de co-contraction des antagonistes** (fini le « frein à main »), meilleure technique"]]],
+      ["key", "Conséquence : **la force est spécifique**. S'entraîner au squat rend surtout fort au squat. Et il faut une charge lourde (ou une série proche de l'échec) pour faire travailler les grosses fibres."]
+    ]},
+    { t: "Hypertrophie et endurance", b: [
+      ["grid", [["Tension mécanique", "**Stimulus principal** de l'hypertrophie (Schoenfeld, 2010)"], ["Stress métabolique", "Accumulation de métabolites, « congestion »"], ["Dommages musculaires", "Rôle aujourd'hui jugé **secondaire**"]]],
+      ["p", "L'hypertrophie = surtout **↑ diamètre des fibres** par ajout de myofibrilles **en parallèle**, visible après quelques semaines ; l'architecture change aussi (longueur des faisceaux). Elle prend le relais des facteurs nerveux vers **6 à 8 semaines** (Sale, 1988)."],
+      ["p", "**Endurance de force** (charges légères, répétitions nombreuses) : ↑ **capillarisation**, **densité mitochondriale**, capacités **tampons**, utilisation des substrats (Campos et al., 2002)."]
+    ]},
+    { t: "Les variables de programmation", b: [
+      ["tab", ["Variable", "Ce que l'on sait", "Référence"], [["**Volume**", "Dose-réponse : plus de séries par semaine et par muscle = plus d'hypertrophie (au moins jusqu'à ≈ 10 séries/semaine)", "Schoenfeld, Ogborn et Krieger (2017)"], ["**Fréquence**", "**≥ 2 fois par semaine** par muscle > 1 fois (volume non égalisé)", "Schoenfeld, Ogborn et Krieger (2016)"], ["**Récupération**", "≈ **3 min** > 1 min chez les entraînés (on garde le volume)", "Schoenfeld et al. (2016) ; de Salles et al. (2009)"], ["**Tempo**", "**0,5 à 8 s** par répétition : hypertrophie comparable ; > 10 s moins efficace", "Schoenfeld, Ogborn et Krieger (2015)"], ["**Intensité de l'effort**", "Piloter par les **RIR** (répétitions en réserve) quand on ne peut pas tester la 1RM", "Helms et al. (2016)"]]]
+    ]},
+    { t: "Enjeux en APAS", b: [
+      ["stats", [["2 j/sem", "de renforcement au minimum pour les adultes, maladie chronique ou handicap compris (OMS, Bull et al., 2020)"], ["≥ modérée", "intensité, sur les principaux groupes musculaires"], ["NSCA", "renfo progressif et encadré, même intense, chez la personne âgée (Fragala et al., 2019)"], ["HAS 2022", "référentiels de prescription d'AP par pathologie"]]],
+      ["p", "Bénéfices (Westcott, 2012) : composition corporelle, **glycémie**, **pression artérielle**, **densité osseuse**, douleur lombaire, santé mentale."]
+    ]}
+  ],
+  retenir: ["Force = lourd (≥ 85 %), ≤ 6 reps, 2-5 min ; gains d'abord nerveux", "Hypertrophie = 65-85 %, 6-12 reps, 1-3 min ; possible avec du léger si proche de l'échec ; le volume compte", "Endurance de force = ≤ 65 %, ≥ 12 reps, ≤ 30 s", "Henneman : petites UM (type I) d'abord, grosses (type II) ensuite", "Schoenfeld 2010 : tension mécanique (principal), stress métabolique, dommages (secondaire)", "OMS : renforcement ≥ 2 jours par semaine ; en APAS, progresser vers 70-85 % sans aller à l'échec"]
+};
+
+COURS.rf_c2 = {
+  hook: "Monter, descendre, tenir : le même muscle peut **accélérer, freiner ou stabiliser**. Savoir dire « je fais de l'excentrique **parce que**… » est la compétence attendue.",
+  sections: [
+    { t: "Les 3 régimes", b: [
+      ["p", "Un muscle qui se contracte tend **toujours** à rapprocher ses insertions. Le régime dépend du **rapport entre la force du muscle et la résistance externe** (gravité, charge, élastique, poulie, partenaire)."],
+      ["tab", ["Régime", "Ce qui se passe", "Rapport de forces", "Exemple : curl biceps"], [["**Concentrique**", "Le muscle **se raccourcit** : travail moteur (positif)", "Force > résistance", "On **monte** l'haltère"], ["**Excentrique**", "Le muscle **s'allonge en freinant** : travail résistant (négatif)", "Force < résistance", "On **redescend lentement** : ce sont **toujours les fléchisseurs** du coude"], ["**Isométrique**", "Force **sans mouvement** articulaire", "Force = résistance", "On **maintient** le coude à 90°"]]],
+      ["defs", [["Pliométrie (cycle étirement-détente)", "Excentrique **rapide** immédiatement suivi d'un concentrique (saut, course, rebond) : plus de force et de puissance grâce à l'**énergie élastique** et à la **potentialisation réflexe** (Komi, 2000)"]]]
+    ]},
+    { t: "La relation force-vitesse", b: [
+      ["steps", ["**Concentrique** : plus la vitesse de raccourcissement ↑, plus la force ↓ (Hill, 1938)", "**Isométrique** : la référence (vitesse nulle)", "**Excentrique** : la force **dépasse** la force isométrique et reste élevée quand la vitesse ↑"]],
+      ["p", "Sur muscle isolé, l'excentrique atteint **1,5 à 2 fois** la force isométrique ; chez l'humain l'écart est plus faible (**inhibition nerveuse protectrice**). Mécanismes surtout **mécaniques** : ponts actine-myosine, **titine** (Herzog, 2014)."]
+    ]},
+    { t: "Comparer les régimes", b: [
+      ["tab", ["Critère", "Concentrique", "Excentrique", "Isométrique"], [["Force maximale", "La plus faible", "**La plus élevée**", "Intermédiaire"], ["Coût énergétique et cardiovasculaire (à force égale)", "Élevé", "**Faible** (plusieurs fois moins d'O2)", "Modéré, mais ↑ pression artérielle si intense et prolongé"], ["Courbatures (DOMS)", "Faibles", "**Importantes** si non habitué, ↓ dès la 2e séance", "Faibles"]]],
+      ["p", "Références : Isner-Horobeti et al. (2013), Hody et al. (2019), Proske et Morgan (2001), McHugh (2003), Franchi et al. (2014), Oranchuk et al. (2019)."]
+    ]},
+    { t: "Pourquoi choisir tel régime ?", b: [
+      ["tab", ["Régime", "Arguments", "Pour qui / quoi"], [["**Concentrique**", "Spécificité : se lever, monter, pousser, sauter sont concentriques (Roig et al., 2009) ; peu de courbatures ; puissance ; facile à enseigner", "Assis-debout, escaliers, reprise d'activité, déconditionnés, prévention des chutes, novices"], ["**Excentrique**", "Force élevée pour un **faible coût** cardiorespiratoire ; prévention des blessures ; tendinopathies ; contrôle du freinage ; gains ≥ concentrique", "Personnes âgées fragiles (LaStayo et al., 2003 : force ↑, chutes ↓), insuffisance cardiaque, BPCO ; **exercice nordique** (van der Horst et al., 2015) ; **Alfredson** (tendon d'Achille, 1998) ; descendre des escaliers"], ["**Isométrique**", "Sécurité (on choisit l'angle) ; gainage ; **↓ pression artérielle de repos** (Edwards et al., 2023 : chaise contre le mur, handgrip) ; effet antalgique possible (Rio et al., 2015)", "Post-opératoire, arthrose, articulation douloureuse, hypertension, gainage, Pilates, tendinopathie rotulienne"]]],
+      ["warn", "**Excentrique** : courbatures et dommages au début → **progressivité indispensable**. **Isométrique** : gains **spécifiques à l'angle** (mieux en position muscle allongé) et risque d'**apnée (Valsalva)** → respiration continue chez les publics cardiovasculaires."]
+    ]},
+    { t: "Le débat : concentrique ou excentrique ?", b: [
+      ["cmp", [["En faveur de l'excentrique", ["**Roig et al. (2009)**, méta-analyse : plus de force totale et de masse, surtout à haute intensité", "**Higbie et al. (1996)** : plus d'hypertrophie du quadriceps", "**Schoenfeld et al. (2017)** : léger avantage (≈ +10 % vs +6,8 %)", "**Douglas et al. (2017)** : adaptations spécifiques (longueur des faisceaux, freinage)"]], ["Nuances / pour le concentrique", ["**Blazevich et al. (2007)** : à volume égal, même hypertrophie", "**Roig et al. (2009)** : la force **concentrique** progresse plus avec du concentrique (spécificité)", "**Franchi et al. (2014)** : voies différentes (pennation vs longueur des faisceaux) → **complémentaires**", "**Hody et al. (2019)** : les courbatures peuvent réduire l'adhésion"]]]],
+      ["cmp", [["Exercice nordique", ["**van Dyk, Behan et Whiteley (2019)** : lésions des ischio-jambiers **÷ 2**", "**Impellizzeri, McCall et van Smeden (2021)** : effet **non concluant** (peu d'études, biais)"]], ["Isométrie et douleur tendineuse", ["**Rio et al. (2015)** : effet antalgique immédiat", "**Holden et al. (2020)** : **non retrouvé** sur un échantillon plus large"]]]],
+      ["key", "« Lequel est le meilleur ? » est une question **mal posée** : la réponse dépend de l'**objectif**, du **public**, de la **tolérance** (courbatures) et du **matériel**."]
+    ]}
+  ],
+  retenir: ["Concentrique = raccourcit (accélère) ; excentrique = s'allonge en freinant ; isométrique = force sans mouvement", "Retour contre la gravité = même muscle en excentrique, pas l'antagoniste", "Force : EXC > ISO > CON (Hill, 1938) ; excentrique = peu coûteux mais courbatures au début", "Isométrique : sécurité, gainage, ↓ pression artérielle, gains spécifiques à l'angle, attention à l'apnée", "Les régimes sont complémentaires : on justifie par l'objectif et le public"]
+};
+
+COURS.rf_c3 = {
+  hook: "Devant n'importe quel exercice, tu dois pouvoir dire : « ce muscle travaille en **concentrique / excentrique / isométrique** ». Une méthode en 5 étapes suffit.",
+  sections: [
+    { t: "Plans, axes, mouvements", b: [
+      ["tab", ["Plan", "Axe", "Mouvements"], [["**Sagittal**", "Transversal (gauche-droite)", "Flexion / extension ; flexion dorsale / plantaire ; antépulsion / rétropulsion (épaule) ; antéversion / rétroversion (bassin)"], ["**Frontal**", "Sagittal (avant-arrière)", "Abduction / adduction ; inclinaison latérale du rachis ; élévation / abaissement de la scapula"], ["**Transversal**", "Longitudinal (vertical)", "Rotations médiale / latérale ; rotation du tronc ; abduction / adduction horizontales ; pronation / supination"]]],
+      ["defs", [["Agoniste", "Produit le mouvement **ou le freine**"], ["Antagoniste", "Action opposée ; se relâche ou co-contracte pour stabiliser"], ["Synergiste", "Aide l'agoniste ou neutralise une action parasite"], ["Stabilisateur (fixateur)", "Immobilise un segment pour offrir un point fixe, souvent en **isométrique**"]]]
+    ]},
+    { t: "La méthode en 5 étapes", b: [
+      ["steps", ["Découper en **phases** (aller, retour, maintien)", "Nommer le **mouvement** de chaque articulation", "Identifier la **résistance** et sa direction (gravité, poulie, élastique…)", "Trouver le **muscle qui s'oppose** à la résistance, puis son **régime**", "Repérer les **stabilisateurs** (souvent isométriques)"]],
+      ["key", "**Règle d'or** : le muscle qui travaille est celui qui **s'oppose à la résistance**. Segment **contre** la résistance (on monte) → **concentrique** ; segment **dans le sens** de la résistance (on freine) → **le même muscle en excentrique** ; pas de mouvement → **isométrique**."],
+      ["warn", "« En descendant en squat, les ischios fléchissent le genou » : **faux**, c'est la gravité ; le **quadriceps freine en excentrique**. « La résistance, c'est toujours la gravité » : **faux**, à la poulie elle suit le câble (au tirage vertical, le grand dorsal est **concentrique quand la barre descend**). Dans un plan horizontal sans charge (rotation du tronc assis), aller et retour = **deux concentriques de muscles opposés**."]
+    ]},
+    { t: "Exercices analysés", b: [
+      ["tab", ["Squat", "Descente", "Remontée", "Muscles et régime"], [["Genou", "Flexion (gravité)", "Extension", "Quadriceps : **EXC** puis **CON**"], ["Hanche", "Flexion", "Extension", "Grand fessier, grand adducteur : EXC · CON ; ischios synergistes"], ["Cheville", "Flexion dorsale", "Flexion plantaire", "Soléaire : EXC · CON"], ["Tronc", "Rachis neutre", "Rachis neutre", "Érecteurs, sangle abdominale : **ISO**"]]],
+      ["tab", ["Pompe", "Descente", "Remontée", "Muscles et régime"], [["Épaule", "Abduction horizontale / extension", "Adduction horizontale / flexion", "Grand pectoral, deltoïde antérieur : EXC · CON"], ["Coude", "Flexion", "Extension", "Triceps : EXC · CON"], ["Scapula", "Rétraction", "Protraction", "Dentelé antérieur : EXC · CON + stabilisation"], ["Tronc / hanche", "Planche gainée", "Planche gainée", "Abdominaux, fessiers : **ISO**"]]],
+      ["tab", ["Exercice", "Phase", "Muscles et régime"], [["Curl biceps", "Montée", "Biceps, brachial, brachio-radial : **CON**"], ["Curl biceps", "Descente contrôlée", "Les **mêmes** fléchisseurs : **EXC** (le triceps ne travaille pas)"], ["Curl biceps", "Tout l'exercice", "Deltoïde antérieur, fléchisseurs du poignet : ISO"], ["Tirage vertical", "La barre descend", "Grand dorsal, grand rond, rhomboïdes, biceps : **CON** (contre le câble)"], ["Tirage vertical", "La barre remonte", "Les mêmes : **EXC**"]]],
+      ["p", "Squat et pompe : **chaîne fermée** (appuis fixes). Biomécanique du squat : Escamilla (2001)."]
+    ]},
+    { t: "4 exercices par groupe : membres inférieurs", b: [
+      ["tab", ["Groupe (fonction)", "4 exercices", "À savoir"], [["**Quadriceps** (extension du genou)", "Squat (CCF poly-art.) · fente avant (CCF unilatéral) · leg extension (CCO mono-art.) · chaise contre le mur (CCF ISO)", "Leg extension : seul exercice où le droit fémoral travaille hanche fléchie"], ["**Ischio-jambiers** (extension de hanche + flexion du genou)", "Leg curl assis (CCO) · soulevé de terre roumain (CCF) · exercice nordique (CCF EXC) · pont avec glissé de talons (CCF)", "Leg curl **assis** > couché : ischios allongés (Maeo et al., 2021)"], ["**Grand fessier** (extension, rotation latérale de hanche)", "Hip thrust (CCF) · squat profond (CCF) · split squat bulgare (CCF unilat.) · extension de hanche en quadrupédie (CCO)", "Hip thrust : EMG > squat (Contreras et al., 2015), mais EMG ≠ hypertrophie (Vigotsky et al., 2018)"], ["**Moyen fessier** (abduction, stabilité du bassin)", "Abduction couché sur le côté (CCO) · marche latérale élastique (CCF) · équilibre unipodal / step-down (CCF ISO) · abduction poulie (CCO)", "Rôle anti-bascule du bassin : prévention des chutes"], ["**Adducteurs**", "Adduction de Copenhague (CCF) · squat sumo (CCF) · adduction couché (CCO) · serrage d'un ballon (ISO)", "Copenhague : moins de problèmes à l'aine (Harøy et al., 2019)"], ["**Triceps sural** (flexion plantaire)", "Mollets debout genoux tendus (CCF) · mollets assis genoux fléchis (CCF) · excentrique sur marche (CCF EXC) · corde à sauter (pliométrie)", "Genoux fléchis → **soléaire** (insuffisance active des gastrocnémiens) ; Alfredson (1998)"]]]
+    ]},
+    { t: "4 exercices par groupe : haut du corps et tronc", b: [
+      ["tab", ["Groupe (fonction)", "4 exercices", "À savoir"], [["**Grand pectoral** (adduction horizontale)", "Pompes (CCF) · développé couché (CCO) · écarté haltères/poulie (CCO mono-art.) · développé incliné (CCO)", "Incliné : faisceau claviculaire"], ["**Grand dorsal** (extension, adduction)", "Tractions (CCF) · tirage vertical (CCO) · rowing un bras (CCO) · pull-over poulie bras tendus (CCO mono-art.)", "Pull-over : extension d'épaule sans les fléchisseurs du coude"], ["**Trapèze moyen/inf., rhomboïdes** (scapula)", "Tirage horizontal (CCO) · oiseau (CCO) · face pull élastique (CCO) · Y-T-W allongé (CCO ISO)", "Y-T-W ≈ swan dive du Pilates"], ["**Deltoïde**", "Développé militaire (CCO poly-art.) · élévations latérales (faisceau moyen) · élévations frontales (antérieur) · pompes « pike » (CCF)", "Élévations latérales : charges légères"], ["**Fléchisseurs du coude**", "Curl supination (CCO) · curl marteau (CCO) · curl incliné (CCO) · tractions supination (CCF)", "Marteau : brachio-radial et brachial ; incliné : chef long allongé"], ["**Triceps brachial** (extension du coude)", "Extension nuque (CCO) · pushdown poulie (CCO) · dips sur banc (CCF) · pompes mains serrées (CCF)", "Extension nuque : chef long allongé → bien plus d'hypertrophie (Maeo et al., 2023)"], ["**Sangle abdominale**", "Crunch (CON · EXC) · planche (ISO **anti-extension**) · gainage latéral (ISO **anti-inclinaison**) · Pallof press (ISO **anti-rotation**)", "Transverse mobilisé par l'expiration active"], ["**Érecteurs, multifides**", "Extension au banc à 45° · bird-dog (ISO) · soulevé de terre (ISO du rachis) · superman (CON · EXC)", "Bird-dog = swimming du Pilates ; superman = swan dive"]]],
+      ["key", "Pour 4 exercices **vraiment différents** : varie la **chaîne** (ouverte / fermée), le **matériel**, le **régime** dominant, la **position du muscle** (court / allongé) et le **niveau**."]
+    ]},
+    { t: "Entraîne-toi : 4 analyses", b: [
+      ["p", "Exercice du cours en binômes. Le corrigé officiel est en fin de document (non envoyé) : voici une **proposition** à vérifier."],
+      ["tab", ["Exercice", "Phase active", "Muscle et régime", "Stabilisateurs / chaîne"], [["**Fente avant**", "Descente / remontée", "Quadriceps et grand fessier de la jambe avant : EXC puis CON", "Tronc ISO, moyen fessier (bassin) · **CCF**"], ["**Élévation latérale**", "Montée / descente", "Deltoïde moyen : CON puis EXC (abduction contre la gravité)", "Trapèze, stabilisateurs de la scapula ISO · **CCO**"], ["**Pont fessier**", "Montée / maintien / descente", "Grand fessier : CON, ISO, EXC (ischios synergistes)", "Sangle abdominale ISO · **CCF**"], ["**Abaissement des jambes tendues** (sur le dos)", "Descente / remontée", "Fléchisseurs de hanche (ilio-psoas, droit fémoral) : EXC puis CON", "Sangle abdominale ISO (garder le bas du dos au sol) · **CCO**"]]]
+    ]}
+  ],
+  retenir: ["Sagittal = flexion/extension ; frontal = abduction/adduction ; transversal = rotations", "5 étapes : phases → mouvement → résistance → muscle qui s'oppose + régime → stabilisateurs", "Retour contre la gravité = même muscle en excentrique", "Squat : quadriceps EXC à la descente (pas les ischios) ; tirage vertical : grand dorsal CON quand la barre descend", "4 exercices = varier chaîne, matériel, régime, position du muscle, niveau", "Planche = anti-extension, gainage latéral = anti-inclinaison, Pallof = anti-rotation"]
+};
+
 </script>
 <script>
 (function () {
@@ -2206,8 +2371,10 @@ COURS.si_c3 = {
       Object.keys(base).forEach(k => {
         const bc = base[k]; if (!bc || bc.split("+").every(x => present.has(x))) return;
         const p0 = parsePos(k), g0 = p0.w * 5 + p0.d;
-        const free = Object.keys(eff).filter(f => eff[f] === null && (p => p.w * 5 + p.d >= Math.max(today, 0))(parsePos(f)));
-        const pick = free.find(f => state.layout[f] === null && parsePos(f).w === p0.w) || free.find(f => state.layout[f] === null) || free.find(f => parsePos(f).w * 5 + parsePos(f).d >= g0) || free[0];
+        // une révision retirée du planning de base, restée sur une case déplacée, libère aussi sa case
+        const orphan = c => !!c && !!REVIEWS[c] && !Object.values(base).some(x => x && x.split("+").includes(c));
+        const free = Object.keys(eff).filter(f => (eff[f] === null || orphan(eff[f])) && (p => p.w * 5 + p.d >= Math.max(today, 0))(parsePos(f)));
+        const pick = free.find(f => orphan(eff[f]) && parsePos(f).w === p0.w) || free.find(f => orphan(eff[f])) || free.find(f => state.layout[f] === null && parsePos(f).w === p0.w) || free.find(f => state.layout[f] === null) || free.find(f => parsePos(f).w * 5 + parsePos(f).d >= g0) || free[0];
         if (pick) { state.layout[pick] = bc; eff[pick] = bc; bc.split("+").forEach(x => present.add(x)); changed = true; }
       });
     }
