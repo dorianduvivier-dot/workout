@@ -666,15 +666,6 @@ const CHAPTERS = [
       ["Définition de la GR (Delattre et Pechillon) ?", "Un dialogue codifié entre le sujet, des objets manipulés et le milieu physique et humain, dans un espace géométrique, graphique et vécu, en relation avec la musique."],
       ["Qu'est-ce qu'une évolution ?", "Le passage d'une formation à une autre (forme du déplacement, direction, trajets)."]
     ] },
-  { id: "tennis", subj: "apsa", title: "Tennis : séance d'entraînement au service", parts: 1,
-    files: [["Séance service", D("1NSef0cv8-8i1Bf8Urvynwdx1PoofsNh5")]],
-    notions: ["Rubriques d'une fiche de séance", "4 temps : observation, situation-problème, renforcement, bilan", "Critères de réussite et variables didactiques", "Repères techniques du service"],
-    cards: [
-      ["Les 4 temps de la séance de tennis ?", "Observation (jeu à règles), situation-problème, renforcement (consignes repères), bilan (jeu à thème)."],
-      ["Qu'est-ce qu'une variable didactique ?", "Un aménagement pour augmenter ou diminuer la difficulté (taille des zones, 2e balle autorisée, côté travaillé)."],
-      ["Critère de réussite utilisé ?", "60 % de services réussis dans la zone annoncée."],
-      ["Repères techniques pour sécuriser le service ?", "Lancer haut et devant soi, effet lifté, impulsion des jambes, routine avant chaque service."]
-    ] },
   { id: "sa", subj: "apsa", title: "Sports adaptés (cours 1 à 3)", parts: 1,
     files: [["Cours 1", D("1xG8BWJN-duAJewMkSVpiOqIRtzL0_lPx")], ["Cours 2 partie 1", D("1H9x41Thk3otsE4aSXm4QOjyzbTKHhMPC")], ["Cours 2 partie 2", D("1wq7YokVdfoKR7sfC1-QY7AMqemDH8u8z")], ["Cours 3", D("13Vvk7pAsPF5LenrJcNBWmCrULSEHfeoR")]],
     notions: ["Pathologies visuelles : glaucome, cataracte, albinisme", "Goalball et boccia", "Handicap : déficience, incapacité, désavantage", "FFH, FFSA, CPSF", "Bigorexie, anorexie et prise en charge"],
@@ -752,9 +743,9 @@ const REVIEWS = {
   revSoc: { title: "Révision sociologie (lois, dates, auteurs)", type: "revision",
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     notions: ["Frise des lois et dispositifs (1965, 1993, 2001, 2006, 2012, 2016)", "Bourdieu, Boudon, Durkheim, Weber : idée clé de chacun", "Chiffres clés des pratiques 2025"] },
-  revFin: { title: "Grande révision Condition physique + APSA", type: "revision",
-    chapters: ["nutri", "depense", "dqp", "gr", "rf_c1", "rf_c2", "rf_c3", "tennis", "sa", "co", "h_clin", "h_cult", "h_eth", "h_terre"],
-    notions: ["Calculs : MET, NAP, IMC, QA, FCmax", "Principes de l'entraînement", "Fiches APSA : GR, CO, sports adaptés, renforcement musculaire", "Mineure santé : interro sur la SSH de la semaine"] },
+  revFin: { title: "Grande révision APSA + condition physique (épreuves APSA la semaine prochaine)", type: "revision",
+    chapters: ["nutri", "depense", "dqp", "gr", "rf_c1", "rf_c2", "rf_c3", "sa", "co", "h_clin", "h_cult", "h_eth", "h_terre"],
+    notions: ["APSA : relire les fiches GR, course d'orientation, sports adaptés et renfo (CM 1 à 3), puis interro sur les cartes APSA", "Renfo : analyser 2 exercices avec la méthode en 5 étapes et proposer 4 exercices pour un même groupe musculaire", "Condition physique : calculs MET, NAP, IMC, QA, FCmax et principes de l'entraînement", "Mineure santé : interro rapide sur la SSH de la semaine"] },
   revFlash: { title: "Dernier passage sur les cartes à revoir", type: "revision", chapters: "all",
     notions: ["Révision intelligente jusqu'à épuisement des cartes à revoir", "Relire les fiches des chapitres les plus faibles"] },
   bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
@@ -768,7 +759,7 @@ const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
   [ ["nsyn:1", "stat:1", "ado:1", "si_c1:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "si_c1:2"], ["tdbio:1", "bilan2"] ],
   [ ["snc:2", "cardio:1", "strib:1+sprat:1", "si_c2:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "si_c3:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", "tennis:1", "sinteg:1"], ["p_regl:1", "h_clin:1+h_cult:1"], ["annADCP", "p_regl:2", "annSoc", "h_eth:1+h_terre:1"], ["annSV2", "p_nat1:1", "p_nat2:1", "annAPSA"], ["rf_c1:1+rf_c2:1", "bilanFin"] ]
+  [ ["annSV1", "corrSV1", null, "sinteg:1"], ["rf_c1:1+rf_c2:1", "h_clin:1+h_cult:1"], ["annADCP", "rf_c3:1", "p_regl:1", "h_eth:1+h_terre:1"], ["annSV2", "p_regl:2", "p_nat1:1+p_nat2:1", "annAPSA"], ["revFin", "bilanFin"] ]
 ];
 
 /* Mineure santé (Drive 2025-2026 › 1er semestre › Mineure santé › Fiches de cours) — embryologie retirée du programme */
@@ -1190,13 +1181,6 @@ const EXTRA = {
     Q("Une formation en cercle est un dessin :", ["Fermé sans angle", "Ouvert", "En sous-groupes", "Fermé avec angles"], 0, "Carré ou triangle = fermés avec angles."),
     Q("En 1998, la GRS devient la GR parce que :", ["Elle quitte les JO", "Le caractère sportif n'a plus besoin d'être précisé après son entrée aux JO", "Elle devient mixte", "Elle abandonne les engins"], 1, "Le terme « sportive » a été retiré.")
   ],
-  tennis: [
-    Q("Le « but » dans une fiche de séance correspond à :", ["La transformation attendue chez le joueur", "La réalisation attendue (telle cible, tel point)", "L'organisation du terrain", "Le matériel"], 1, "L'objectif = « être capable de... »."),
-    Q("Situation qui ouvre la séance :", ["Bilan", "Observation (jeu à règles)", "Renforcement", "Étirements"], 1, "Puis situation-problème, renforcement, bilan."),
-    V("L'attente dynamique permet d'occuper les joueurs qui ne servent pas.", true, "Ils travaillent la gestuelle en attendant."),
-    Q("Effet privilégié pour sécuriser le service :", ["Coupé", "Lifté", "Slicé à plat", "Sans effet"], 1, "Le cours s'est concentré sur l'effet lifté."),
-    Q("Un « critère de réussite » doit être :", ["Seulement qualitatif", "Quantitatif et/ou qualitatif, pour savoir si le but est atteint", "Laissé au joueur", "Toujours de 100 %"], 1, "Ex. : 60 % de services dans la zone.")
-  ],
   sa: [
     Q("Nombre de déficients visuels dans le monde selon le cours :", ["32 millions", "155 millions", "1 milliard", "12 millions"], 1, "Dont 32 millions d'aveugles."),
     Q("L'albinisme est dû à :", ["Une opacification du cristallin", "Un déficit de mélanine", "Une pression sur le nerf optique", "Un traumatisme"], 1, "Photophobie, nystagmus, strabisme."),
@@ -1508,14 +1492,14 @@ Object.assign(REVIEWS, {
 });
 REVIEWS.bilanFin.notions = ["Quiz aléatoire sur tous les chapitres vus", "Repos ce week-end : la semaine 5 est consacrée aux médicaments et produits de santé"];
 
-/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v5 : + renforcement musculaire CM3 ; réglementation et produits naturels en semaine 4) */
-const W5_VERSION = 5;
+/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v6 : APSA terminées en semaine 4 ; annale de socio déplacée ici) */
+const W5_VERSION = 6;
 SCHEDULE.push([
-  ["p_dm:1", "p_perf:1", "rf_c3:1", "revSI"],
+  ["p_dm:1", "p_perf:1", "revPhys", "revSI"],
   ["p_ingr:1", "p_form:1"],
   ["p_ops:1", "p_ops:2", "revBio", "revPsy"],
   ["p_parent:1", "p_enter:1", "qcmMAPS", "annMAPS"],
-  ["revPhys", "bilanPharma"]
+  ["annSoc", "bilanPharma"]
 ]);
 
 /* Cours au propre, format « lecteur plein écran ».
