@@ -714,10 +714,13 @@ const REVIEWS = {
     notions: ["Faire le sujet 2025-2026 en conditions réelles", "S'il reste du temps : relire le corrigé 2024-2025", "Rappel : la partie endurance n'était pas à l'examen 2025-2026"] },
   revPhys: { title: "Révision neurophysiologie", type: "revision",
     chapters: ["nbase", "nmsg", "nsyn", "snc"],
-    notions: ["Refaire de mémoire le schéma du potentiel d'action", "Étapes de la synapse chimique", "Voies ascendantes et descendantes"] },
+    notions: ["Éval de physio la semaine prochaine : relire les fiches de neurophysiologie", "Refaire de mémoire le schéma du potentiel d'action", "Étapes de la synapse chimique", "Voies ascendantes et descendantes", "Interro notée /20 sur la neurophysio"] },
   revCardio: { title: "Révision muscle et physiologie de l'exercice", type: "revision",
     chapters: ["musc", "cardio", "depense"],
-    notions: ["Types de fibres et loi de Henneman", "Équation de Fick, FC, VES, PAM", "Filières énergétiques"] },
+    notions: ["Éval de physio la semaine prochaine : muscle et physiologie de l'exercice", "Couplage excitation-contraction de mémoire", "Types de fibres et loi de Henneman", "Équation de Fick, FC, VES, PAM", "Filières énergétiques", "Interro notée /20"] },
+  flashEval: { title: "Dernier tour avant les évals : physiologie + APSA", type: "revision",
+    chapters: ["nbase", "nmsg", "nsyn", "snc", "musc", "cardio", "gr", "sa", "co", "rf_c1", "rf_c2", "rf_c3"],
+    notions: ["Interro notée /20 sur la physio (neuro, muscle, cardio-respiratoire)", "Refaire de mémoire : potentiel d'action, synapse, couplage excitation-contraction, équation de Fick", "Relire les encadrés « L'essentiel » des 3 cours de renfo et les fiches APSA", "Noter 3 points à relire juste avant chaque éval"] },
   annSoc: { title: "Annale Sociologie : session 1 2024-2025", type: "annale",
     chapters: ["sdef", "smeth", "secole", "strib", "sprat", "sdop", "ssante", "sinteg"],
     files: [["Sujet", D("10_4F3V8VJwMeJkaHh_78zf0CrCCZGeiy")], ["Corrigé", D("1wl1DSbSCDr4xhQJufHu0CmobDlcld2xn")], ["Toutes les annales socio", F("18mAeU25Apx947Ukt1I4SJBc4r2I3OJLo")]],
@@ -733,7 +736,7 @@ const REVIEWS = {
   corrSV2: { title: "Correction annale SV session 2 + révision physiologie", type: "revision",
     chapters: ["nbase", "nmsg", "nsyn", "snc", "musc", "cardio"],
     files: [["Corrigé session 2 2024-2025", D("10dxU9541YZEQc-5UqS-QnFjADK_oZZe-")]],
-    notions: ["Corriger, comparer avec l'annale de lundi", "Revoir les points perdus dans les cours"] },
+    notions: ["Corriger l'annale de ce matin et noter les points perdus", "Revoir dans les cours de physio les notions ratées", "Refaire les questions de physio ratées sans le corrigé"] },
   revBio: { title: "Révision biomécanique (formules)", type: "revision",
     chapters: ["cine", "dyn", "stat", "trav", "tdbio"],
     notions: ["Fiche de toutes les formules et unités", "Refaire un exercice du TD 1 sans corrigé", "Leviers : savoir les reconnaître sur un schéma"] },
@@ -748,8 +751,9 @@ const REVIEWS = {
     notions: ["APSA : relire les fiches GR, course d'orientation, sports adaptés et renfo (CM 1 à 3), puis interro sur les cartes APSA", "Renfo : analyser 2 exercices avec la méthode en 5 étapes et proposer 4 exercices pour un même groupe musculaire", "Condition physique : calculs MET, NAP, IMC, QA, FCmax et principes de l'entraînement", "Mineure santé : interro rapide sur la SSH de la semaine"] },
   revFlash: { title: "Dernier passage sur les cartes à revoir", type: "revision", chapters: "all",
     notions: ["Révision intelligente jusqu'à épuisement des cartes à revoir", "Relire les fiches des chapitres les plus faibles"] },
-  bilanFin: { title: "Bilan final : quiz général", type: "bilan", chapters: "all",
-    notions: ["Quiz aléatoire sur tous les chapitres", "Repos ce week-end : tu as tout vu"] }
+  bilanFin: { title: "Bilan avant les évals : physiologie + APSA", type: "bilan",
+    chapters: ["nbase", "nmsg", "nsyn", "snc", "musc", "cardio", "gr", "sa", "co", "rf_c1", "rf_c2", "rf_c3"],
+    notions: ["Interro notée /20 sur la physio et les APSA", "Repérer les chapitres sous 10/20 et les relire ce week-end (ou lundi matin)", "Repos ensuite : tu es prêt pour tes évals"] }
 };
 
 /* Block codes: "chapterId:part" for study, review id for reviews, "a+b" for two chapters in one block, null = libre.
@@ -759,7 +763,7 @@ const SCHEDULE = [
   [ [null, null, null, "sdef:1"], ["cine:1", "cine:2"], ["nbase:1", "nmsg:1", "attach:1", "nutri:1"], ["nmsg:2", "dyn:1", "attach:2", "nutri:2"], ["smeth:1", "bilan1"] ],
   [ ["nsyn:1", "stat:1", "ado:1", "si_c1:1"], ["stat:2", "trav:1"], ["musc:1", "musc:2", "ado:2", "depense:1"], ["snc:1", "depense:2", "secole:1", "si_c1:2"], ["tdbio:1", "bilan2"] ],
   [ ["snc:2", "cardio:1", "strib:1+sprat:1", "si_c2:1"], ["tdadcp:1", "socdel:1"], ["cardio:2", "dqp:1", "gr:1", "si_c3:1"], ["dqp:2", "sdop:1+ssante:1", "sa:1", "co:1"], ["h_mal:1+h_diag:1", "bilan3"] ],
-  [ ["annSV1", "corrSV1", null, "sinteg:1"], ["rf_c1:1+rf_c2:1", "h_clin:1+h_cult:1"], ["annADCP", "rf_c3:1", "p_regl:1", "h_eth:1+h_terre:1"], ["annSV2", "p_regl:2", "p_nat1:1+p_nat2:1", "annAPSA"], ["revFin", "bilanFin"] ]
+  [ ["annSV1", "corrSV1", null, "sinteg:1"], ["rf_c1:1+rf_c2:1", "h_clin:1+h_cult:1"], ["annADCP", "rf_c3:1", "revPhys", "h_eth:1+h_terre:1"], ["annSV2", "corrSV2", "revCardio", "annAPSA"], ["revFin", "bilanFin"] ]
 ];
 
 /* Mineure santé (Drive 2025-2026 › 1er semestre › Mineure santé › Fiches de cours) — embryologie retirée du programme */
@@ -1490,15 +1494,14 @@ Object.assign(REVIEWS, {
     chapters: ["p_regl", "p_dm", "p_perf", "p_nat1", "p_nat2", "p_ingr", "p_form", "p_ops", "p_parent", "p_enter"],
     notions: ["Interro notée sur les 10 cours de la semaine", "Refaire de mémoire : listes I et II, stupéfiants, loi de Dalton, Noyes-Whitney, trajets sublingual et rectal", "Comparer les voies (rapidité, biodisponibilité, exemples)", "Lister ce qui reste flou pour le revoir avant l'examen"] }
 });
-REVIEWS.bilanFin.notions = ["Quiz aléatoire sur tous les chapitres vus", "Repos ce week-end : la semaine 5 est consacrée aux médicaments et produits de santé"];
 
-/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v6 : APSA terminées en semaine 4 ; annale de socio déplacée ici) */
-const W5_VERSION = 6;
+/* Semaine 5 : lun. 30 nov. → ven. 4 déc. (v7 : évals de physio et d'APSA cette semaine-là ; physio révisée en semaine 4, réglementation et produits naturels revenus ici) */
+const W5_VERSION = 7;
 SCHEDULE.push([
-  ["p_dm:1", "p_perf:1", "revPhys", "revSI"],
-  ["p_ingr:1", "p_form:1"],
-  ["p_ops:1", "p_ops:2", "revBio", "revPsy"],
-  ["p_parent:1", "p_enter:1", "qcmMAPS", "annMAPS"],
+  ["flashEval", "p_regl:1", "p_regl:2", "p_nat1:1+p_nat2:1"],
+  ["p_dm:1+p_perf:1", "revSI"],
+  ["p_ingr:1+p_form:1", "p_ops:1", "p_ops:2", "revPsy"],
+  ["p_parent:1", "p_enter:1", "revBio", "annMAPS"],
   ["annSoc", "bilanPharma"]
 ]);
 
