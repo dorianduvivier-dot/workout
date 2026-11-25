@@ -116,6 +116,23 @@ body.reading { overflow: hidden; }
 .rd-end li::before { content: "✓"; flex: none; color: var(--c); font-weight: 700; }
 .rd-end .acts { display: flex; gap: 8px; flex-wrap: wrap; }
 .rd-files { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 15px; }
+
+/* ---------- Fiche rapide (révisions) ---------- */
+.kp-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 8px; }
+.kp { width: 100%; display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 11px 14px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--k) 28%, var(--line)); background: color-mix(in srgb, var(--k) 6%, var(--surface)); color: var(--ink); font: inherit; font-size: 16px; line-height: 1.45; cursor: pointer; }
+.kp:hover { border-color: var(--k); }
+.kp .ck { flex: none; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; border: 2px solid var(--k); display: grid; place-items: center; font-size: 13px; font-weight: 700; color: transparent; }
+.kp[aria-pressed="true"] { background: color-mix(in srgb, var(--good) 12%, var(--surface)); border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+.kp[aria-pressed="true"] .ck { background: var(--good); border-color: var(--good); color: #fff; }
+.rd-sec .sec-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rd-sec .sec-meta .grow { flex: 1; }
+.kp-count { font-weight: 700; font-size: 14px; color: var(--muted); }
+.ann-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.ann { border-radius: 14px; border: 1px solid color-mix(in srgb, var(--k) 35%, var(--line)); background: var(--surface); overflow: hidden; }
+.ann h4 { margin: 0; padding: 10px 16px; background: var(--k); color: #fff; font-family: var(--f-display); font-size: 20px; letter-spacing: .01em; }
+.ann .ann-in { padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 8px; }
+.ann .ann-in p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.ann .links a { display: inline-block; }
 @media (max-width: 980px) {
   .rd-body { grid-template-columns: 1fr; padding-top: 16px; }
   .rd-toc { position: static; flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 4px; }
@@ -2215,6 +2232,72 @@ COURS.rf_c3 = {
   retenir: ["Sagittal = flexion/extension ; frontal = abduction/adduction ; transversal = rotations", "5 étapes : phases → mouvement → résistance → muscle qui s'oppose + régime → stabilisateurs", "Retour contre la gravité = même muscle en excentrique", "Squat : quadriceps EXC à la descente (pas les ischios) ; tirage vertical : grand dorsal CON quand la barre descend", "4 exercices = varier chaîne, matériel, régime, position du muscle, niveau", "Planche = anti-extension, gainage latéral = anti-inclinaison, Pallof = anti-rotation"]
 };
 
+/* Fiches rapides : points clés par chapitre (les chapitres avec un cours au propre utilisent leur « L'essentiel »),
+   et annales associées par matière pour les blocs de révision. */
+const KP = {
+  /* ---------- Physiologie ---------- */
+  nbase: ["3 fonctions du système nerveux : **sensorielle, intégration, motrice**", "**Afférent** = sensitif, ascendant ; **efférent** = moteur, descendant", "SN **somatique** = volontaire ; SN **autonome** = involontaire (sympathique ↑ FC, parasympathique ↓ FC)", "Myéline : **oligodendrocytes** (SNC), **cellules de Schwann** (SNP)", "Astrocytes = nutrition, barrière hémato-encéphalique ; microglies = défense ; épendymocytes = LCR", "Substance grise : **en périphérie du cerveau, au centre de la moelle**", "Neurone : 1 seul axone, amitotique ; moteur = **multipolaire** ; vitesse **1 à 150 m/s**", "Nerf : endonèvre (axone), périnèvre (fascicule), épinèvre (nerf)"],
+  nmsg: ["Potentiel de repos : **−70 mV** (pompe Na+/K+ : **3 Na+ sortent, 2 K+ entrent**, ATP ; perméabilité au K+ > Na+)", "Seuil : **−50 à −55 mV** à la zone gâchette (cône d'implantation) ; loi du **tout ou rien**", "PA : dépolarisation (**Na+ entre**), pic **+30 mV**, repolarisation (**K+ sort**), hyperpolarisation", "Potentiel gradué : local, **décrémentiel**, bidirectionnel ; PA : non décrémentiel, unidirectionnel", "Intensité du stimulus codée par la **fréquence** des PA (amplitude constante)", "Période réfractaire **absolue** : aucun PA ; **relative** : stimulus très intense", "Vitesse ↑ avec le **diamètre** et la **myéline** (fibres A 150 m/s, fibres C amyéliniques 1 m/s)", "Canal Na+ voltage-dépendant : **2 vannes** (activation, inactivation)"],
+  nsyn: ["Synapse **électrique** : fente 3 nm, rapide, rare ; **chimique** : fente 30-50 nm, neurotransmetteurs, majoritaire", "Le **Ca2+** entrant déclenche l'exocytose des vésicules", "**PPSE** dépolarisant (Na+ entre) ; **PPSI** hyperpolarisant (K+ sort ou Cl− entre)", "Sommation **temporelle** (même neurone, décharges rapprochées) / **spatiale** (plusieurs neurones en même temps)", "**Glutamate** = principal excitateur ; **GABA** = principal inhibiteur", "ACh : récepteurs **nicotiniques** (Na+, muscle, excitateurs) / **muscariniques** (K+, cœur, inhibiteurs) ; dégradée par l'acétylcholinestérase", "Agoniste ACh : **nicotine** ; antagoniste : **curare** ; toxine botulique bloque la libération ; Prozac bloque la recapture de sérotonine", "Réseau **réverbérant** = mémoire à court terme ; **convergent** = addition des signaux"],
+  snc: ["Méninges : **dure-mère, arachnoïde** (LCR dessous), **pie-mère**", "**Spinocérébelleuse** : proprioception → cervelet", "**Cordon dorsal** (lemnisque médial) : toucher, 3 neurones, décussation dans le **bulbe** ; gracile = membre inférieur, cunéiforme = supérieur", "**Spinothalamique** : douleur et température, décussation dans la **moelle**", "Aire somesthésique : gyrus **post-central** (pariétal) ; aire motrice : gyrus **précentral** (frontal) ; homoncules non proportionnels", "**Broca** = production du langage ; **Wernicke** = compréhension", "Voie **pyramidale** (cortico-spinale) = mouvements volontaires ; rubrospinale = coordination ; vestibulospinale = équilibre", "Thalamus = relais vers le cortex ; hypothalamus = faim, soif, température ; hippocampe = mémoire ; préfrontal = décision"],
+  musc: ["Enveloppes : **endomysium** (fibre), **périmysium** (faisceau), **épimysium** (muscle)", "Sarcomère : la **bande A** garde sa longueur ; bande I et zone H raccourcissent (glissement, Huxley)", "Couplage : PA → tubules T → **DHP** → **ryanodine** → **Ca2+** → troponine C → ponts actine-myosine", "Troponines : **T** (tropomyosine), **C** (calcium), **I** (inhibe) ; relâchement = Ca2+ ATPase (ATP)", "Unité motrice = 1 motoneurone + ses fibres ; **Henneman** : I → IIa → IIx", "Type I : lentes, oxydatives, résistantes (fusion ~50 Hz) ; IIx : puissantes, fatigables (~100 Hz)", "Force-vitesse : vitesse ↑ → force ↓ ; P = F × v ; modèle de Hill : contractile + élastique série + parallèle", "Repos fibre musculaire **−90 mV** ; muscle penné : F × cos α ; crampes soulagées par l'étirement (organes de Golgi)"],
+  cardio: ["3 filières : **alactique** (ATP-PCr, < 15 s), **lactique** (glycogène → lactate), **aérobie** (36 ATP, mitochondrie)", "**Fick** : VO2 = Qc × (CaO2 − CvO2) = **FC × VES × Da-v**", "**FCmax = 220 − âge** ; l'entraînement ne change pas la FCmax, ↓ FC de repos, ↑ VES", "**Frank-Starling** : cœur plus rempli = contraction plus forte", "**PAM = (PAS + 2 × PAD) / 3** ; à l'effort la PAS ↑, la PAD reste stable", "Dérive cardiaque : FC ↑ après 10-15 min (déshydratation)", "**Effet Bohr** (↑ CO2, H+, T°) : l'Hb libère plus d'O2 ; hématocrite > 50 % = suspicion EPO", "**VE = f × VT** (6-10 L/min au repos → 130-200 à l'effort) ; poumon non limitant chez le sujet sain ; retour veineux : pompe musculaire, respiration, aspiration cardiaque"],
+  /* ---------- Biomécanique ---------- */
+  cine: ["Cinématique = **décrire** le mouvement (trajectoire, vitesse, accélération) sans ses causes", "Référentiel **terrestre** + repère ; ||OM|| = **√(x² + y² + z²)**", "Vitesse **moyenne** = pente de la sécante (radar tronçon) ; **instantanée** = pente de la tangente (dx/dt)", "Accélération = Δv/Δt en **m·s⁻²** ; angulaire : ω en rad/s, α en rad·s⁻²", "**MRU** : v constante, a = 0 ; **MRUV** : a constante", "Mouvement curvilinéaire plan : 2 axes (vx, vy, ax, ay) ; 3D : au moins **2 caméras**"],
+  dyn: ["Dynamique = les **causes** du mouvement (forces, moments)", "Plateforme de force : **Fx, Fy, Fz**, moments, **centre de pression** (jauges ou piézoélectriques)", "Quantité de mouvement **p = m × v** (kg·m·s⁻¹), conservée si ΣFext = 0", "**Impulsion J = Δp = m(vf − v0) = ∫ΣF dt** = aire sous la courbe F(t), en N·s", "Méthode des **rectangles** = approximation de l'aire", "Ex. : 70 kg de 0 à 10 m/s → J = **700 N·s**"],
+  stat: ["Force : point d'application, direction, sens, intensité (N) ; internes (muscles) / externes (poids, sol)", "**ΣF = m × a** (2e loi) ; **action-réaction** (3e loi) ; ΣM = I × α en rotation", "**M = F × d** (bras de levier ⊥) = OM × F × sin α (N·m) : max à 90°, nul à 0° ou 180°", "Équilibre : **ΣF = 0** (pas de translation) et **ΣM = 0** (pas de rotation)", "Sens horaire = négatif ; anti-horaire = positif", "Leviers : **inter-moteur** (biceps, le plus fréquent, vitesse), **inter-appui** (tête, équilibre), **inter-résistant** (puissance)", "Centre de gravité vers **S2** ; poussée d'Archimède = poids du volume d'eau déplacé"],
+  trav: ["**W = F × AB × cos α** (J) : moteur si α < 90°, résistant si > 90°, nul à 90°", "**P = W/t = F × v** (W)", "**Ec = ½mv²** ; **Epp = mgh** ; **Epe = ½kΔl²** ; rotation ½Iω²", "Conservation de l'énergie mécanique (système isolé) : la perche transforme **Ec → Epe → Epp**", "Théorème de l'énergie cinétique : **ΔEc = Σ travaux** des forces extérieures", "Exemples : 10 kg soulevés de 2 m → 200 J ; 60 kg à 5 m/s → 750 J ; 600 J en 2 s → 300 W"],
+  tdbio: ["Méthode : **système → référentiel → bilan des forces**", "Projection : **x = l cos θ, y = l sin θ**", "km/h → m/s : **÷ 3,6** ; g ≈ **9,81 m·s⁻²**, P = m × g", "Accélération négative = la vitesse **diminue** (pas forcément recul)", "Bras de levier = distance **orthogonale** à la ligne d'action"],
+  /* ---------- Condition physique ---------- */
+  nutri: ["1 g : **glucides 4, protides 4, lipides 9, alcool 7 kcal** ; 1 kcal = 4,18 kJ", "Sportif : glucides **50-60 %**, protides 10-20 %, lipides 30-35 %", "**1 MET = 3,5 mL O2/min/kg** ; 1 L O2 ≈ 5 kcal", "**IMC = poids / taille²** : normal 18,5-24,9, surpoids 25-29,9, obésité ≥ 30", "Vitamines liposolubles : **A, D, E, K**", "Eau : **40 mL/kg/j** ; −1 % d'eau ≈ −10 % de performance ; boire avant, pendant, après", "IG > 70 = élevé ; repas **3 h** avant l'effort ; perte de gras : régime + exercice combinés"],
+  depense: ["**DEJ = NMR (60-75 %) + thermogenèse (~10 %) + DEAP (15-30 %, la plus variable)**", "**NAP = DEJ / NMR** : sédentaire ≈ 1,2 ; actif > 1,67", "MET : < 1,5 sédentaire ; < 3 léger ; **3-6 modéré** ; > 6 intense ; > 9 très intense", "Intensité **absolue** (L O2/min, MET) vs **relative** (% VO2max, % FCmax)", "**QR** : glucides 1 ; lipides 0,7 ; protéines 0,82", "Référence en vie réelle : **eau doublement marquée** ; podomètre peu valide en course", "Recommandation : 13 000 pas (homme), 12 000 (femme)"],
+  dqp: ["6 principes : **spécificité, transfert, surcharge, alternance, progression, surcompensation**", "Force max = **1 RM** ; premiers gains = **nerveux** ; déficit de force 10-30 %", "Zatsiorski : efforts **maximaux**, **répétés** (hypertrophie), **dynamiques** (vitesse)", "**Pliométrie** = excentrique + concentrique (puissance) ; pas chez les très jeunes ni les athlètes lourds", "Isométrique : +10 % de tension mais gains **à l'angle travaillé** ; excentrique : charges supra-maximales, courbatures", "Vitesse : intensité max, courte, **récupération complète** ; agilité (Sheppard et Young) = changer de direction **en réponse à un stimulus**"],
+  tdadcp: ["Dépense au repos : **3,5 × masse** (mL/min) → L × 5 kcal", "**QA** = 0,55×1 + 0,35×0,7 + 0,10×0,82 ≈ 0,88 ; **QA < QR** = risque de prise de poids", "DEAP = DEJ × 0,9 − NMR", "NAP = DEJ / NMR (ex. 2700/1500 = 1,8) ; IMC 81 kg / 1,80 m = 25", "70 kg à 10 MET pendant 1 h ≈ **735 kcal** ; FCmax à 20 ans = 200"],
+  /* ---------- APSA ---------- */
+  gr: ["Praticable **13 × 13 m** ; GRS devenue GR en 1998 ; JO **1984** (individuel), **1996** (ensemble)", "5 engins : corde, cerceau, ballon, massues, ruban ; **déformables = corde et ruban**", "4 règles d'or : **mise à distance, prise, continuité, concordance**", "Individuel : 4 engins sur 5, 1'15-1'30 ; ensemble : **5 gymnastes**, 2'15-2'30", "Ballon 400 g ; cerceau 300 g ; ruban 6 m ; 1er code de pointage 1975", "Définition (Delattre et Pechillon) : dialogue codifié sujet / objets / milieu, en relation avec la musique", "Ensemble : formations, relations, échanges, **évolutions** (passage d'une formation à une autre)"],
+  sa: ["**Glaucome** : nerf optique, vision en tunnel, irréversible (dépistage dès 40 ans) ; **cataracte** : cristallin opaque", "**Goalball** : 3 contre 3, buts 9 × 1,30 m, masques, balle sonore roulée", "**Boccia** : boules rouges/bleues, handicaps lourds, rampe possible", "**FFH** (1977) : moteur et sensoriel ; **FFSA** : mental, psychique, neurodéveloppemental", "Chaîne du handicap : **déficience → incapacité → désavantage** ; 12 millions de personnes en France", "**Bigorexie** = addiction au sport (3-30 %) ; repérer perte de poids, hyperentraînement, isolement"],
+  co: ["Technique **POP** : Plier, Orienter, Pouce", "**Code** = identifie la balise ; **numéro d'ordre** = ordre de passage ; **PM** = poste manquant", "Points de décision par partiel : 0-1 facile, 2-3 moyen, > 3 complexe (à éviter en APAS)", "Feux tricolores : **vert 80-85 % VMA**, **orange 65-70 %**, **rouge** marche (concentration max)", "**Ligne d'arrêt** = élément continu qui stoppe la progression ; blanc = forêt pénétrable", "Née en **Scandinavie** fin XIXe ; FFCO 1970 ; ce n'est pas une activité de pleine nature ; pas de boussole au début ni en APAS"],
+  /* ---------- Psychologie ---------- */
+  attach: ["Attachement (Guedeney) : liens **affectifs, durables, importants** entre 2 personnes", "Précurseurs : **Lorenz** (imprinting), **Spitz** (hospitalisme), **Harlow** (macaques)", "**Bowlby** : besoins affectifs = besoins primaires ; séparation : **protestation, désespoir, détachement** ; attachement franc vers **7 mois** ; MOI", "**Ainsworth** (situation étrange, 1978) : sécure 60-65 %, évitant ~20 %, ambivalent ~15 %, **désorganisé ~5 % (Main et Solomon)**", "Régulation émotionnelle (Gross et Thompson) : **réévaluation cognitive** et **suppression expressive**", "Troubles : TRA et TESD ; Paquette : rôle du père ; Lebovici : parentalité ; Byng-Hall : base de sécurité familiale"],
+  ado: ["Adolescence : **invention sociale** (Ariès), fait de société (Mead, Samoa), étape **vulnérable** (Jeammet)", "3 phases : **opposition, affirmation de soi, indépendance**", "3 autonomies : **physique, psychique, financière**", "Sommeil : de **10 h à 8 h** (Carskadon) ; lumière bleue ↓ mélatonine ; dette non rattrapable", "Anxiété : la **THP inhibe le GABA** (Hercberg) ; addictions : **aire tegmentale ventrale** (dopamine) ; cerveau mature à **21-25 ans**", "Loi du **8 mars 2024** : protection des mineurs dans le sport ; seules 4 % des victimes portent plainte", "Le Breton : auto-initiation ; Ehrenberg : l'ennui n'est pas pathologique"],
+  socdel: ["Socialisation = intérioriser **normes et valeurs** ; primaire (famille, ~12 ans) / secondaire (toute la vie)", "**Délinquance** = hors des normes juridiques ; **déviance** = hors des normes sociales", "Malrieu : **acculturation et subjectivation** ; Tap : intégration personnelle du social / sociale de la personne", "**Piaget** : jeux d'exercice, symboliques, de règles ; **Luquet** : gribouillage → réalisme fortuit → manqué → intellectuel", "Sanctions : **Kant** (rétributive), **Tocqueville** (resocialisation), **Durkheim** (exemplaire)", "**Moreno** : préférés, rejetés, isolés, controversés ; **Montagner** : 6 profils (leaders… isolés)"],
+  /* ---------- Sociologie ---------- */
+  sdef: ["Sociologie = **science de la logique des rapports sociaux** (Moreau de Bellaing et Poussin)", "4 ruptures : représentations collectives, savoir immédiat, sociologie spontanée, jugements de valeur", "**Prénotion** (Durkheim) : représentation schématique formée par la pratique", "Définir le sport : « pari intenable » (**Bromberger**) ; **Bouet** (rites, normes, valeurs) ; **Defrance** (du jeu au travail)", "Fonctionnalisme **positif** (santé, éducation, euphémisation de la violence) vs **négatif** (critique marxiste : capitalisme, dopage)"],
+  smeth: ["7 étapes : question de départ, exploration, problématique, modèle, observation, analyse, conclusion", "**Inductive** = part du terrain ; **déductive** = part de la théorie", "Questionnaire = **quantitatif** ; entretien et observation = **qualitatifs** (complémentaires)", "Variable **indépendante** explique la **dépendante** ; corrélation ≠ causalité", "Entretien **semi-directif** le plus utilisé ; reformulation : reflet, écho, clarification", "Observateur : à découvert / incognito, participant / en retrait ; journal de terrain"],
+  secole: ["**Bourdieu et Passeron** : l'école **reproduit** les inégalités (arbitraire culturel, violence symbolique)", "4 capitaux : **économique, culturel, social, symbolique** ; **habitus** = dispositions durables et transposables ; champ", "**Boudon** (1973) : stratégies des acteurs, **effet de ciseaux** (bacheliers 10 → 63 %, cadres 5 → 15 %)", "Bac : ~75 % enfants d'enseignants vs 34 % d'ouvriers ; écart de 1 000 mots au CP", "**Mixité** de niveau profite à tous ; filles meilleures à l'école mais orientations moins favorables"],
+  strib: ["**Ultras** (Europe du Sud, animation : bâche, tifo, capo) vs **hools** (Europe du Nord, violence)", "Tribunes : femmes ≤ 15 %, 70 % ont moins de 35 ans, 20 % de supporters", "**Loi Alliot-Marie 1993** : délits spécifiques + **IJS** (juge, max 5 ans)", "**2006** : **IAS** (préfet, max 2 ans, 3 si récidive) ; fichier des interdits de stade 2003", "**Loi Larrivé 2016** : référent supporters + instance nationale du supportérisme"],
+  sprat: ["**89 %** ont pratiqué dans l'année, 65 % chaque semaine ; la **marche** en tête", "Motivations : santé, convivialité, nature ; compétition **21 %** seulement", "Facteurs : temps libre (35 h en 1998), pouvoir d'achat, scolarité, politiques publiques, féminisation", "Pratique **libre majoritaire** ; licences en stagnation ; freins des clubs : coût, rigidité, compétition", "Diplôme : 88 % vs 45 % ; niveau de vie : 82 % vs 59 % ; femmes 36 % des sportifs"],
+  sdop: ["1re loi anti-dopage : **1965**", "Contexte : représentativité nationale (ex-RDA), **professionnalisation** (Samaranch 1981, 1986), **commercialisation**", "Valeurs du haut niveau : performance à tout prix, repousser ses limites, souffrance, sacrifice", "Le dopage est **hyper-conforme** à ces normes (pas déviant)", "Médicalisation et environnement tolérant ; dopage = ressource pour le **spectacle**"],
+  ssante: ["Prévention **primaire** (avant), **secondaire** (dépistage), **tertiaire** (maladie installée)", "OMS : adultes **150 min** modérée ou **75 min** soutenue par semaine ; 5-17 ans **1 h/jour**", "Inactivité = **1re cause de mortalité évitable** ; incidence (nouveaux cas) ≠ prévalence (tous les cas)", "**Gradient social de santé** : traverse toute la société", "PNNS **2001** ; **sport sur ordonnance** : loi du **26 janvier 2016** (ALD) ; décret APA 30/12/2016 ; Stratégie nationale sport santé 2019"],
+  sinteg: ["Le sport n'est **pas intégrateur par nature** : il faut l'encadrer", "Intégration : **intégrabilité** de la personne + **capacité intégratrice** de la société", "**Intégration** (adopter les normes) ≠ **insertion** (mécanique, réversible)", "Citoyenneté : nationalité, droits, devoirs, participation", "Transfert de compétences : si situations comparables + **réflexivité** ; sport de rue : règles négociées, foot et basket, filles en faire-valoir"],
+  /* ---------- SSH santé ---------- */
+  h_mal: ["**Illness** (vécu), **disease** (dysfonctionnement biologique), **sickness** (statut social)", "HTA asymptomatique = disease sans illness", "**Naturalisme** : maladie = fait biologique ; **normativisme** : maladie = valeur (risque d'extension infinie)", "**Médicalisation** (sociologie, années 1960) : grossesse, calvitie, alcoolisme ; risque de contrôle social", "Maladies disparues : schizophrénie torpide (URSS) ; controversées : fibromyalgie, orthorexie"],
+  h_diag: ["Décision en **incertitude** : anamnèse, examen physique, examens complémentaires", "Signe **pathognomonique** = propre à une seule maladie (Koplik → rougeole)", "Affection **idiopathique** = cause inconnue ; non spécifique = cause non recherchée (grippe)", "**Sensibilité** = vrais positifs ; **spécificité** = vrais négatifs", "**Fréquence de base** : maladie rare → VPP faible (Bayes) ; dépistage → sur-diagnostic", "Arbre décisionnel : utilités **subjectives** ; observations façonnées par des théories"],
+  h_clin: ["**Canguilhem** : la clinique n'est pas une science ; **symptôme** (plainte) vs **signe** (examen)", "**Hippocrate** : rationnelle (humeurs), **séculière**, **holistique** ; phronesis = sagesse pratique", "**Galien** : médecine-science ; **Sydenham** (« l'Hippocrate anglais ») : portraits de maladies", "Anatomoclinique : hôpital après 1789 ; **Laënnec** (stéthoscope 1816), **Morgagni**, **Bichat** (histologie)", "**Foucault**, *Naissance de la clinique* (1963) : le regard change"],
+  h_eth: ["Éthique omniprésente : **relation** + **incertitude**", "**Morale** = règles collectives ; **éthique** = les questionner ; déontologie = droit", "**Ricœur** : « visée de la vie bonne avec et pour autrui dans des institutions justes » (je, tu, il)", "**Aristote** : éthique de la vertu (l'agent, juste milieu, phronesis)", "**Kant** : déontologie (l'intention, impératif catégorique) ; **contractualisme** : procédure juste"],
+  h_cult: ["Construction **sociale** de la maladie : le pathologique change avec la culture (pas moins réel)", "**Lèpre** (bacille de **Hansen**, 1873) : exclusion médiévale (punition divine), mort sociale, léproseries", "Lèpre max XIIe-XIIIe s., régresse au XIVe ; encore présente en Asie, Afrique, Amérique latine", "**Fassin** : saturnisme de maladie rare (1981) à 85 000 cas (1999) par changement du regard", "Sickness : statut de malade = droits + obligation de se soigner"],
+  h_terre: ["Âge de la Terre : **4,55 Ga** (Patterson, uranium-plomb)", "Antiquité : Aristote (Terre éternelle), stoïciens (cycles) ; **Ussher** : 4004 av. J.-C.", "Chronomètres : Halley (sel), Buffon, Darwin, Kelvin, Rutherford", "Vie : **métabolisme, génétique, membrane** ; microfossiles **3,5 Ga**", "**LUCA** = dernier ancêtre commun ; **monde à ARN** (ribozymes) ; Miller-Urey (acides aminés)"]
+};
+
+/* Annales associées par matière (sujets et corrigés) */
+const ANNALES = [
+  { subj: ["phys", "bio"], title: "Annales Sciences de la vie (biomécanique + physiologie)", tip: "Fais les questions de la matière révisée et saute l'anatomie (retirée de ton programme).",
+    files: [["Session 1 2024-2025 : sujet", D("16EkrfESyJdNYInzmiGwylHApGMUTyK-n")], ["Session 1 : corrigé", D("1abLsX7-SQ-RessHtdsnLwsyaozAochok")], ["Session 2 2024-2025 : sujet", D("1a0Be4bmnAF2G0XXvzOZOAKBzuy94011f")], ["Session 2 : corrigé", D("10dxU9541YZEQc-5UqS-QnFjADK_oZZe-")], ["Toutes les annales SV", F("1gzjwoaS2yymYLQvXi09T_oMagjIsqwh9")]] },
+  { subj: ["bio"], title: "TD de biomécanique (exercices corrigés)", tip: "Refais un exercice sans regarder le corrigé.", fromChapter: "tdbio" },
+  { subj: ["adcp"], title: "Annales Condition physique", tip: "La partie endurance n'était pas à l'examen 2025-2026.",
+    files: [["Sujet 2025-2026", D("1ykNdMmGS7ngloQZGc5F6lq_0aOfEoZ3p")], ["Sujet 2024-2025", D("1DCLwdBh9La5z8XOzYFPQXmAYzmNweDNs")], ["Corrigé 2024-2025", D("1A--V3n6RQM9FtwerBFOuH8-22tqbmSGI")], ["Toutes les annales ADCP", F("1dXzhaaV0n6XSeIzY1eaa_tTtJDTcf7_K")]] },
+  { subj: ["adcp"], title: "TD de condition physique (calculs corrigés)", tip: "Refais les calculs (MET, NAP, QA, IMC) sans le corrigé.", fromChapter: "tdadcp" },
+  { subj: ["apsa", "psy"], title: "Annales APSA et psychologie 2023-2024", tip: "Saute les questions sur des cours qui ne sont plus au programme (ancien cours de musculation, tennis).",
+    files: [["Session 1", D("1E8EYYDlUnocHDN0TIvPLipC2-caDqRDI")], ["Session 2", D("1mUAGKpAOCbIi03BxC1PWq2xyfKDbBDxi")]] },
+  { subj: ["soc"], title: "Annales Sociologie",
+    files: [["Session 1 2024-2025 : sujet", D("10_4F3V8VJwMeJkaHh_78zf0CrCCZGeiy")], ["Session 1 : corrigé", D("1wl1DSbSCDr4xhQJufHu0CmobDlcld2xn")], ["Toutes les annales socio", F("18mAeU25Apx947Ukt1I4SJBc4r2I3OJLo")]] },
+  { subj: ["ssh"], title: "Examens blancs SSH (LAS, années précédentes)", tip: "Certaines questions peuvent porter sur des cours que tu n'as pas : saute-les.",
+    files: [["Examen blanc 1 : sujet", D("15zPqLaT0kNTo3fJJAh9vVg9N0lSBjLmW")], ["Examen blanc 1 : corrigé", D("166eyOuHko1tmETfy-t9FPPyrseQO8L0V")], ["Examen blanc 2 : sujet", D("16izijIV6mBprh1zQ8sU6-Ljsgfu35Jew")], ["Examen blanc 2 : corrigé", D("16Ps2W-5ttSJhq76uHGuKKNgv2kyxFTEU")]] },
+  { subj: ["maps"], title: "Annales Médicaments (Supmed)", tip: "Saute les chapitres 2022-2023 hors de ton programme.",
+    files: [["Concours blanc ECB1 : sujet", D("12bpAWzYfNfn5Z4NNnI6y8iAG_DUVTpsC")], ["Concours blanc ECB1 : corrigé", D("1WXvTpoLTxLeBnBNzsFqEiqv73TXMVzvH")], ["QCM Supmed par chapitre", SUP_QCM], ["Annales classées corrigées", SUP_ACC]] }
+];
+ANNALES.forEach(a => { if (a.fromChapter) { const c = CHAPTERS.find(x => x.id === a.fromChapter); a.files = c ? c.files : []; } });
+
 </script>
 <script>
 (function () {
@@ -2555,7 +2638,7 @@ COURS.rf_c3 = {
         html += '<div class="ch s-' + SUBJECTS[c.subj].color + '"><div class="row"><span class="tag">' + esc(SUBJECTS[c.subj].name) + '</span><span class="pips">' + ses.map(s => '<i class="' + (state.done[s.key] ? "on" : "") + '"></i>').join("") + "</span></div>" +
           "<h4>" + esc(c.title) + '</h4><div class="when">Prévu : ' + esc(when) + "</div>" + boxBar([c.id]) +
           '<div class="mini">' + c.cards.length + ' cartes de rappel</div><div class="links">' + c.files.map(f => '<a href="' + f[1] + '" target="_blank" rel="noopener">' + esc(f[0]) + "</a>").join("") + "</div>" +
-          '<div class="row"><button class="btn" data-open-ch="' + c.id + '">' + (COURS[c.id] ? "Ouvrir le cours" : (c.fiche ? "Cours au propre" : "Notions clés")) + '</button><button class="btn" data-quiz-ch="' + c.id + '">S\'entraîner</button></div></div>';
+          '<div class="row"><button class="btn" data-open-ch="' + c.id + '">' + (COURS[c.id] ? "Ouvrir le cours" : (c.fiche ? "Cours au propre" : "Notions clés")) + '</button><button class="btn" data-quick="' + c.id + '">Fiche rapide</button><button class="btn" data-quiz-ch="' + c.id + '">S\'entraîner</button></div></div>';
       });
       html += "</div></div>";
     });
@@ -2761,6 +2844,7 @@ COURS.rf_c3 = {
       openDlg('<div class="dlg-head"><h3>Piqûre de rappel · ' + s.time[0] + '</h3><button class="x" data-close aria-label="Fermer">×</button></div><p class="mini">' + DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + ' · 15 minutes</p><div><div class="sect-lbl">Chapitres réactivés</div>' + lst + '</div><div class="acts">' + (s.list.length ? '<button class="btn primary" data-quiz-slot="' + key + '">Lancer l\'interro (10 questions, /20)</button>' : "") + '<button class="btn" data-mark="' + key + '">' + (state.done[key] ? "Marquer comme non fait" : "Marquer comme fait") + "</button></div>");
       return;
     }
+    if (s.items.length === 1 && s.items[0].review) { const rid = s.items[0].review; openQuick(reviewIds(REVIEWS[rid], f.day.g), key, rid); return; }
     const readIds = s.items.filter(it => it.ch && COURS[it.ch]).map(it => it.ch);
     if (readIds.length) { openReader(readIds, key); return; }
     const info = slotInfo(s);
@@ -2818,6 +2902,7 @@ COURS.rf_c3 = {
   }
   function drawReader(toTop) {
     if (!rd) return;
+    if (rd.mode === "quick") { drawQuick(toTop); return; }
     const id = rd.ids[rd.idx], c = CH[id], cr = COURS[id], subj = SUBJECTS[c.subj];
     const f = rd.key ? findSlot(rd.key) : null;
     const it = f ? f.slot.items.find(x => x.ch === id) : null;
@@ -2845,6 +2930,59 @@ COURS.rf_c3 = {
     reader.innerHTML = h;
     if (toTop) reader.scrollTop = 0;
   }
+
+  /* ---------- fiche rapide + annales (révisions) ---------- */
+  function keyPoints(id) { if (typeof KP !== "undefined" && KP[id]) return KP[id]; if (COURS[id] && COURS[id].retenir) return COURS[id].retenir; return CH[id].notions; }
+  function annalesFor(ids, extra) {
+    const subjs = new Set(ids.map(id => CH[id].subj));
+    const out = []; const seen = new Set();
+    (typeof ANNALES !== "undefined" ? ANNALES : []).forEach(a => {
+      if (!a.subj.some(s => subjs.has(s))) return;
+      const files = (a.files || []).filter(f => !seen.has(f[1])); files.forEach(f => seen.add(f[1]));
+      if (files.length) out.push({ title: a.title, tip: a.tip, files });
+    });
+    if (extra && extra.length) { const files = extra.filter(f => !seen.has(f[1])); if (files.length) out.unshift({ title: "Fichiers de ce bloc", files }); }
+    return out;
+  }
+  function reviewIds(r, g) { return r.chapters === "all" ? CHAPTERS.filter(c => completion[c.id] !== undefined && completion[c.id] <= g + 0.5).map(c => c.id) : r.chapters.filter(id => CH[id]); }
+  function openQuick(ids, key, rid) {
+    rd = { mode: "quick", ids, idx: 0, key, rid };
+    reader.hidden = false; document.body.classList.add("reading");
+    drawQuick(true);
+    try { if (document.fullscreenEnabled && !document.fullscreenElement) { const r = document.documentElement.requestFullscreen(); if (r && r.catch) r.catch(() => {}); } } catch (e) {}
+  }
+  function drawQuick(toTop) {
+    const r = rd.rid ? REVIEWS[rd.rid] : null;
+    const f = rd.key ? findSlot(rd.key) : null;
+    const ids = rd.ids, done = rd.key ? !!state.done[rd.key] : false;
+    const kpState = state.kp || {};
+    const total = ids.reduce((n, id) => n + keyPoints(id).length, 0);
+    const known = ids.reduce((n, id) => n + keyPoints(id).filter((_, i) => kpState[id + "." + i]).length, 0);
+    const title = r ? r.title : "Fiche rapide · " + CH[ids[0]].title;
+    const tag = r ? (r.type === "annale" ? "Annale" : r.type === "bilan" ? "Bilan" : "Révision") : "Fiche rapide";
+    const ann = annalesFor(ids, r && r.files);
+    const color = r ? "rev" : SUBJECTS[CH[ids[0]].subj].color;
+    let h = '<div class="rd-bar"><button class="btn" data-r-close>← Retour</button><div class="rd-crumb">' + esc(title) + "<small>" + (f ? DAY_NAMES[f.day.d] + " " + fmt(dateOf(f.day.g)) + " · " + f.slot.time[0] + "-" + f.slot.time[1] : "Fiche rapide") + "</small></div>";
+    if (document.fullscreenEnabled) h += '<button class="btn hide-s" data-r-fs>' + (document.fullscreenElement ? "Quitter le plein écran" : "Plein écran") + "</button>";
+    if (ids.length) h += '<button class="btn primary" data-quiz-ids="' + ids.join(",") + '">Interro /20</button>';
+    if (rd.key) h += '<button class="btn' + (done ? " on" : "") + '" data-r-mark>' + (done ? "✓ Fait" : "Marquer comme fait") + '</button><button class="btn hide-s" data-r-move>Déplacer</button>';
+    h += '<button class="x hide-s" data-r-close aria-label="Fermer">×</button></div>';
+    h += '<header class="rd-hero s-' + color + '"><div class="rd-hero-in"><div class="rd-pills"><span class="rd-pill main">' + tag + '</span><span class="rd-pill">' + ids.length + " chapitre" + (ids.length > 1 ? "s" : "") + '</span><span class="rd-pill">' + known + " / " + total + " points clés sus</span>" + (ann.length ? '<span class="rd-pill">' + ann.length + " série" + (ann.length > 1 ? "s" : "") + " d'annales</span>" : "") + "</div>";
+    h += "<h1>" + esc(title) + '</h1><p class="rd-hook">' + (r ? "1) Relis la fiche rapide et clique sur chaque point que tu sais par cœur. 2) Entraîne-toi sur l'annale associée. 3) Termine par l'interro notée." : "Les points clés du chapitre. Clique sur un point quand tu le sais par cœur : vise 100 % avant l'éval.") + "</p></div></header>";
+    const secs = [];
+    if (r && r.notions && r.notions.length) secs.push({ id: "prog", t: "Au programme", html: '<ul class="rd-ul">' + r.notions.map(n => "<li>" + rich(n) + "</li>").join("") + "</ul>" });
+    if (r || ann.length) secs.push({ id: "ann", t: "Annales associées", html: ann.length ? '<div class="ann-grid">' + ann.map((a, j) => '<div class="ann" style="--k:' + kv(j + 2) + '"><h4>' + esc(a.title) + '</h4><div class="ann-in">' + (a.tip ? "<p>" + esc(a.tip) + "</p>" : "") + '<div class="links">' + a.files.map(x => '<a href="' + x[1] + '" target="_blank" rel="noopener">' + esc(x[0]) + "</a>").join("") + "</div></div></div>").join("") + "</div>" : "<p>Pas d'annale disponible pour cette matière : à la place, refais les questions d'entraînement (interro notée) et reconstruis le cours de mémoire.</p>" });
+    ids.forEach(id => {
+      const c = CH[id], pts = keyPoints(id), kn = pts.filter((_, i) => kpState[id + "." + i]).length;
+      secs.push({ id: "c" + id, t: c.title, html: '<div class="sec-meta"><span class="tag">' + esc(SUBJECTS[c.subj].name) + '</span><span class="grow"></span><span class="kp-count">' + kn + " / " + pts.length + " sus</span>" + (COURS[id] ? '<button class="btn" data-read="' + id + '">Ouvrir le cours</button>' : "") + '<button class="btn" data-quiz-ch="' + id + '">Interro sur ce chapitre</button></div><ul class="kp-list">' + pts.map((x, i) => { const on = !!kpState[id + "." + i]; return '<li><button class="kp" data-kp="' + id + "." + i + '" aria-pressed="' + on + '"><span class="ck">✓</span><span>' + rich(x) + "</span></button></li>"; }).join("") + "</ul>" });
+    });
+    h += '<div class="rd-body s-' + color + '"><nav class="rd-toc" aria-label="Sommaire"><span class="sect-lbl">Sommaire</span>' + secs.map((s, i) => '<button data-r-go="' + s.id + '" style="--k:' + kv(i) + '"><span class="n">' + (i + 1) + "</span>" + esc(s.t) + "</button>").join("") + '</nav><main class="rd-main">';
+    secs.forEach((s, i) => { h += '<section class="rd-sec" id="rd-s' + s.id + '" style="--k:' + kv(i) + '"><h2><span class="n">' + (i + 1) + "</span>" + esc(s.t) + "</h2>" + s.html + "</section>"; });
+    h += '<section class="rd-end" id="rd-send"><h2>Prêt ?</h2><p>' + known + " points clés sus sur " + total + ". Termine par l'interro notée : vise au moins 14/20.</p><div class=\"acts\">" + (ids.length ? '<button class="btn primary" data-quiz-ids="' + ids.join(",") + '">Interro notée /20</button>' : "") + (rd.key ? '<button class="btn" data-r-mark>' + (done ? "✓ Bloc fait" : "Marquer le bloc comme fait") + "</button>" : "") + '<button class="btn" data-r-close>Fermer</button></div></section></main></div>';
+    reader.className = "reader s-" + color;
+    reader.innerHTML = h;
+    if (toTop) reader.scrollTop = 0;
+  }
   function openReader(ids, key) {
     rd = { ids, idx: 0, key };
     reader.hidden = false; document.body.classList.add("reading");
@@ -2862,6 +3000,8 @@ COURS.rf_c3 = {
   reader.addEventListener("click", e => {
     const t = e.target.closest("button"); if (!t || !rd) return;
     if (t.hasAttribute("data-r-close")) { e.stopPropagation(); closeReader(); return; }
+    if (t.dataset.kp) { e.stopPropagation(); state.kp = state.kp || {}; if (state.kp[t.dataset.kp]) delete state.kp[t.dataset.kp]; else state.kp[t.dataset.kp] = 1; save(); const y = reader.scrollTop; drawReader(false); reader.scrollTop = y; return; }
+    if (t.dataset.read) { e.stopPropagation(); openReader([t.dataset.read], null); return; }
     if (t.dataset.rTab !== undefined) { e.stopPropagation(); rd.idx = Number(t.dataset.rTab); drawReader(true); return; }
     if (t.dataset.rGo !== undefined) { e.stopPropagation(); const el = document.getElementById("rd-s" + t.dataset.rGo); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     if (t.hasAttribute("data-r-fs")) { e.stopPropagation(); try { const r = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); if (r && r.catch) r.catch(() => {}); } catch (err) {} return; }
@@ -2888,6 +3028,7 @@ COURS.rf_c3 = {
     if (t.dataset.quizIds) { const ids = [...new Set(t.dataset.quizIds.split(","))]; const n = ids.length >= 5 ? 20 : 10; startQuiz(pickCards(ids, n), "Interro sur " + n, { minutes: n === 20 ? 25 : 15 }); return; }
     if (t.dataset.quizSmart) { const d = shuffle(dueCards()).sort((a, b) => (state.boxes[cardId(a[0], a[1])] === 0 ? 0 : 1) - (state.boxes[cardId(b[0], b[1])] === 0 ? 0 : 1)); startQuiz(shuffle(d.slice(0, 10)), "Questions à revoir", { minutes: 15 }); return; }
     if (t.dataset.openCh) { openChapter(t.dataset.openCh); return; }
+    if (t.dataset.quick) { openQuick([t.dataset.quick], null, null); return; }
     if (t.dataset.week !== undefined) { curWeek = Number(t.dataset.week); renderWeek(); return; }
     if (t.dataset.day !== undefined) { curDay = Math.max(0, Math.min(LAST, Number(t.dataset.day))); renderToday(); return; }
     if (t.dataset.rfilter) { rappelFilter = t.dataset.rfilter; renderRappels(); return; }
